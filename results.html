@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results | Listening for Seizures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<nav class="nav solid" id="nav" aria-label="Project sections">
+  <div class="wrap">
+    <a class="brand" href="index.html">Listening for Seizures</a>
+    <ul class="tabs">
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="data.html">Data &amp; prep</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="results.html" aria-current="page">Results</a></li>
+      <li><a href="conclusions.html">Conclusions</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="page-head">
+    <div class="wrap">
+      <h1>Results</h1>
+      <p class="lead">How well each model finds seizures, how small and fast it is, and what that trade-off looks like.</p>
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#detection">Detection performance</a></li>
+          <li><a href="#confusion">Confusion matrices</a></li>
+          <li><a href="#efficiency">Size and speed</a></li>
+          <li><a href="#tradeoff">Accuracy against size</a></li>
+          <li><a href="#errors">Where it went wrong</a></li>
+          <li><a href="#code">Code and outputs</a></li>
+        </ol>
+      </aside>
+    </div>
+  </header>
+
+  <section class="doc" id="detection" aria-labelledby="detection-h">
+    <div class="wrap">
+      <h2 id="detection-h">Detection performance</h2>
+      <div class="body">
+        <p class="todo">Sensitivity, specificity, F1 and false alarms per hour for each model, in one table, with a sentence on what each number means.</p>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="confusion" aria-labelledby="confusion-h">
+    <div class="wrap">
+      <h2 id="confusion-h">Confusion matrices</h2>
+      <div class="body">
+        <p class="todo">At least one confusion matrix (required by the rubric), with a plain explanation of what the four cells show.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Figure: confusion matrix"><span>Figure: confusion matrix</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="efficiency" aria-labelledby="efficiency-h">
+    <div class="wrap">
+      <h2 id="efficiency-h">Size and speed</h2>
+      <div class="body">
+        <p class="todo">Parameters, model size in KB and time per prediction on a CPU, before and after compression.</p>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="tradeoff" aria-labelledby="tradeoff-h">
+    <div class="wrap">
+      <h2 id="tradeoff-h">Accuracy against size</h2>
+      <div class="body">
+        <p class="todo">The headline chart: every model plotted by size and accuracy, showing how much detection is kept as the model shrinks.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Figure: accuracy vs. model size"><span>Figure: accuracy vs. model size</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="errors" aria-labelledby="errors-h">
+    <div class="wrap">
+      <h2 id="errors-h">Where it went wrong</h2>
+      <div class="body">
+        <p class="todo">Which seizures were missed or falsely flagged, and why that might be.</p>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="code" aria-labelledby="code-h">
+    <div class="wrap">
+      <h2 id="code-h">Code and outputs</h2>
+      <div class="body">
+        <ul class="links">
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code">Model code</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/results">Saved results and figures</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <canvas id="ridges" aria-hidden="true"></canvas>
+  <div class="foot">
+    <div class="wrap">
+      <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/footer.js"></script>
+</body>
+</html>

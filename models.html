@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Models | Listening for Seizures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<nav class="nav solid" id="nav" aria-label="Project sections">
+  <div class="wrap">
+    <a class="brand" href="index.html">Listening for Seizures</a>
+    <ul class="tabs">
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="data.html">Data &amp; prep</a></li>
+      <li><a href="models.html" aria-current="page">Models</a></li>
+      <li><a href="results.html">Results</a></li>
+      <li><a href="conclusions.html">Conclusions</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="page-head">
+    <div class="wrap">
+      <h1>Models</h1>
+      <p class="lead">The neural networks used, why each was chosen, how they work, and what they are asked to predict.</p>
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#task">What the models predict</a></li>
+          <li><a href="#baseline">The baseline network</a></li>
+          <li><a href="#light">The lightweight network</a></li>
+          <li><a href="#smaller">Making it smaller</a></li>
+          <li><a href="#training">Training setup</a></li>
+          <li><a href="#code">Model code</a></li>
+        </ol>
+      </aside>
+    </div>
+  </header>
+
+  <section class="doc" id="task" aria-labelledby="task-h">
+    <div class="wrap">
+      <h2 id="task-h">What the models predict</h2>
+      <div class="body">
+        <p class="todo">State the prediction in one or two sentences: given a short window of EEG, is a seizure happening? Explain the input shape and the output.</p>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="baseline" aria-labelledby="baseline-h">
+    <div class="wrap">
+      <h2 id="baseline-h">The baseline network</h2>
+      <div class="body">
+        <p class="todo">What this network is, how it works, why it is a fair reference point, and its size.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Diagram: baseline architecture"><span>Diagram: baseline architecture</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="light" aria-labelledby="light-h">
+    <div class="wrap">
+      <h2 id="light-h">The lightweight network</h2>
+      <div class="body">
+        <p class="todo">The small network built for wearable devices: how it works, what makes it small, and what it gives up.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Diagram: lightweight architecture"><span>Diagram: lightweight architecture</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="smaller" aria-labelledby="smaller-h">
+    <div class="wrap">
+      <h2 id="smaller-h">Making it smaller</h2>
+      <div class="body">
+        <p class="todo">Any compression applied after training, and what each step is expected to save.</p>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="training" aria-labelledby="training-h">
+    <div class="wrap">
+      <h2 id="training-h">Training setup</h2>
+      <div class="body">
+        <p class="todo">Loss, optimiser, epochs, how class imbalance was handled, and the hardware used. A small table works well here.</p>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="code" aria-labelledby="code-h">
+    <div class="wrap">
+      <h2 id="code-h">Model code</h2>
+      <div class="body">
+        <ul class="links">
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code">Model notebooks and scripts</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <canvas id="ridges" aria-hidden="true"></canvas>
+  <div class="foot">
+    <div class="wrap">
+      <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/footer.js"></script>
+</body>
+</html>

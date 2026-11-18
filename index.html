@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listening for Seizures: Lightweight Epilepsy Detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Project sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Listening for Seizures</a>
+    <ul class="tabs">
+      <li><a href="index.html" aria-current="page">Introduction</a></li>
+      <li><a href="data.html">Data &amp; prep</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="results.html">Results</a></li>
+      <li><a href="conclusions.html">Conclusions</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Epilepsy around the world">
+    <div class="hero-stage">
+      <canvas id="globe" aria-hidden="true"></canvas>
+      <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="hero-copy">
+        <div class="wrap">
+          <div class="step on" data-step="0">
+            <h1>Fifty million people live with epilepsy.</h1>
+            <p class="sub">A study in recognising seizures from the brain’s own electrical signal, with models small enough to be worn. Neural Networks final project, University of Colorado Boulder, Fall 2026.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="big">Nearly four in five of them live in low- and middle-income countries.</p>
+            <p class="src">World Health Organization, 2024</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="big">In low-income countries, about three quarters do not receive the treatment they need.</p>
+            <p class="src">World Health Organization, 2024</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="big">Yet up to seventy percent could live seizure-free if properly diagnosed and treated.</p>
+            <p class="src">World Health Organization, 2024</p>
+          </div>
+        </div>
+      </div>
+      <p class="hero-note">Land from Natural Earth. The lit points are illustrative and do not mark recorded cases.</p>
+      <p class="cue" id="cue">Scroll to begin</p>
+    </div>
+  </section>
+
+  <!-- BLUR TO CLEAR -->
+  <section class="clear">
+    <div class="wrap">
+      <p id="clearText">A seizure is a brief storm of electrical activity in the brain. It can last a few seconds or several minutes. It can arrive without warning, while someone is driving, swimming, cooking or asleep. For many families, the hardest part is not the seizure itself. It is never knowing when the next one will come.</p>
+    </div>
+  </section>
+
+  <!-- EEG -->
+  <section class="sec eeg" aria-labelledby="eeg-h">
+    <div class="wrap">
+      <p class="kicker">The signal</p>
+      <div class="head"><h2 id="eeg-h">The brain keeps a record of every storm.</h2></div>
+      <div class="prose">
+        <p>Doctors read seizures from the electroencephalogram, a set of small sensors resting on the scalp that trace the brain’s electrical rhythm as wavering lines. Calm activity looks like low, uneven ripples. A seizure looks different: the lines grow tall, sharp and strangely regular, as if many brain cells had begun to fire in step.</p>
+        <p>A trained specialist can spot that change by eye. The difficulty is that recordings run for hours or days, and seizures make up only a sliver of that time. Someone has to watch.</p>
+      </div>
+    </div>
+    <figure class="trace" id="trace">
+      <svg viewBox="0 0 1600 220" preserveAspectRatio="none" aria-label="Illustration of a brainwave trace that turns tall and regular during a seizure">
+        <path id="eegCalm" fill="none" stroke="#8E9B8A" stroke-width="1.4"/>
+        <path id="eegBurst" fill="none" stroke="#E3A33B" stroke-width="1.6"/>
+        <path id="eegAfter" fill="none" stroke="#8E9B8A" stroke-width="1.4"/>
+      </svg>
+      <figcaption>
+        <span>Illustration only. Real recordings appear on the Data &amp; prep page.</span>
+        <span class="legend"><span><b></b>Ordinary activity</span><span><b class="e"></b>Seizure</span></span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- MEDIA -->
+  <section class="sec media" aria-label="A seizure seen by someone close">
+    <div class="wrap">
+      <figcaption>Animated illustration. A seizure rarely happens to one person alone; someone nearby has to recognise it and respond.</figcaption>
+      <figure class="frame">
+        <video data-loop muted loop playsinline preload="metadata" poster="assets/img/seizure_witness_10s_poster.jpg" src="assets/video/seizure_witness_10s.mp4" aria-label="Animation: a man collapses into a seizure while the woman beside him reaches out"></video>
+        <button class="vctl" type="button" aria-pressed="false">Pause</button>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FIGURES -->
+  <section class="sec figs" aria-labelledby="figs-h">
+    <div class="wrap">
+      <div class="head"><h2 id="figs-h">Who it reaches</h2></div>
+      <ol>
+        <li><span class="n">5 million</span><span class="t">people are diagnosed with epilepsy each year, across every age, country and income.</span><span class="s">WHO</span></li>
+        <li><span class="n">Up to 3×</span><span class="t">higher risk of early death than the general population, with the highest rates in rural areas and poorer countries.</span><span class="s">WHO</span></li>
+        <li><span class="n">1 in 10</span><span class="t">people worldwide may have a single seizure in their lifetime. Epilepsy means two or more without a clear trigger.</span><span class="s">WHO</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- QUESTION -->
+  <section class="sec question" aria-labelledby="q-h">
+    <div class="wrap">
+      <svg class="wrist" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="92" fill="none" stroke="#8E9B8A" stroke-opacity=".35"/>
+        <circle cx="100" cy="100" r="64" fill="none" stroke="#8E9B8A" stroke-opacity=".6"/>
+        <path id="wristWave" fill="none" stroke="#E3A33B" stroke-width="1.6"/>
+      </svg>
+      <div class="head"><h2 id="q-h">Could the warning be small enough to wear?</h2></div>
+      <div class="prose">
+        <p>Hospitals can watch a patient around the clock, but most people with epilepsy live far from a hospital bed, and many live far from any specialist at all. A device that recognised a seizure as it began, and quietly told someone nearby, would matter most in exactly those places.</p>
+        <p>Such a device has to be cheap, run on a small battery, and work without a connection to a distant computer. This project asks how much of a specialist’s skill can be packed into something that modest, and what is lost along the way.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SITE MAP -->
+  <section class="next" id="site-map" aria-labelledby="map-h">
+    <div class="wrap">
+      <h2 id="map-h">Continue</h2>
+      <ul>
+        <li><a href="data.html"><span>Data &amp; preparation</span><span>Recordings, cleaning, labels</span></a></li>
+        <li><a href="models.html"><span>Models</span><span>How each network works</span></a></li>
+        <li><a href="results.html"><span>Results</span><span>Accuracy, size and speed</span></a></li>
+        <li><a href="conclusions.html"><span>Conclusions</span><span>What it means for patients</span></a></li>
+        <li><a href="about.html"><span>About us</span><span>The team</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <canvas id="ridges" aria-hidden="true"></canvas>
+  <div class="foot">
+    <div class="wrap">
+      <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+      <div class="b">
+        <ol>
+          <li>World Health Organization. <a href="https://www.who.int/news-room/fact-sheets/detail/epilepsy">Epilepsy fact sheet</a>, 2024.</li>
+          <li>Natural Earth land outlines, via world-atlas.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/intro.js"></script>
+<script src="assets/js/media.js"></script>
+<script src="assets/js/footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data and preparation | Listening for Seizures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<nav class="nav solid" id="nav" aria-label="Project sections">
+  <div class="wrap">
+    <a class="brand" href="index.html">Listening for Seizures</a>
+    <ul class="tabs">
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="data.html" aria-current="page">Data &amp; prep</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="results.html">Results</a></li>
+      <li><a href="conclusions.html">Conclusions</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header class="page-head">
+    <div class="wrap">
+      <h1>Data and preparation</h1>
+      <p class="lead">Where the recordings come from, what they look like, and every step taken to turn them into examples a network can learn from.</p>
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#source">Where the data comes from</a></li>
+          <li><a href="#raw">What a recording looks like</a></li>
+          <li><a href="#cleaning">Cleaning</a></li>
+          <li><a href="#labels">Windows and labels</a></li>
+          <li><a href="#downloads">Data and code</a></li>
+        </ol>
+      </aside>
+    </div>
+  </header>
+
+  <section class="doc" id="source" aria-labelledby="source-h">
+    <div class="wrap">
+      <h2 id="source-h">Where the data comes from</h2>
+      <div class="body">
+        <p class="todo">Name the dataset, who collected it, how many people and hours of recording it holds, and why it suits this project. Link to the official download page.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Figure: map or summary of the recordings (patients, hours, seizures)"><span>Figure: map or summary of the recordings (patients, hours, seizures)</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="raw" aria-labelledby="raw-h">
+    <div class="wrap">
+      <h2 id="raw-h">What a recording looks like</h2>
+      <div class="body">
+        <p class="todo">Show a stretch of raw EEG with a seizure marked, and explain channels, sampling rate and the annotation files in plain terms.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Figure: raw EEG with the seizure annotated"><span>Figure: raw EEG with the seizure annotated</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="cleaning" aria-labelledby="cleaning-h">
+    <div class="wrap">
+      <h2 id="cleaning-h">Cleaning</h2>
+      <div class="body">
+        <p class="todo">Each cleaning step and the reason for it: filtering, removing noise, handling missing or bad channels. Before and after plots work best here.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Figure: the same signal before and after cleaning"><span>Figure: the same signal before and after cleaning</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="labels" aria-labelledby="labels-h">
+    <div class="wrap">
+      <h2 id="labels-h">Windows and labels</h2>
+      <div class="body">
+        <p class="todo">How the long recordings are cut into short windows, how each window is labelled seizure or not, and how the split keeps the same person out of both training and testing.</p>
+        <div class="slot" role="img" aria-label="Placeholder: Figure: class balance, seizure vs. non-seizure windows"><span>Figure: class balance, seizure vs. non-seizure windows</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="doc" id="downloads" aria-labelledby="downloads-h">
+    <div class="wrap">
+      <h2 id="downloads-h">Data and code</h2>
+      <div class="body">
+        <ul class="links">
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/data/raw">Raw data and download instructions</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/data/clean">Cleaned data</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code">Cleaning and preparation code</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <canvas id="ridges" aria-hidden="true"></canvas>
+  <div class="foot">
+    <div class="wrap">
+      <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/footer.js"></script>
+</body>
+</html>
