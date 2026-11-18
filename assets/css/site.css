@@ -181,28 +181,71 @@ footer{position:relative;overflow:hidden;padding-top:var(--s8)}
 .links a:hover{color:var(--ember)}
 
 .team{padding:0 0 var(--s16)}
-.team ul{grid-column:1/13;list-style:none;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s3);row-gap:var(--s10)}
-.person{grid-column:span 4}
-.person:nth-child(2){margin-top:var(--s12)}
-.person:nth-child(3){margin-top:var(--s6)}
-.portrait{aspect-ratio:4/5;background:var(--canopy);border-radius:2px;overflow:hidden;margin-bottom:var(--s3)}
-.portrait img{width:100%;height:100%;object-fit:cover;object-position:bottom}
-.photo-empty{width:100%;height:100%;border:1px dashed rgba(142,155,138,.45);display:flex;align-items:flex-end;padding:var(--s3);color:var(--moss);font-size:14px}
-.person h2{font-family:var(--display);font-weight:300;font-size:32px;line-height:1.1;letter-spacing:-.01em}
-.person p{margin-top:var(--s2);max-width:44ch}
-.person .role{font-size:15px}
-.plinks{display:flex;gap:var(--s3);font-size:15px}
+.plinks{display:flex;flex-wrap:wrap;gap:var(--s3);font-size:15px}
 .plinks a{color:var(--bone);text-underline-offset:4px;text-decoration-color:var(--moss)}
 .plinks a:hover{color:var(--ember);text-decoration-color:var(--ember)}
+/* About us: click a portrait to open that person's story (assets/js/about.js) */
+.crew{scroll-margin-top:calc(var(--s12) + var(--s2));grid-column:1/13;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s3);row-gap:var(--s6);align-items:start}
+.mate{grid-column:span 4;display:grid;grid-template-columns:minmax(0,1fr);align-content:start}
+.shot{all:unset;box-sizing:border-box;display:block;position:relative;width:100%;aspect-ratio:1/1;cursor:pointer;transform-origin:0 0}
+.shot:focus-visible{outline:2px solid var(--ember);outline-offset:4px}
+.shot .main{position:relative;z-index:2;width:100%;height:100%;object-fit:cover;background:var(--canopy);border-radius:2px;transition:opacity .3s}
+.shot .fun{position:absolute;z-index:1;right:0;bottom:0;width:60%;height:60%;object-fit:cover;background:var(--canopy);
+  border:8px solid var(--forest);border-radius:2px;opacity:0;transform:none;
+  transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.meta{margin-top:var(--s3)}
+.mate h2{font-family:var(--display);font-weight:300;font-size:32px;line-height:1.1;letter-spacing:-.01em}
+.mate .line{margin-top:var(--s1);color:var(--moss);max-width:40ch}
+.mate .plinks{margin-top:var(--s2)}
+.more{grid-column:1/-1}
+.more[hidden]{display:none}
+.more h3{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.2}
+.more p{margin-top:var(--s1);font-size:16px;max-width:none}
+.more .tools{margin-top:var(--s2);font-size:14px;color:var(--moss)}
+.crew-back{display:none;grid-row:1;grid-column:10/13;justify-self:end;align-self:end;
+  background:none;border:0;border-bottom:1px solid var(--moss);color:var(--bone);font:inherit;font-size:15px;padding:var(--s1) 0;cursor:pointer}
+.crew-back:hover{color:var(--bone);border-color:var(--bone)}
+
+/* open: the chosen person takes the stage, the other two shrink into a row on top */
+.crew.open .mate:not(.on){grid-row:1;grid-column:span 2;width:128px}
+.crew.open .mate:not(.on) .meta{margin-top:var(--s1)}
+.crew.open .mate:not(.on) h2{font-size:20px}
+.crew.open .mate:not(.on) .line,.crew.open .mate:not(.on) .plinks{display:none}
+.crew.open .mate:not(.on) .main{opacity:.72}
+.crew.open .mate:not(.on) .shot:hover .main{opacity:1}
+.crew.open .crew-back{display:block}
+
+.crew .mate.on{grid-row:2;grid-column:1/-1;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s3);row-gap:var(--s6)}
+.mate.on .shot{grid-column:1/6;grid-row:1}
+.mate.on .meta{grid-column:9/13;grid-row:1;align-self:end;margin-top:0}
+.mate.on h2{font-size:clamp(40px,4.4vw,64px);line-height:1.02;letter-spacing:-.02em}
+.mate.on .line{margin-top:var(--s2);color:var(--bone);font-size:19px}
+.mate.on .more{grid-row:2;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s3);
+  padding-top:var(--s4);border-top:1px solid rgba(142,155,138,.28)}
+.more .col{grid-column:span 4}
+.mate.on .fun{opacity:1;transition-delay:.38s,.3s}
+.mate.on .f1{transform:translate(82%,-56%) rotate(4deg)}
+.mate.on .f2{transform:translate(96%,16%) rotate(-3deg)}
+
 
 @media (max-width:900px){
   .film-copy h1,.film-copy p,.pending .head,.pending .prose{grid-column:1/13}
   .film figcaption{display:none}
-  .page-head h1,.page-head .lead,.toc,.doc h2,.doc .body,.person{grid-column:1/13}
+  .page-head h1,.page-head .lead,.toc,.doc h2,.doc .body{grid-column:1/13}
   .toc{grid-row:auto;margin-top:var(--s5)}
   .doc h2{position:static;margin-bottom:var(--s3)}
-  .person:nth-child(2),.person:nth-child(3){margin-top:0}
-  .portrait{max-width:320px}
+  .crew .mate{grid-column:1/13}
+  .crew .mate .shot{max-width:320px}
+  .crew.open .mate:not(.on){grid-column:span 4;width:96px}
+  .crew.open .mate:not(.on) h2{font-size:16px}
+  .crew.open .crew-back{grid-column:9/13}
+  .mate.on .shot{grid-column:1/9;max-width:none}
+  .mate.on .meta{grid-column:1/13;grid-row:2}
+  .mate.on .more{grid-row:3}
+  .more .col{grid-column:1/13}
+  .more .col + .col{margin-top:var(--s3)}
+  .mate.on .f1{transform:translate(64%,-46%) rotate(4deg)}
+  .mate.on .f2{transform:translate(72%,20%) rotate(-3deg)}
   .film-media{left:0}
   .film-shade{background:rgba(15,26,21,.55)}
   .tabs{grid-column:1/13;justify-content:flex-start;overflow-x:auto;gap:var(--s3);font-size:14px;margin-top:var(--s1);scrollbar-width:none}
@@ -224,4 +267,5 @@ footer{position:relative;overflow:hidden;padding-top:var(--s8)}
   html{scroll-behavior:auto}
   .step{transition:none}
   .clear p span{filter:none!important;opacity:1!important}
+  .shot .fun,.shot .main{transition:none}
 }
