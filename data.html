@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/data-page.css">
 </head>
 <body>
 
@@ -25,72 +26,330 @@
   </div>
 </nav>
 
-<main>
-  <header class="page-head">
-    <div class="wrap">
-      <h1>Data and preparation</h1>
-      <p class="lead">Where the recordings come from, what they look like, and every step taken to turn them into examples a network can learn from.</p>
-      <aside class="toc" aria-label="On this page">
-        <p>On this page</p>
-        <ol>
-          <li><a href="#source">Where the data comes from</a></li>
-          <li><a href="#raw">What a recording looks like</a></li>
-          <li><a href="#cleaning">Cleaning</a></li>
-          <li><a href="#labels">Windows and labels</a></li>
-          <li><a href="#downloads">Data and code</a></li>
-        </ol>
-      </aside>
+<main class="dp">
+<header class="dp-head">
+  <div class="wrap">
+    <p class="kick">Analysis · Part one</p>
+    <h1>From hospital recordings to a fair test</h1>
+    <p class="lead">Before a network can learn what a seizure looks like, days of continuous brain recordings have to become something it can read. This page shows every step we took, why we took it, and how to repeat it.</p>
+    <div class="lens">
+      <p>Each section is written for anyone. The settings, code and files behind it sit in a panel beside it.</p>
+      <label class="switch"><input type="checkbox" id="lens"><span class="track"></span><span>Show the working everywhere</span></label>
     </div>
-  </header>
+  </div>
+</header>
 
-  <section class="doc" id="source" aria-labelledby="source-h">
-    <div class="wrap">
-      <h2 id="source-h">Where the data comes from</h2>
-      <div class="body">
-        <p class="todo">Name the dataset, who collected it, how many people and hours of recording it holds, and why it suits this project. Link to the official download page.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Figure: map or summary of the recordings (patients, hours, seizures)"><span>Figure: map or summary of the recordings (patients, hours, seizures)</span></div>
+<!-- ============ GAME PLAN ============ -->
+<section class="plan" aria-labelledby="plan-h">
+  <div class="wrap">
+    <p class="kick">The route</p>
+    <h2 id="plan-h">Eight steps, four of them done</h2>
+    <p class="intro">The project moves left to right. The top brackets show which page of this site covers each step. The branches are the extra tests that check whether a result can be trusted.</p>
+    <figure aria-label="Project route: gather, clean, cut and label, split by patient are done; train two models is next; then shrink, test fairly and share.">
+      <svg viewBox="0 0 1300 400" class="wide" role="img">
+        <!-- page brackets -->
+        <g>
+          <path class="sv-m" d="M80 64 V56 H530 V64"/><text class="sv-k" x="80" y="40">DATA &amp; PREP · THIS PAGE</text>
+          <path class="sv-m" d="M720 64 V56 H870 V64"/><text class="sv-k" x="720" y="40">MODELS</text>
+          <path class="sv-m" d="M1020 64 V56 H1060"/><text class="sv-k" x="1020" y="40">RESULTS</text>
+          <path class="sv-m" d="M1170 64 V56 H1200"/><text class="sv-k" x="1140" y="40">CONCLUSIONS</text>
+        </g>
+        <!-- track: triple line where done, single after -->
+        <path class="sv-l" d="M80 146 H720"/><path class="sv-l" d="M80 154 H720" opacity=".5"/>
+        <path class="sv-m" d="M720 150 H1170" stroke-dasharray="3 5"/>
+        <circle r="5" fill="#E7E3D6" class="bead"/>
+        <!-- branch: leakage demo from split -->
+        <path class="sv-m" d="M530 172 V180 M530 262 V300"/>
+        <rect class="sv-m" x="420" y="300" width="220" height="64" rx="32"/>
+        <text class="sv-t" x="530" y="328" text-anchor="middle" font-size="14">The shuffle trap</text>
+        <text class="sv-s" x="530" y="347" text-anchor="middle">a second dataset shows the cheat</text>
+        <!-- branches from test fairly -->
+        <path class="sv-m" d="M1020 172 V180 M1020 262 V266 Q1020 278 1008 278 H812 Q800 278 800 290 V300"/>
+        <path class="sv-m" d="M1010 278 V300"/>
+        <path class="sv-m" d="M1020 266 Q1020 278 1032 278 H1188 Q1200 278 1200 290 V300"/>
+        <g text-anchor="middle">
+          <rect class="sv-m" x="712" y="300" width="176" height="64" rx="32"/><text class="sv-t" x="800" y="328" font-size="14">New children</text><text class="sv-s" x="800" y="347">each one left out in turn</text>
+          <rect class="sv-m" x="922" y="300" width="176" height="64" rx="32"/><text class="sv-t" x="1010" y="328" font-size="14">New hospital</text><text class="sv-s" x="1010" y="347">adults, never trained on</text>
+          <rect class="sv-m" x="1112" y="300" width="176" height="64" rx="32"/><text class="sv-t" x="1200" y="328" font-size="14">Fewer electrodes</text><text class="sv-s" x="1200" y="347">fit for a wearable</text>
+        </g>
+        <!-- nodes -->
+        <g id="nodes"></g>
+      </svg>
+    </figure>
+    <ol class="plan-list" id="plan-list"></ol>
+  </div>
+</section>
+
+<!-- ============ 01 GATHER ============ -->
+<section class="dp-sec" id="gather" aria-labelledby="g-h">
+  <div class="wrap">
+    <p class="kick"><b>01</b> Gather · the nature of the data</p>
+    <h2 id="g-h">Hours of sleep, play and seizures, recorded at a children's hospital</h2>
+    <div class="story">
+      <p>Our main recordings come from Boston Children's Hospital, where children with hard-to-treat epilepsy were monitored for days at a time after their medication was paused. Small metal discs on the scalp picked up the brain's electrical activity, the signal called EEG, without a break.</p>
+      <p>Specialists then went through every recording and marked the second each seizure began and ended. Those marks are what the network learns from. We chose the 14 children who had at least five seizures and the same electrode layout in every file, which gives about 480 hours of signal and 128 seizures.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">01</span><span class="t">Dataset and selection<span>CHB-MIT v1.0.0 · 14 of 23 cases · EDF</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <dl>
+            <dt>source</dt><dd>CHB-MIT Scalp EEG, PhysioNet</dd>
+            <dt>format</dt><dd>.edf, 256 Hz, 16-bit</dd>
+            <dt>montage</dt><dd>bipolar 10–20, 18 shared channels</dd>
+            <dt>labels</dt><dd>chbXX-summary.txt, start/end in s</dd>
+            <dt>kept</dt><dd>≥ 5 seizures, all 18 channels in every file</dd>
+            <dt>dropped</dt><dd>chb12 (layout changes), chb21 (same child as chb01)</dd>
+          </dl>
+          <pre class="code" id="code-dl"></pre>
+          <div class="file"><span>code/01_get_chbmit_edf.sh</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/01_get_chbmit_edf.sh">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig left" aria-label="Line drawing of the electrode layout on the head">
+      <svg viewBox="0 0 640 420" id="head" role="img"></svg>
+      <figcaption class="cap"><span>Each line is one channel: the difference between two neighbouring electrodes. Eighteen channels, read 256 times a second.</span></figcaption>
+    </figure>
+    <div class="trio">
+      <article class="ds">
+        <div class="top"><span class="status done">In use</span><span class="kick">Main</span></div>
+        <h3>CHB-MIT</h3>
+        <p>Children, one hospital, long continuous recordings.</p>
+        <div class="tags" id="ptags"></div>
+        <p class="role">Training and testing, always on different children.</p>
+      </article>
+      <article class="ds">
+        <div class="top"><span class="status">Planned</span><span class="kick">Outside test</span></div>
+        <h3>Siena Scalp EEG</h3>
+        <p>Adults, a different hospital in Italy, different equipment.</p>
+        <p class="role">Test only. If the model still works here, it learned seizures, not one hospital.</p>
+      </article>
+      <article class="ds">
+        <div class="top"><span class="status">Planned</span><span class="kick">Cautionary tale</span></div>
+        <h3>UCI seizure set</h3>
+        <p>Short clips, already cut and shuffled, popular in tutorials.</p>
+        <p class="role">Shows how a careless split can make any model look near perfect.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 LOOK ============ -->
+<section class="dp-sec" id="look" aria-labelledby="l-h">
+  <div class="wrap">
+    <p class="kick"><b>02</b> What a seizure looks like in the data</p>
+    <h2 id="l-h">Forty seconds that look different from everything around them</h2>
+    <div class="story">
+      <p>Below are 88 real seconds from one child, six of the eighteen channels. For the first stretch the lines wander quietly. Then, at the moment the doctors marked, the rhythm sharpens and grows across the whole head, and forty seconds later it gives way to slower waves.</p>
+      <p>The network never sees this picture. It sees the numbers underneath it, four seconds at a time, and must decide whether each slice belongs to the shaded part.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">02</span><span class="t">Reading the doctors' marks<span>parse_summary() · seizure start/end per file</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <p>Seizure times live in a plain-text summary next to the recordings. This function turns them into intervals per file.</p>
+          <pre class="code" id="code-parse"></pre>
+          <div class="file"><span>code/02_clean_chbmit.py · lines 47–64</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/02_clean_chbmit.py#L47-L64">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig" aria-label="Six channels of cleaned EEG from chb01 file 03, 2972 to 3060 seconds, with the seizure from 2996 to 3036 seconds shaded">
+      <svg viewBox="0 0 1260 470" id="trace" class="wide" role="img"></svg>
+      <figcaption class="cap"><span class="l"><span><b></b>Cleaned EEG, µV</span><span><b class="e"></b>Seizure, as marked by the hospital</span></span><span>Patient chb01, file 03, 2,972–3,060 s. Real data after cleaning (step 03).</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 03 CLEAN ============ -->
+<section class="dp-sec" id="clean" aria-labelledby="c-h">
+  <div class="wrap">
+    <p class="kick"><b>03</b> Clean</p>
+    <h2 id="c-h">Keep the brain, lose the hum</h2>
+    <div class="story">
+      <p>A hospital room is electrically noisy. The building's power lines hum at 60 cycles a second, and slow drifts creep in when a child sweats or shifts. Neither tells us anything about seizures.</p>
+      <p>So we keep only the range where brain rhythms live, between half a cycle and forty cycles a second, and discard the rest. The chart shows the result on ten minutes of one channel: everything right of the line is gone, including the sharp spike from the power supply.</p>
+      <p>Windows with a dead electrode or a huge jolt from movement are marked, not thrown away. That keeps every choice reversible. Seizure windows are never removed, because a violent seizure can look like a jolt.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">03</span><span class="t">Filter and downsample<span>Butterworth 4th order · 0.5–40 Hz · zero phase · 256→128 Hz</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <pre class="code" id="code-filt"></pre>
+          <div class="file"><span>code/02_clean_chbmit.py · lines 44, 114–117</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/02_clean_chbmit.py#L107-L122">View on GitHub ↗</a></div>
+        </div>
+      </details>
+      <details class="work">
+        <summary><span class="ic">!</span><span class="t">Artifact flags, not deletions<span>flat: std &lt; 0.5 µV raw · extreme: |x| &gt; 1000 µV filtered</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <p>A first threshold of 500 µV flagged 47% of seizure windows, so it was raised to 1000 µV. 6,260 of 435,067 windows (1.4%) carry the extreme flag.</p>
+          <pre class="code" id="code-flag"></pre>
+          <div class="file"><span>code/02_clean_chbmit.py · lines 87–104</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/02_clean_chbmit.py#L87-L104">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig left" aria-label="Pipeline diagram">
+      <svg viewBox="0 0 760 150" id="pipe" role="img"></svg>
+    </figure>
+    <figure class="fig" aria-label="Power spectrum of chb01 file 03 channel FP1-F7 before and after filtering">
+      <svg viewBox="0 0 1260 380" id="psd" class="wide" role="img"></svg>
+      <figcaption class="cap"><span class="l"><span><b class="m"></b>Before cleaning</span><span><b></b>After cleaning</span></span><span>Power by frequency, chb01 file 03, channel FP1–F7, first 10 minutes. Real data.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 04 WINDOWS & LABELS ============ -->
+<section class="dp-sec" id="labels" aria-labelledby="w-h">
+  <div class="wrap">
+    <p class="kick"><b>04</b> Cut and label</p>
+    <h2 id="w-h">Four-second slices, and the honest problem with them</h2>
+    <div class="story">
+      <p>Each recording is cut into slices of four seconds, short enough for a small device to judge quickly, long enough to hold a few brain rhythms. A slice is called a seizure if at least half of it falls inside the doctors' marks.</p>
+      <p>That leaves 435,067 slices, and only 1,838 of them are seizures: about one in every 236. A model that always answered "no seizure" would be right 99.6% of the time and useless. This is why the results page will not lead with accuracy.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">04</span><span class="t">Labelling rule<span>4 s · no overlap · label = overlap ≥ 0.5 · +2 s shifted copies (train only)</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <pre class="code" id="code-label"></pre>
+          <p style="margin-top:16px">The exact overlap fraction is stored for every window, so the 0.5 rule can change later without cleaning again. 1,851 extra seizure windows, shifted by 2 s, are kept for training only.</p>
+          <div class="file"><span>code/02_clean_chbmit.py · lines 81–84, 140</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/02_clean_chbmit.py#L81-L84">View on GitHub ↗</a></div>
+        </div>
+      </details>
+      <details class="work">
+        <summary><span class="ic">.csv</span><span class="t">Window index<span>windows.csv · one row per window</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <pre class="code" id="code-csv"></pre>
+          <p style="margin-top:16px">Columns: patient, file, start_s, seizure_frac, label, flat, extreme, aug.</p>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig left" aria-label="Diagram of cutting a signal into four second windows">
+      <svg viewBox="0 0 760 230" id="cut" role="img"></svg>
+      <figcaption class="cap"><span>Diagram. Slices more than half inside the marked seizure are labelled seizure. Shifted copies give the network a second look at each seizure.</span></figcaption>
+    </figure>
+    <div class="fig" style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px">
+      <div style="grid-column:1/6">
+        <p class="kick">One in 236</p>
+        <div class="dots" id="dots" aria-label="236 dots, one highlighted"></div>
+        <p class="small moss" style="margin-top:16px">Every dot is a slice of brain activity. One is a seizure.</p>
+      </div>
+      <div style="grid-column:7/13">
+        <p class="kick">Seizure slices per child</p>
+        <ul class="bars" id="bars" style="margin-top:24px"></ul>
       </div>
     </div>
-  </section>
-  <section class="doc" id="raw" aria-labelledby="raw-h">
-    <div class="wrap">
-      <h2 id="raw-h">What a recording looks like</h2>
-      <div class="body">
-        <p class="todo">Show a stretch of raw EEG with a seizure marked, and explain channels, sampling rate and the annotation files in plain terms.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Figure: raw EEG with the seizure annotated"><span>Figure: raw EEG with the seizure annotated</span></div>
-      </div>
+  </div>
+</section>
+
+<!-- ============ 05 SPLIT ============ -->
+<section class="dp-sec" id="split" aria-labelledby="s-h">
+  <div class="wrap">
+    <p class="kick"><b>05</b> Split by patient</p>
+    <h2 id="s-h">No child is in both the lesson and the exam</h2>
+    <div class="story">
+      <p>Every person's brain signal has its own signature. If slices from one child appear in both training and testing, a model can score well by recognising the child rather than the seizure. That would tell us nothing about a new patient, who is the only person who matters.</p>
+      <p>So each child sits entirely on one side. Nine teach the model, two help us tune it, and three are kept sealed until the end. For the final numbers we repeat the whole process fourteen times, leaving out a different child each time.</p>
     </div>
-  </section>
-  <section class="doc" id="cleaning" aria-labelledby="cleaning-h">
-    <div class="wrap">
-      <h2 id="cleaning-h">Cleaning</h2>
-      <div class="body">
-        <p class="todo">Each cleaning step and the reason for it: filtering, removing noise, handling missing or bad channels. Before and after plots work best here.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Figure: the same signal before and after cleaning"><span>Figure: the same signal before and after cleaning</span></div>
-      </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">05</span><span class="t">Splits and normalisation<span>fixed 9/2/3 for development · 14-fold LOPO for results</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <p>Z-score statistics are combined from training patients only, per split, so no test-patient value leaks in.</p>
+          <pre class="code" id="code-norm"></pre>
+          <div class="file"><span>code/03_split_chbmit.py · lines 66–74</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/03_split_chbmit.py#L66-L74">View on GitHub ↗</a></div>
+          <div class="file"><span>data/splits/chbmit_splits.json</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/data/splits/chbmit_splits.json">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <div class="board">
+      <div class="bin"><div class="top"><span class="kick">Train · 9 children</span><span class="status">teaches</span></div><div class="chips" id="b-train"></div><p class="n">1,297 seizure slices</p></div>
+      <div class="bin val"><div class="top"><span class="kick">Tune · 2</span></div><div class="chips" id="b-val"></div><p class="n">248</p></div>
+      <div class="bin test"><div class="top"><span class="kick">Exam · 3</span><span class="status">sealed</span></div><div class="chips" id="b-test"></div><p class="n">292</p></div>
     </div>
-  </section>
-  <section class="doc" id="labels" aria-labelledby="labels-h">
-    <div class="wrap">
-      <h2 id="labels-h">Windows and labels</h2>
-      <div class="body">
-        <p class="todo">How the long recordings are cut into short windows, how each window is labelled seizure or not, and how the split keeps the same person out of both training and testing.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Figure: class balance, seizure vs. non-seizure windows"><span>Figure: class balance, seizure vs. non-seizure windows</span></div>
-      </div>
+    <figure class="fig" aria-label="Leave one patient out: fourteen rounds, each with a different child held out">
+      <svg viewBox="0 0 1260 300" id="lopo" class="wide" role="img"></svg>
+      <figcaption class="cap"><span>Final results: fourteen rounds. In each, one child (filled) is the exam and the other thirteen teach.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 06 PLAN FOR MODELS ============ -->
+<section class="dp-sec" id="models" aria-labelledby="m-h">
+  <div class="wrap">
+    <p class="kick"><b>06</b> What we will ask the models</p>
+    <h2 id="m-h">One question, every four seconds: is this a seizure?</h2>
+    <div class="story">
+      <p>Each model reads one slice, all eighteen channels at once, and gives a number between 0 and 1. Above a threshold, the slice counts as a warning. To keep false alarms down, an alarm sounds only when two of three slices in a row agree.</p>
+      <p>We compare two networks. The first is a conventional one, large enough to be a fair yardstick. The second was designed for brain signals and is about a hundred times smaller. Then we shrink it further, and measure how much detection survives.</p>
     </div>
-  </section>
-  <section class="doc" id="downloads" aria-labelledby="downloads-h">
-    <div class="wrap">
-      <h2 id="downloads-h">Data and code</h2>
-      <div class="body">
-        <ul class="links">
-          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/data/raw">Raw data and download instructions</a></li>
-          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/data/clean">Cleaned data</a></li>
-          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code">Cleaning and preparation code</a></li>
-        </ul>
-      </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">06</span><span class="t">Planned training setup<span>TensorFlow/Keras · Adam 1e-3 · weighted BCE · batch 256</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <span class="plan-note">Plan from the decision log. Code not written yet.</span>
+          <dl>
+            <dt>input</dt><dd>18 × 512 (channels × samples)</dd>
+            <dt>output</dt><dd>sigmoid, P(seizure)</dd>
+            <dt>batches</dt><dd>all seizure + non-seizure ≈ 1:4, redrawn each epoch</dd>
+            <dt>loss</dt><dd>weighted binary cross-entropy</dd>
+            <dt>stop</dt><dd>val sensitivity at fixed false-alarm rate, ≤ 50 epochs</dd>
+            <dt>alarm</dt><dd>2 of 3 consecutive windows</dd>
+            <dt>compress</dt><dd>int8 PTQ (TFLite), then 50–80% pruning</dd>
+            <dt>evaluate</dt><dd>14-fold LOPO per model</dd>
+          </dl>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig" aria-label="Diagram: a four second slice goes into the model, which outputs a probability; two of three slices above threshold raise an alarm">
+      <svg viewBox="0 0 1260 200" id="flow" class="wide" role="img"></svg>
+    </figure>
+    <div class="models">
+      <article class="mcard">
+        <div class="top"><span class="kick">Yardstick</span><span class="kick">~200–400k parameters</span></div>
+        <h3>1D convolutional network</h3>
+        <p>Four stacked layers each look for short patterns in time, then patterns of patterns. Simple, strong on raw signal, and easy to explain.</p>
+        <svg viewBox="0 0 560 150" id="arch-cnn" role="img" aria-label="Four convolution blocks then pooling then output"></svg>
+      </article>
+      <article class="mcard">
+        <div class="top"><span class="kick">Wearable</span><span class="kick">~2–5k parameters</span></div>
+        <h3>EEGNet</h3>
+        <p>Built for brain signals. It first learns rhythms in time, then which electrodes matter, then combines the two with very few weights.</p>
+        <svg viewBox="0 0 560 150" id="arch-eeg" role="img" aria-label="Temporal filters, spatial filters, separable convolution, output"></svg>
+      </article>
     </div>
-  </section>
+    <div class="judge">
+      <div><b>Sensitivity</b>seizures caught</div>
+      <div><b>False alarms / hour</b>could someone live with it</div>
+      <div><b>Specificity</b>calm slices left alone</div>
+      <div><b>F1</b>balance of both</div>
+      <div><b>Size, KB</b>fits on a chip</div>
+      <div><b>Time per slice</b>keeps up in real time</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 REPRODUCE ============ -->
+<section class="dp-sec" id="repeat" aria-labelledby="r-h">
+  <div class="wrap">
+    <p class="kick"><b>07</b> Repeat it yourself</p>
+    <h2 id="r-h">Four commands from download to splits</h2>
+    <div class="run">
+      <ol>
+        <li><span class="k">00</span><div><code>bash code/00_get_chbmit_summaries.sh</code><p class="what">Seizure times and checksums, a few MB.</p></div><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/00_get_chbmit_summaries.sh">Code ↗</a></li>
+        <li><span class="k">01</span><div><code>bash code/01_get_chbmit_edf.sh</code><p class="what">The 14 children's recordings, about 20 GB, each file checked.</p></div><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/01_get_chbmit_edf.sh">Code ↗</a></li>
+        <li><span class="k">02</span><div><code>python code/02_clean_chbmit.py</code><p class="what">Filtered, labelled slices, about 7.4 GB.</p></div><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/02_clean_chbmit.py">Code ↗</a></li>
+        <li><span class="k">03</span><div><code>python code/03_split_chbmit.py</code><p class="what">The patient splits and normalisation statistics.</p></div><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/03_split_chbmit.py">Code ↗</a></li>
+      </ol>
+    </div>
+    <div class="dp-links">
+      <p class="kick">Data</p>
+      <a class="row" href="https://physionet.org/content/chbmit/1.0.0/"><span>Raw recordings<small>PhysioNet, CHB-MIT v1.0.0, open access</small></span><span class="arr">↗</span></a>
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/data/splits"><span>Patient splits<small>Which child is in which set</small></span><span class="arr">↗</span></a>
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code"><span>All code<small>Numbered in run order</small></span><span class="arr">↗</span></a>
+      <p class="ask">Cleaned data (7.4 GB) is not hosted: it is too large for GitHub, and script 02 rebuilds it exactly from the raw recordings.</p>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -98,10 +357,18 @@
   <div class="foot">
     <div class="wrap">
       <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+      <div class="b">
+        <ol>
+          <li>Shoeb, A. (2009). Application of machine learning to epileptic seizure onset detection and treatment. PhD thesis, MIT.</li>
+          <li>Goldberger, A. et al. (2000). PhysioBank, PhysioToolkit, and PhysioNet. Circulation 101(23). <a href="https://physionet.org/content/chbmit/1.0.0/">CHB-MIT Scalp EEG Database</a>.</li>
+        </ol>
+      </div>
     </div>
   </div>
 </footer>
 
+<script src="assets/data/data-page-figures.js"></script>
+<script src="assets/js/data-page.js"></script>
 <script src="assets/js/footer.js"></script>
 </body>
 </html>
