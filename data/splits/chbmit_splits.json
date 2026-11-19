@@ -1,0 +1,306 @@
+{
+  "fixed": {
+    "test": [
+      "chb03",
+      "chb10",
+      "chb20"
+    ],
+    "val": [
+      "chb05",
+      "chb23"
+    ],
+    "train": [
+      "chb01",
+      "chb06",
+      "chb08",
+      "chb13",
+      "chb14",
+      "chb15",
+      "chb16",
+      "chb18",
+      "chb24"
+    ]
+  },
+  "lopo": [
+    {
+      "test": [
+        "chb01"
+      ],
+      "train": [
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb03"
+      ],
+      "train": [
+        "chb01",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb05"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb06"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb08"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb10"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb13"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb14"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb15"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb16"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb18",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb18"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb20",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb20"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb23",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb23"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb24"
+      ]
+    },
+    {
+      "test": [
+        "chb24"
+      ],
+      "train": [
+        "chb01",
+        "chb03",
+        "chb05",
+        "chb06",
+        "chb08",
+        "chb10",
+        "chb13",
+        "chb14",
+        "chb15",
+        "chb16",
+        "chb18",
+        "chb20",
+        "chb23"
+      ]
+    }
+  ]
+}

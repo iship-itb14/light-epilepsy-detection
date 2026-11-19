@@ -2,3 +2,5 @@
 *.edf
 .ipynb_checkpoints/
 __pycache__/
+data/raw/chbmit/.sha256-local.txt
+data/clean/chbmit/
