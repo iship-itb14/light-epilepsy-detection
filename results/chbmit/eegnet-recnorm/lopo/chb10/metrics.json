@@ -1,0 +1,50 @@
+{
+  "model": "eegnet-recnorm",
+  "split": "lopo",
+  "test_patients": [
+    "chb10"
+  ],
+  "best_epoch": 45,
+  "epochs_run": 50,
+  "train_minutes": 32.3,
+  "params": 1729,
+  "model_kb": 91.7,
+  "threshold": 0.7559528663754195,
+  "val": {
+    "threshold": 0.7559528663754195,
+    "tp": 44,
+    "fp": 157,
+    "tn": 52762,
+    "fn": 137,
+    "sensitivity": 0.2430939226519337,
+    "specificity": 0.997033201685595,
+    "precision": 0.21890547263681592,
+    "f1": 0.23036649214659685,
+    "accuracy": 0.9944632768361582,
+    "seizures": 20,
+    "seizures_detected": 7,
+    "event_sensitivity": 0.35,
+    "false_alarms": 49,
+    "hours": 59.0,
+    "fa_per_hour": 0.8305084745762712,
+    "meets_fa_limit": true
+  },
+  "test": {
+    "threshold": 0.7559528663754195,
+    "tp": 103,
+    "fp": 236,
+    "tn": 44670,
+    "fn": 11,
+    "sensitivity": 0.9035087719298246,
+    "specificity": 0.9947445775620184,
+    "precision": 0.30383480825958703,
+    "f1": 0.45474613686534215,
+    "accuracy": 0.9945135495335407,
+    "seizures": 7,
+    "seizures_detected": 7,
+    "event_sensitivity": 1.0,
+    "false_alarms": 91,
+    "hours": 50.022222222222226,
+    "fa_per_hour": 1.8191914704575742
+  }
+}

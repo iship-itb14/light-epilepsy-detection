@@ -1,0 +1,32 @@
+{
+  "model": "eegnet",
+  "split": "fixed",
+  "fold": null,
+  "epochs": 50,
+  "patience": 10,
+  "batch_size": 256,
+  "neg_per_pos": 4,
+  "pos_weight": 2.0,
+  "max_fa": 1.0,
+  "seed": 0,
+  "train": [
+    "chb01",
+    "chb06",
+    "chb08",
+    "chb13",
+    "chb14",
+    "chb15",
+    "chb16",
+    "chb18",
+    "chb24"
+  ],
+  "val": [
+    "chb05",
+    "chb23"
+  ],
+  "test": [
+    "chb03",
+    "chb10",
+    "chb20"
+  ]
+}

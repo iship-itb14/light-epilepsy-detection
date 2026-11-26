@@ -1,0 +1,37 @@
+{
+  "model": "cnn-reg",
+  "split": "lopo",
+  "fold": 3,
+  "epochs": 50,
+  "patience": 10,
+  "batch_size": 256,
+  "neg_per_pos": 4,
+  "pos_weight": 2.0,
+  "max_fa": 1.0,
+  "norm": "recording",
+  "augment": true,
+  "val_patients": 3,
+  "fa_rule": "median",
+  "skip_existing": true,
+  "seed": 0,
+  "train": [
+    "chb01",
+    "chb03",
+    "chb05",
+    "chb14",
+    "chb15",
+    "chb16",
+    "chb18",
+    "chb20",
+    "chb23",
+    "chb24"
+  ],
+  "val": [
+    "chb08",
+    "chb10",
+    "chb13"
+  ],
+  "test": [
+    "chb06"
+  ]
+}
