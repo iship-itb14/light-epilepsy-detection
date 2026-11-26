@@ -4,7 +4,7 @@ This file records the project's logic and the decisions behind it, each with its
 
 Each decision is marked **Decided** or **Open**. When an open question is settled, move it to Decided, write the reason, and add a line to the change log at the bottom.
 
-Last updated: 19 November 2026.
+Last updated: 25 November 2026.
 
 ---
 
@@ -106,6 +106,35 @@ Last updated: 19 November 2026.
 **Decision.** The Data & prep page opens with an eight-step route map of the whole project (four steps done, "we are here" on training), with brackets showing which site page covers each step. Every section has a plain-language story and a closed "Show the working" panel beside it with the exact settings, a numbered excerpt of our script and a GitHub link; one switch opens all panels. Figures use real CHB-MIT data, made by `code/site/make_data_page_figures.py`. The page links raw data to PhysioNet plus our scripts and splits; cleaned data is not hosted (3.8). The plan for the models is explained here; the Models page will hold the built architectures. Page styles live in `assets/css/data-page.css`, so the shared `site.css` is unchanged.
 **Why.** The course asks for a page that works for both general readers and data scientists. Closed panels keep the page calm for the first group while giving the second a fixed place to find the code. The route map answers "where are we?" in a project with many parts. It goes here and not on the home page, because the Introduction must stay non-technical.
 
+### 3.21 Training and scoring details
+**Decision.**
+- *Cache.* `code/04_cache_chbmit.py` unpacks the cleaned files into uncompressed `.npy` files in `data/cache/` (about 8 GB, ignored by git). Training memory-maps them and reads only the windows each batch needs.
+- *Normalisation inside the model.* Each model's first layer is a fixed per-channel z-score holding its training patients' mean and std. Models take raw microvolts.
+- *Validation in leave-one-patient-out.* For the fold that tests patient *k*, the next two patients in the patient list (wrapping round) are validation and the other 11 train. Normalisation uses those 11 only.
+- *Batches.* Every seizure window (with shifted copies) plus 4 non-seizure windows per seizure window, redrawn each epoch. Flagged windows stay in. Seizure windows weigh 2 in the loss.
+- *Alarm and false alarms.* The 2-of-3 rule looks back only (windows *i*-2 to *i*) and never joins windows across files or gaps. Window metrics use the alarm output. An alarm event is a run of alarm windows, split every 5 minutes. A false alarm is an event that touches no seizure. A seizure is caught if any of its windows alarms.
+- *Threshold and early stopping.* After each epoch, the threshold on validation patients is the one with the best window sensitivity at no more than 1 false alarm per hour. The epoch with the best such sensitivity is kept. Epochs that cannot meet the limit at any threshold rank lower. Training stops after 10 epochs without improvement.
+- *Sizes.* The baseline CNN (two convolutions per block, 32/64/128/128 filters, kernel 5) has 328k weights. EEGNet-8,2 has 1.7k, a little under the 2–5k estimated in 3.16.
+- *Outputs.* Each run saves its model, history, metrics, settings and test-window probabilities in `results/chbmit/<model>/<split>/`, so test scores can be recomputed without retraining. `code/06_summarise_chbmit.py` collects them into `results/chbmit/summary.csv`.
+
+**Why.** The cache keeps memory use small on a laptop (a full training set is 5–7.5 GB). Normalisation inside the model means a saved model, and later the int8 version, cannot be fed wrongly scaled data. Rotating validation spreads it across patients and is fixed by the fold number, so it is reproducible. Keeping flagged windows teaches the model that artifacts are not seizures. A looking-back alarm rule is what a wearable could run. Splitting long alarms (as SzCORE does) stops a model that alarms all the time from scoring zero false alarms; this showed up in testing. 1 false alarm per hour is a common target for seizure detectors.
+
+### 3.22 Experiment: normalise each recording on its own
+**Decision.** Add `--norm recording` to `code/05_train_chbmit.py`. Each window is scaled by its own recording's per-channel median and robust spread (1.4826 × median absolute deviation, at least 1 µV). The model's own normalisation layer is then left as identity. Statistics are computed once per patient without using labels, and cached in `data/cache/chbmit/chbXX_recstats.npz`. Runs are saved as `<model>-recnorm`. The default stays `--norm train` (3.21), so earlier results can still be reproduced. This is tested on its own before any other change (more validation patients, regularisation, thresholds on raw outputs).
+**Why.** On the fixed split (25 Nov 2026), test seizures caught were 5/22 (EEGNet) and 4/22 (CNN) at the validation threshold. Yet the window AUROC was 0.76 and 0.90, and a threshold suited to the test patients would have caught 12–14/22 at 1 false alarm per hour (a diagnostic only, not a result). So the models rank windows reasonably well, but their scores shift from patient to patient. Patients differ a lot in amplitude, and scaling each recording by itself removes most of that. The median and MAD hardly move during a short seizure. Using the whole recording looks ahead in time; on a wearable it would be a running estimate from the minutes so far. This limitation is noted for the report.
+
+### 3.23 Experiment: a steadier CNN and training-window augmentation
+**Decision.** Add a model `cnn-reg`: the same CNN as 3.15 and 3.21, plus weight decay (L2 1e-4 on every convolution and the output layer) and spatial dropout (0.2, dropping whole feature maps after each block). Add `--augment` to `code/05_train_chbmit.py`, which changes training windows only: each window is scaled by a random factor between 0.8 and 1.25, Gaussian noise is added at 5% of each channel's spread in that window, and in 30% of windows one random channel is set to zero. Validation and test windows are never changed. Both are off by default, so earlier runs can still be reproduced. Runs are saved as `cnn-reg-recnorm-aug` and `eegnet-recnorm-aug`. EEGNet gets the same augmentation, so both models are trained the same way. If this helps, leave-one-patient-out uses `cnn-reg` and `eegnet` with `--norm recording --augment`.
+**Why.** With per-recording normalisation (3.22), the CNN's training loss fell to 0.03 while its validation sensitivity swung between 0.19 and 0.63 from epoch to epoch. It was memorising the 9 training patients. Weight decay and spatial dropout limit how much it can memorise. Augmentation shows it the kinds of variation new patients bring: different amplitudes, noise and a lost electrode. A steadier baseline makes the comparison with EEGNet fair.
+
+### 3.24 Settings for the leave-one-patient-out runs
+**Decision.** Final runs use per-recording normalisation for both models. The CNN is `cnn-reg` with `--augment`. EEGNet is `eegnet` without augmentation. Everything else follows 3.18 and 3.21. All 14 folds are run for each model.
+**Why.** Each model's settings were chosen by its validation score (chb05, chb23), not by test results. CNN: validation sensitivity at 1 false alarm per hour rose from 0.63 (`cnn-recnorm`) to 0.66 with weight decay, spatial dropout and augmentation, and training was steadier. On test it caught the same 13/22 seizures with false alarms down from 0.28 to 0.03 per hour. EEGNet: validation fell from 0.69 to 0.63 with augmentation, and its best epoch moved to epoch 1. With only 1.7k weights it has little room to memorise, so the extra noise mostly gets in its way. The test results agreed (17/22 → 13/22 seizures, 0.49 → 2.3 false alarms per hour). These come from one seed and three test patients, so small differences may be chance. Leave-one-patient-out gives the numbers that are reported.
+
+### 3.25 Sturdier validation in leave-one-patient-out
+**Decision.** Each LOPO fold uses the next **three** patients as validation (10 train), and the threshold rule uses the **median** of the validation patients' own false-alarm rates instead of pooling them: the best window sensitivity whose median false alarms per hour is at most 1. Sensitivity is still pooled over all validation seizure windows. New options in `code/05_train_chbmit.py`: `--val-patients 3 --fa-rule median`; runs are saved as `<run>-val3-median`. Defaults stay 2 and pooled, so the runs under 3.24 can still be reproduced. The fixed split is unchanged. All 14 folds are rerun for both models with the 3.24 settings plus this rule, and these become the reported results. `--skip-existing` lets an interrupted loop restart where it stopped.
+**Why.** In the 3.24 runs, chb16 was a validation patient in the chb14 and chb15 folds. Its normal EEG gives about 12 false alarms per hour, so keeping the pooled rate under 1 pushed the threshold to 0.99–1.00. Both models then caught 0–6 of chb15's 20 seizures, although they ranked its windows well (AUROC 0.94 and 0.91). In the chb14 fold, EEGNet found no usable threshold and kept its epoch-1 weights (validation sensitivity 0). The problem shows on the validation patients themselves, so the fix does not use test results. With three patients and the median, one unusual patient cannot set the threshold for a whole fold. The cost is one fewer training patient per fold. Two other findings are recorded, not fixed: chb16's seizures are very short (median 8 s, 9 of 10 at most 12 s), so 4-second windows with the 2-of-3 rule can barely catch them; and chb06's seizures (median 15 s) score no higher than normal EEG (AUROC 0.46 and 0.64).
+
 ## 4. Open
 
 None right now.
@@ -128,3 +157,8 @@ None right now.
 | 18 Nov 2026 | Added 3.13 (patient splits: fixed development split and leave-one-patient-out). |
 | 18 Nov 2026 | Added 3.14–3.19 (imbalance, baseline, lightweight model, compression, training setup, framework). Closed 4.5–4.10. |
 | 19 Nov 2026 | Added 3.20 (Data & prep page layout: route map, two reading levels, real-data figures). |
+| 25 Nov 2026 | Added 3.21 (training and scoring details). |
+| 25 Nov 2026 | Added 3.22 (per-recording normalisation experiment) after the first fixed-split results. |
+| 25 Nov 2026 | Added 3.23 (regularised CNN and augmentation experiment) after per-recording normalisation raised test seizures caught to 17/22 (EEGNet) and 13/22 (CNN). |
+| 25 Nov 2026 | Added 3.24 (settings for leave-one-patient-out, chosen on validation patients). |
+| 26 Nov 2026 | Added 3.25 (three validation patients and a median false-alarm rule for leave-one-patient-out), after chb16 was found to set the threshold in the chb14 and chb15 folds. |
