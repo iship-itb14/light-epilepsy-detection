@@ -72,7 +72,7 @@ code("code-norm",66,[
 const steps=[
  ["Gather","children's hospital EEG","done"],["Clean","remove hum and drift","done"],
  ["Cut and label","4-second slices","done"],["Split by patient","no child in two sets","done"],
- ["Train two models","yardstick and wearable","now"],["Shrink","8-bit, then pruning","todo"],
+ ["Train two models","yardstick and wearable","done"],["Shrink","8-bit, then pruning","now"],
  ["Test fairly","new children, new hospital","todo"],["Share","results and toolkit","todo"]];
 const xs=[80,230,380,530,720,870,1020,1170], g=document.getElementById("nodes");
 steps.forEach((s,i)=>{
@@ -85,7 +85,7 @@ steps.forEach((s,i)=>{
   el("text",{x,y:230,class:"sv-t","text-anchor":"middle","font-size":15},g,s[0]);
   el("text",{x,y:250,class:"sv-s","text-anchor":"middle"},g,s[1]);
 });
-el("text",{x:720,y:108,"text-anchor":"middle",fill:EMBER,style:"font:500 11px Instrument Sans,sans-serif;letter-spacing:.22em"},g,"WE ARE HERE");
+el("text",{x:870,y:108,"text-anchor":"middle",fill:EMBER,style:"font:500 11px Instrument Sans,sans-serif;letter-spacing:.22em"},g,"WE ARE HERE");
 const pl=document.getElementById("plan-list");
 steps.forEach((s,i)=>{const li=document.createElement("li");li.innerHTML=`<span class="d ${s[2]==="done"?"f":s[2]==="now"?"now":""}"></span><span>${String(i+1).padStart(2,"0")} · ${s[0]}<small>${s[1]}${s[2]==="now"?" · we are here":""}</small></span>`;pl.appendChild(li)});
 
