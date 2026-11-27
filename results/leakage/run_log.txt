@@ -1,0 +1,38 @@
+/opt/anaconda3/lib/python3.13/site-packages/google/api_core/_python_package_support.py:206: FutureWarning: Package google.api_core depends on grpcio, currently installed at version 1.75.1. grpcio < 1.83.0 does not support Post-Quantum Cryptography (PQC). Support for non-PQC environments is deprecated. In April 2027, Google Cloud Python packages will raise their minimum requirements (including google-api-core, grpcio, and grpcio-status) to enforce grpcio >= 1.83.0. For more details on Google Cloud's post-quantum security migration, visit: https://cloud.google.com/security/resources/post-quantum-cryptography
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/pandas/core/computation/expressions.py:22: UserWarning: Pandas requires version '2.10.2' or newer of 'numexpr' (version '2.10.1' currently installed).
+  from pandas.core.computation.check import NUMEXPR_INSTALLED
+11500 chunks from 500 recordings; chunks per set S 2300, F 2300, N 2300, O 2300, Z 2300
+binary shuffled fold 0: accuracy 0.987, sensitivity 0.970, specificity 0.992, f1 0.969, auroc 0.998  (shared recordings 100%, 23.3 s)
+binary shuffled fold 1: accuracy 0.988, sensitivity 0.950, specificity 0.997, f1 0.969, auroc 0.999  (shared recordings 100%, 23.2 s)
+WARNING:tensorflow:5 out of the last 7 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x1508182c0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:6 out of the last 9 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x1508182c0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+binary shuffled fold 2: accuracy 0.990, sensitivity 0.989, specificity 0.990, f1 0.974, auroc 0.999  (shared recordings 100%, 25.2 s)
+binary shuffled fold 3: accuracy 0.988, sensitivity 0.943, specificity 0.999, f1 0.969, auroc 1.000  (shared recordings 100%, 27.0 s)
+binary shuffled fold 4: accuracy 0.987, sensitivity 0.939, specificity 0.999, f1 0.968, auroc 0.999  (shared recordings 100%, 27.7 s)
+binary grouped  fold 0: accuracy 0.980, sensitivity 0.954, specificity 0.987, f1 0.951, auroc 0.996  (shared recordings 0%, 26.3 s)
+binary grouped  fold 1: accuracy 0.977, sensitivity 0.893, specificity 0.997, f1 0.938, auroc 0.999  (shared recordings 0%, 25.0 s)
+binary grouped  fold 2: accuracy 0.963, sensitivity 0.813, specificity 1.000, f1 0.897, auroc 0.945  (shared recordings 0%, 25.6 s)
+binary grouped  fold 3: accuracy 0.965, sensitivity 0.830, specificity 0.998, f1 0.904, auroc 0.998  (shared recordings 0%, 27.4 s)
+binary grouped  fold 4: accuracy 0.984, sensitivity 0.943, specificity 0.995, f1 0.960, auroc 0.996  (shared recordings 0%, 27.1 s)
+five   shuffled fold 0: accuracy 0.786, macro_f1 0.781  (shared recordings 100%, 25.6 s)
+five   shuffled fold 1: accuracy 0.761, macro_f1 0.754  (shared recordings 100%, 25.6 s)
+five   shuffled fold 2: accuracy 0.780, macro_f1 0.762  (shared recordings 100%, 25.4 s)
+five   shuffled fold 3: accuracy 0.769, macro_f1 0.763  (shared recordings 100%, 27.7 s)
+five   shuffled fold 4: accuracy 0.771, macro_f1 0.769  (shared recordings 100%, 24.1 s)
+five   grouped  fold 0: accuracy 0.737, macro_f1 0.731  (shared recordings 0%, 23.9 s)
+five   grouped  fold 1: accuracy 0.796, macro_f1 0.797  (shared recordings 0%, 25.4 s)
+five   grouped  fold 2: accuracy 0.740, macro_f1 0.721  (shared recordings 0%, 23.2 s)
+five   grouped  fold 3: accuracy 0.759, macro_f1 0.741  (shared recordings 0%, 24.1 s)
+five   grouped  fold 4: accuracy 0.739, macro_f1 0.734  (shared recordings 0%, 23.9 s)
+
+Mean (std) over folds
+  binary accuracy     shuffled 0.988 (0.001)   grouped 0.974 (0.009)   gap +0.014
+  binary sensitivity  shuffled 0.958 (0.019)   grouped 0.887 (0.057)   gap +0.071
+  binary specificity  shuffled 0.995 (0.004)   grouped 0.995 (0.005)   gap -0.000
+  binary f1           shuffled 0.970 (0.002)   grouped 0.930 (0.025)   gap +0.039
+  binary auroc        shuffled 0.999 (0.000)   grouped 0.987 (0.021)   gap +0.012
+  five   accuracy     shuffled 0.773 (0.009)   grouped 0.754 (0.022)   gap +0.019
+  five   macro_f1     shuffled 0.766 (0.009)   grouped 0.745 (0.027)   gap +0.021
+
+Saved results/leakage/folds.csv, summary.csv, config.json
