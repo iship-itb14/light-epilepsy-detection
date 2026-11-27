@@ -2,16 +2,16 @@
 
 **What this file is.** A study companion to our project. It explains *what* we built, *how* it works, and *why* we made each choice, including the problems and bugs we ran into along the way. It is written for students who know some programming and some machine learning, not for EEG experts.
 
-**What this file is not.** It is not a paper and it does not claim a new state of the art. The CHB-MIT results for both models are in section 13 (26 November 2026). Compression, the leakage demo, channel reduction and the Siena test have not been run yet, and are marked *pending*. We would rather leave a gap than guess.
+**What this file is not.** It is not a paper and it does not claim a new state of the art. The CHB-MIT results for both models are in section 13 (26 November 2026), and the split-leakage demo is in section 13.5 (27 November 2026). Compression, channel reduction and the Siena test have not been run yet, and are marked *pending*. We would rather leave a gap than guess.
 
 **Related files.**
-- `decision.md` is the short, official log of every decision (numbered 3.1–3.25). This file explains those decisions at more length; when the two disagree, `decision.md` wins.
+- `decision.md` is the short, official log of every decision (numbered 3.1–3.26). This file explains those decisions at more length; when the two disagree, `decision.md` wins.
 - `REPLICATE.md` is the step-by-step guide for rerunning everything.
 - `code/` holds the scripts, numbered in the order they run.
 
 Course: Neural Networks and Deep Learning (CSCI 5122), University of Colorado Boulder, Fall 2026.
 Team: Sejal Hukare, Ishita Pawar, Swejal Gabhane.
-Last updated: 25 November 2026.
+Last updated: 27 November 2026.
 
 ---
 
@@ -66,7 +66,7 @@ Broken into parts:
 
 1. **Main question (CHB-MIT).** On children's EEG, with patients kept strictly separate between training and testing, how do a larger baseline CNN (328k weights) and the tiny EEGNet (1.7k weights) compare?
 2. **Compression.** If we shrink EEGNet further (int8 quantization, then pruning), how much detection is kept?
-3. **Honest evaluation (UCI/Kaggle demo, planned).** How much does a careless "shuffled" split inflate accuracy compared with a split that keeps recordings apart?
+3. **Honest evaluation (Bonn/UCI demo, done, section 13.5).** How much does a careless "shuffled" split inflate the scores compared with a split that keeps recordings apart?
 4. **Wearable fit (planned).** How much does detection drop with fewer channels (18 → 4 → 2)?
 5. **Outside test (Siena, planned).** Does a model trained on children still work on adults from another hospital?
 
@@ -85,11 +85,11 @@ This is a short, honest review of the sources we actually read and checked. It i
 | **CHB-MIT Scalp EEG** [Guttag 2010; Shoeb 2009] | Children and young people at Boston Children's Hospital | 23 cases from 22 subjects, 256 Hz, 198 seizures in the collection | Main dataset |
 | **Siena Scalp EEG** [Detti 2020; Detti et al. 2020] | Adults, ages 20–71 | 14 patients, 512 Hz, 47 seizures in about 128 hours | Outside test only (planned) |
 | **TUH EEG Seizure Corpus** [Shah et al. 2018] | Hospital patients | Very large; SzCORE reports v2.0.0 as 675 subjects and 1,476 hours [Dan et al. 2024] | Not used (registration, mixed setups) |
-| **Bonn** [Andrzejak et al. 2001] | Five sets, A–E | "Five sets (denoted A–E) each containing 100 single-channel EEG segments of 23.6-sec duration" | Background for the UCI demo |
+| **Bonn** [Andrzejak et al. 2001] | Five sets, A–E | "Five sets (denoted A–E) each containing 100 single-channel EEG segments of 23.6-sec duration" | Leakage demo, cut into UCI-style chunks (section 13.5) |
 
 **CHB-MIT** is the most used public scalp EEG set for seizure detection. The PhysioNet page notes that "case chb21 was obtained 1.5 years after case chb01, from the same female subject" [Guttag 2010], which matters for splitting (section 4.2). It is free under the Open Data Commons Attribution License, so we can link to it but we do not redistribute it.
 
-**The UCI/Kaggle "Epileptic Seizure Recognition" dataset** is popular in student projects. Sources describe it as 500 recordings of about 23.6 s, cut into one-second chunks of 178 samples [Al-Marzouki 2025]. Its "5 folders × 100 files" layout matches the Bonn data [Andrzejak et al. 2001], but we have not found the UCI page stating this, so we treat the link as likely rather than certain.
+**The UCI/Kaggle "Epileptic Seizure Recognition" dataset** is popular in student projects. Sources describe it as 500 recordings of about 23.6 s, cut into one-second chunks of 178 samples [Al-Marzouki 2025]. The UCI page confirms it is the Bonn data [Andrzejak et al. 2001]: it points to the Bonn epileptology site for "the original data" and says "We divided and shuffled every 4097 data points into 23 chunks". By 27 November 2026 UCI no longer offered the file (its download link returned 404 and its data API reported the dataset as not found), so we rebuilt the same table from the Bonn files, which are still free to download (section 13.5).
 
 ### 3.2 Deep learning on EEG
 
@@ -111,7 +111,7 @@ Two recent papers illustrate the gap (we read them only in part):
 | Ayala-Britez et al. [2026] | CHB-MIT, 10 s windows, classical ML | Patient-level ("no patient appeared in both the training and test sets") | 86.59% accuracy |
 | Al-Marzouki [2025] | UCI/Kaggle, BiLSTM | 80/10/10 split of a balanced subset; patient separation not stated | 98.70% validation accuracy |
 
-These two differ in data and model too, so we **cannot** blame the whole gap on the split. That is exactly why we plan our own controlled demo (section 14): same model, same data, two splits.
+These two differ in data and model too, so we **cannot** blame the whole gap on the split. That is exactly why we ran our own controlled demo (section 13.5): same model, same data, two splits.
 
 ### 3.4 How detectors should be scored
 
@@ -129,7 +129,7 @@ We are not proposing a new architecture. Our contribution is modest and practica
 
 1. a fully scripted, rerunnable pipeline from raw download to results, with saved patient splits;
 2. a careful, patient-wise comparison of a baseline CNN and a tiny EEGNet on the same data, scored by window and by event, including false alarms per hour;
-3. planned side studies on split leakage, channel count and an outside dataset.
+3. a controlled demo of how much a shuffled split inflates scores (section 13.5), and planned side studies on channel count and an outside dataset.
 
 ---
 
@@ -441,6 +441,7 @@ Not every change was a fix. Some plans changed as we learned more:
 - **Normalisation moved out of cleaning.** Doing it in script 02 would have used test patients' statistics. It now happens after the split, and inside the model.
 - **Training-patient scaling → per-recording scaling.** The first real results showed that one scale for everyone made thresholds fail on new patients (section 7.6).
 - **A plain CNN → a regularised one, and augmentation for the CNN only.** The plain CNN memorised its training patients; augmentation helped the CNN but hurt EEGNet on validation.
+- **UCI table → the original Bonn files.** UCI stopped hosting the leakage-demo table, so we cut the Bonn recordings into the same one-second chunks ourselves. A side benefit: we know for certain which recording each chunk came from, instead of reading it from an undocumented id column.
 
 ---
 
@@ -462,6 +463,7 @@ We listed these before we had results, so we could not be accused of explaining 
 9. **One seed, no tuning.** Each run uses one random seed and default hyperparameters. Differences between models smaller than seed-to-seed noise should not be over-read.
 10. **Download script is macOS-only.** `01_get_chbmit_edf.sh` checks free space with `df -g`, which only exists on macOS, so it fails on Linux. `REPLICATE.md` gives the workaround. The script itself has not been changed yet.
 11. **Not a medical device.** Nothing here has been clinically validated.
+12. **The leakage demo keeps recordings apart, not people.** *(After results.)* The Bonn files have no person ids, and each set comes from only five people, so even our "grouped" split shares people between training and test. Its scores are therefore still optimistic. The demo is also one seed on very clean, hand-picked clips, so its exact gaps are rough.
 
 ---
 
@@ -575,6 +577,29 @@ Seizures caught (window sensitivity, false alarms per hour):
 | EEGNet pruned | LOPO | *pending* |
 | CPU time per window, both models | | *pending* |
 
+### 13.5 Leakage demo: shuffled chunks against whole recordings
+
+The same small 1D CNN (about 15k weights), trained and tested on the same 11,500 one-second chunks with 5-fold cross-validation; only the split changes (decision 3.26). The chunks are the Bonn recordings [Andrzejak et al. 2001] cut exactly as in the UCI/Kaggle table. **Shuffled** mixes chunks into folds, as most tutorials do, so every test chunk has chunks from its own recording in training (100% in every fold). **Grouped** puts whole recordings into folds (0% shared). Run on 27 November 2026 on a MacBook Air, one seed, 30 epochs. Numbers from `results/leakage/summary.csv`, mean (std) over the 5 folds.
+
+| | Shuffled | Grouped | Gap |
+|---|---|---|---|
+| Seizure vs rest: accuracy | 0.988 (0.001) | 0.974 (0.009) | +0.014 |
+| Seizure vs rest: sensitivity | 0.958 (0.019) | 0.887 (0.057) | **+0.071** |
+| Seizure vs rest: specificity | 0.995 (0.004) | 0.995 (0.005) | 0.000 |
+| Seizure vs rest: F1 | 0.970 (0.002) | 0.930 (0.025) | +0.039 |
+| Seizure vs rest: AUROC | 0.999 (0.000) | 0.987 (0.021) | +0.012 |
+| Five classes: accuracy | 0.773 (0.009) | 0.754 (0.022) | +0.019 |
+| Five classes: macro-F1 | 0.766 (0.009) | 0.745 (0.027) | +0.021 |
+
+**What this says.**
+- **The shuffled split inflates every score except specificity.** The model has seen other seconds of the same recording, so part of what it "detects" is the recording itself.
+- **Accuracy hides most of the leak.** 80% of the chunks are non-seizure and specificity does not change, so accuracy moves only 1.4 points. Sensitivity, the share of seizure chunks caught, moves 7 points. This is one more reason we never report accuracy alone (decision 3.4).
+- **Shuffling also hides how unstable a result is.** The spread across folds is three times larger with recordings kept apart (sensitivity std 0.057 against 0.019; the worst grouped fold catches 0.81). A shuffled split makes a model look both better and steadier than it is.
+- **The split is not the whole story.** Even the grouped split scores 97% accuracy, far above anything on CHB-MIT. Bonn clips are short, clean and hand-picked, and people are still shared across our grouped folds (limitation 12). So the near-perfect numbers in UCI tutorials come mostly from the data, with the shuffled split adding on top. Comparing them with a patient-wise CHB-MIT result is not a fair comparison either way.
+- **The gap is likely a lower bound.** We could only keep recordings apart. Keeping people apart, as we do on CHB-MIT, would remove more of the shared signal.
+
+This is one seed, so treat the exact gaps as rough; the direction is the same for every metric except specificity.
+
 ---
 
 ## 14. What comes next
@@ -582,7 +607,7 @@ Seizures caught (window sensitivity, false alarms per hour):
 In order (decision 3.10):
 
 1. ~~**Finish CHB-MIT training.**~~ Done on 26 November 2026 (section 13). Open question: overlapping windows for short seizures (chb16, chb06).
-2. **Leakage demo on UCI/Kaggle.** Train the same model twice: once on shuffled one-second chunks (the common way), once with whole recordings kept apart. The difference shows how much a careless split inflates accuracy.
+2. ~~**Leakage demo on UCI/Kaggle.**~~ Done on 27 November 2026 with the Bonn data cut as in the UCI table (section 13.5).
 3. **Channel reduction.** Retrain on CHB-MIT with 18, 4 and 2 channels to see how detection changes with a wearable-sized montage.
 4. **Siena outside test.** Run the CHB-MIT model, without retraining, on adult recordings (needs 512 → 128 Hz resampling and matching Siena's electrodes to CHB-MIT's bipolar pairs).
 5. **Compression.** int8 post-training quantization, then 50–80% pruning with fine-tuning.

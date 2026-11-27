@@ -1,0 +1,21 @@
+{
+  "data": "data/raw/bonn",
+  "tasks": [
+    "binary",
+    "five"
+  ],
+  "folds": 5,
+  "epochs": 30,
+  "batch": 64,
+  "seed": 0,
+  "keras": "3.11.3",
+  "recordings": 500,
+  "chunk_samples": 178,
+  "sets_in_class_order": [
+    "S",
+    "F",
+    "N",
+    "O",
+    "Z"
+  ]
+}

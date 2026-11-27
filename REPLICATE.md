@@ -2,7 +2,7 @@
 
 This guide takes you from nothing to our results table: get the code, download the data, clean it, train both models and score them. It is written for students; no EEG background is needed.
 
-> **Status (25 November 2026).** The whole CHB-MIT pipeline (scripts 00–06) has been run end to end on real data, including leave-one-patient-out for both models (final numbers 26 November 2026). The expected outputs below are the ones we got.
+> **Status (27 November 2026).** The whole CHB-MIT pipeline (scripts 00–06) has been run end to end on real data, including leave-one-patient-out for both models (final numbers 26 November 2026). The split-leakage demo (scripts 07–08, section 6b) was run on 27 November 2026. The expected outputs below are the ones we got.
 
 For the reasoning behind every step, read `RESEARCH_NOTES.md`. For the official decision log, read `decision.md`.
 
@@ -200,6 +200,32 @@ Without `--val-patients 3 --fa-rule median` (decision 3.24) you should get about
 
 ---
 
+## 6b. Optional: the split-leakage demo (scripts 07 and 08)
+
+This side study does not need CHB-MIT. It shows how much a shuffled split inflates scores, using the small Bonn EEG set (about 3 MB) [Andrzejak et al. 2001], cut into the same one-second chunks as the UCI/Kaggle "Epileptic Seizure Recognition" table. UCI no longer hosts that table, so we rebuild it.
+
+```bash
+bash code/07_get_bonn.sh
+mkdir -p results/leakage
+python3 code/08_leakage_demo.py 2>&1 | tee results/leakage/run_log.txt
+```
+
+- Script 07 downloads the five sets from the University of Bonn, checks each zip against the SHA-256 we recorded, and ends with **`All files verified: 5 sets x 100 recordings in data/raw/bonn`**. If the checksum differs, the site has changed the files; tell us.
+- Script 08 needs only `keras` and `numpy`. It takes about 10 minutes on a MacBook Air (about 25 s per fold, 20 folds). It writes `results/leakage/folds.csv`, `summary.csv` and `config.json`.
+- TensorFlow may print a warning about `tf.function retracing`. It is harmless.
+
+**Our numbers to compare against** (mean over 5 folds):
+
+| | Shuffled | Grouped |
+|---|---|---|
+| Seizure vs rest: accuracy | 0.988 | 0.974 |
+| Seizure vs rest: sensitivity | 0.958 | 0.887 |
+| Five classes: accuracy | 0.773 | 0.754 |
+
+Section 13.5 of `RESEARCH_NOTES.md` explains what they mean.
+
+---
+
 ## 7. Known problems and fixes
 
 | Problem | Cause | What to do |
@@ -231,5 +257,9 @@ If you use CHB-MIT, PhysioNet asks you to cite:
 - Guttag, J. (2010). *CHB-MIT Scalp EEG Database* (version 1.0.0). PhysioNet. https://doi.org/10.13026/C2K01R
 - Shoeb, A. (2009). *Application of Machine Learning to Epileptic Seizure Onset Detection and Treatment*. PhD thesis, MIT.
 - The PhysioNet platform citation shown on the dataset page.
+
+If you use the Bonn data (leakage demo), the University of Bonn asks you to cite:
+
+- Andrzejak, R. G., Lehnertz, K., Mormann, F., Rieke, C., David, P., & Elger, C. E. (2001). Indications of nonlinear deterministic and finite-dimensional structures in time series of brain electrical activity: Dependence on recording region and brain state. *Physical Review E*, 64(6), 061907. https://doi.org/10.1103/PhysRevE.64.061907
 
 The full reference list for the project is at the end of `RESEARCH_NOTES.md`.
