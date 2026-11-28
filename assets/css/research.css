@@ -1,0 +1,48 @@
+/* Research page only (linked from research.html after site.css and data-page.css).
+   Reuses the Data & prep page layout (story left, "Show the working" drawer right)
+   and adds only what the results need: the seizure dot grid, number tables,
+   the limits list and the pending pruning slot. No new colours. */
+
+/* headline numbers sit under the lead */
+.rs .dp-head .facts{grid-column:1/13;margin-top:var(--s10)}
+.rs .facts .num .of{font-size:.42em;color:var(--moss);letter-spacing:0}
+
+/* seizure dots: one per seizure, ember when caught */
+.sz{display:grid;grid-template-columns:88px 1fr 1fr;column-gap:var(--s4);font-size:13px}
+.sz .hd{color:var(--moss);padding-bottom:var(--s1);border-bottom:1px solid var(--line)}
+.sz .id,.sz .row{padding:7px 0;border-bottom:1px solid rgba(142,155,138,.14);display:flex;align-items:center}
+.sz .id{font-family:var(--mono)}
+.sz .row{gap:var(--s2)}
+.sz .sd{display:flex;flex-wrap:wrap;gap:4px}
+.sz .n{font-family:var(--mono);color:var(--moss);min-width:40px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;border:1px solid rgba(142,155,138,.6);vertical-align:middle;margin-right:var(--s1)}
+.dot.e{background:var(--ember);border-color:var(--ember)}
+.dot.b{background:var(--bone);border-color:var(--bone)}
+.dot.o{border-color:var(--bone)}
+.sz .sd .dot{margin:0}
+.sz .tot{font-family:var(--display);font-weight:300;font-size:28px;color:var(--bone)}
+
+/* small number tables inside the drawers */
+table.nums{width:100%;border-collapse:collapse;margin-top:var(--s2);font:12px/1.5 var(--mono)}
+table.nums th{font-weight:500;color:var(--moss);text-align:right;padding:4px 0 4px var(--s2);border-bottom:1px solid var(--line)}
+table.nums th:first-child,table.nums td:first-child{text-align:left;padding-left:0}
+table.nums td{text-align:right;padding:4px 0 4px var(--s2);border-bottom:1px solid rgba(142,155,138,.14)}
+table.nums td:first-child{color:var(--moss)}
+
+/* limits: a ruled, numbered list, not cards */
+.limits{grid-column:1/13;list-style:none;counter-reset:lim;margin-top:var(--s6);display:grid;grid-template-columns:1fr 1fr;column-gap:var(--s6)}
+.limits li{counter-increment:lim;display:grid;grid-template-columns:40px 1fr;align-content:start;padding:var(--s3) 0;border-top:1px solid var(--line)}
+.limits li::before{content:counter(lim,decimal-leading-zero);font:500 12px/1.9 var(--mono);color:var(--moss);grid-row:1/3}
+.limits b{font-weight:500}
+.limits span{display:block;color:var(--moss);font-size:15px;margin-top:4px;max-width:52ch}
+
+/* pruning: waiting for results */
+.pending-res .kick .plan-note{letter-spacing:.04em;text-transform:none;font-weight:400}
+.pending-res .slot{margin-top:var(--s8);aspect-ratio:auto;min-height:260px}
+
+@media (max-width:900px){
+  .rs .facts{grid-template-columns:1fr 1fr}
+  .sz{grid-template-columns:64px 1fr 1fr;column-gap:var(--s2)}
+  .sz .row{flex-direction:column;align-items:flex-start;gap:4px}
+  .limits{grid-template-columns:1fr}
+}

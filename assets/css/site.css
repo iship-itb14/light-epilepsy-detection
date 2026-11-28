@@ -50,6 +50,8 @@ img,video,canvas,svg{display:block;max-width:100%}
 .tabs a[aria-current="page"]{color:var(--bone)}
 .tabs a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1px;background:var(--ember)}
 .menu-btn{display:none}
+.tabs a{white-space:nowrap}
+@media (min-width:901px) and (max-width:1180px){.brand{grid-column:1/4}.tabs{grid-column:4/13;gap:var(--s3)}}
 
 /* ---------- Hero: scroll-driven globe ---------- */
 .hero{position:relative;height:520vh}
