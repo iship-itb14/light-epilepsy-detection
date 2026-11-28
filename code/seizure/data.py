@@ -15,6 +15,22 @@ SCRIPT_03 = Path(__file__).resolve().parents[1] / "03_split_chbmit.py"
 MIN_SCALE = 1.0                 # microvolts; floor for the spread of a flat channel
 PATIENTS = ["chb01", "chb03", "chb05", "chb06", "chb08", "chb10", "chb13",
             "chb14", "chb15", "chb16", "chb18", "chb20", "chb23", "chb24"]
+# Channel order in the cache, the same as CHANNELS in code/02_clean_chbmit.py.
+CHANNELS = ["FP1-F7", "F7-T7", "T7-P7", "P7-O1", "FP1-F3", "F3-C3", "C3-P3",
+            "P3-O1", "FP2-F4", "F4-C4", "C4-P4", "P4-O2", "FP2-F8", "F8-T8",
+            "T8-P8", "P8-O2", "FZ-CZ", "CZ-PZ"]
+# Channel sets for the channel-reduction study (decision 3.27). They are fixed
+# in advance, not picked from the data, so no patient's results choose them.
+CHANNEL_SETS = {
+    "all": CHANNELS,
+    "temporal4": ["F7-T7", "T7-P7", "F8-T8", "T8-P8"],    # two temporal pairs on each side
+    "temporal2": ["T7-P7", "T8-P8"],                      # one pair on each side, nearest the ears
+}
+
+
+def channel_index(name):
+    """Positions in the cache of the channels in set `name`."""
+    return np.array([CHANNELS.index(c) for c in CHANNEL_SETS[name]])
 
 
 def load_patient(p):
@@ -44,13 +60,14 @@ def get_split(split, fold=None, n_val=2):
     return train, val, test
 
 
-def normalisation_stats(train_patients):
+def normalisation_stats(train_patients, channels="all"):
     """Per-channel mean and std from training patients only (reuses script 03)."""
     spec = importlib.util.spec_from_file_location("split_chbmit", SCRIPT_03)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     mean, std = mod.normalisation_stats(train_patients)
-    return mean.astype(np.float32), std.astype(np.float32)
+    ch = channel_index(channels)
+    return mean[ch].astype(np.float32), std[ch].astype(np.float32)
 
 
 def recording_stats(p):
@@ -116,9 +133,9 @@ class BalancedBatches(keras.utils.PyDataset):
     """
 
     def __init__(self, patients, batch_size=256, neg_per_pos=4, pos_weight=2.0, seed=0, norm="train",
-                 augment=False):
+                 augment=False, channels="all"):
         super().__init__()
-        self.augment = augment
+        self.augment, self.ch = augment, channel_index(channels)
         self.patients, self.norm = patients, RecordingNorm(patients, norm)
         self.batch_size, self.neg_per_pos, self.pos_weight = batch_size, neg_per_pos, pos_weight
         self.rng = np.random.default_rng(seed)
@@ -147,12 +164,12 @@ class BalancedBatches(keras.utils.PyDataset):
     def __getitem__(self, b):
         sl = slice(b * self.batch_size, (b + 1) * self.batch_size)
         rows, y = self.rows[sl], self.labels[sl]
-        x = np.empty((len(rows),) + self.X[0].shape[1:], np.float32)
+        x = np.empty((len(rows), len(self.ch), self.X[0].shape[2]), np.float32)
         for k in np.unique(rows[:, 0]):
             at = np.flatnonzero(rows[:, 0] == k)
             idx = rows[at, 1]
             order = np.argsort(idx)                   # sorted reads are faster on a memory map
-            x[at[order]] = self.norm(self.patients[k], idx[order], self.X[k][idx[order]])
+            x[at[order]] = self.norm(self.patients[k], idx[order], self.X[k][idx[order]])[:, self.ch]
         if self.augment:
             x = self._augment(x)
         w = np.where(y == 1, self.pos_weight, 1.0).astype(np.float32)
@@ -175,19 +192,22 @@ class BalancedBatches(keras.utils.PyDataset):
         return x
 
 
-def predict_patients(model, patients, chunk=2048, norm="train"):
+def predict_patients(model, patients, chunk=2048, norm="train", channels="all"):
     """Seizure probability for every ordinary window (aug=0) of the given patients.
+
+    channels names a set in CHANNEL_SETS; the model sees only those channels.
 
     Returns a dict of arrays: patient, edf_file, start_s, seizure_frac, y, prob.
     Validation and test data are never rebalanced or shifted.
     """
     out = {k: [] for k in ("patient", "edf_file", "start_s", "seizure_frac", "y", "prob")}
     rec = RecordingNorm(patients, norm)
+    ch = channel_index(channels)
     for p in patients:
         X, m = load_patient(p)
         idx = np.flatnonzero(m["aug"] == 0)
         probs = [model.predict_on_batch(rec(p, idx[i:i + chunk],
-                                            np.asarray(X[idx[i:i + chunk]], np.float32))).ravel()
+                                            np.asarray(X[idx[i:i + chunk]], np.float32))[:, ch]).ravel()
                  for i in range(0, len(idx), chunk)]
         out["prob"].append(np.concatenate(probs))
         out["patient"].append(np.full(len(idx), p))

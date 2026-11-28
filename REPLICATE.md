@@ -181,6 +181,7 @@ Each run saves, in `results/chbmit/<model>/<split>/` (or `.../lopo/<patient>/`):
 | `--augment` | off | random amplitude, noise and channel dropout on training windows (our final CNN) |
 | `--val-patients` | 2 | LOPO only: validation patients per fold (our final runs use 3) |
 | `--fa-rule` | `pooled` | `pooled` or `median` false-alarm rate across validation patients (our final runs use `median`) |
+| `--channels` | `all` | `all` (18), `temporal4` or `temporal2`: which channels the model sees (decision 3.27) |
 | `--skip-existing` | off | skip runs that already have results, so an interrupted loop can restart |
 | `--seed` | 0 | random seed |
 
@@ -223,6 +224,31 @@ python3 code/08_leakage_demo.py 2>&1 | tee results/leakage/run_log.txt
 | Five classes: accuracy | 0.773 | 0.754 |
 
 Section 13.5 of `RESEARCH_NOTES.md` explains what they mean.
+
+---
+
+## 6c. Optional: fewer channels (wearable case)
+
+The same leave-one-patient-out runs with 4 or 2 temporal channels (`decision.md` 3.27). The 18-channel runs from section 6 are the comparison, so they are not repeated. This is 56 runs and took us about 13 hours of training on a MacBook Air; EEGNet goes first, and `--skip-existing` lets you stop and restart.
+
+```bash
+caffeinate -i bash -c 'for ch in temporal4 temporal2; do for fold in $(seq 0 13); do
+  python3 code/05_train_chbmit.py --model eegnet --split lopo --fold $fold --norm recording --val-patients 3 --fa-rule median --channels $ch --skip-existing
+done; done
+for ch in temporal4 temporal2; do for fold in $(seq 0 13); do
+  python3 code/05_train_chbmit.py --model cnn-reg --split lopo --fold $fold --norm recording --augment --val-patients 3 --fa-rule median --channels $ch --skip-existing
+done; done' 2>&1 | tee -a results/chbmit/lopo_channels_log.txt
+python3 code/06_summarise_chbmit.py
+```
+
+**Our numbers to compare against** (seizures caught of 128; median false alarms per hour):
+
+| | 18 channels | 4 channels | 2 channels |
+|---|---|---|---|
+| EEGNet | 80; 1.19 | 83; 1.42 | 80; 1.43 |
+| CNN (`cnn-reg`) | 83; 1.54 | 88; 1.29 | 85; 1.54 |
+
+Section 13.6 of `RESEARCH_NOTES.md` explains what they mean.
 
 ---
 
