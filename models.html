@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/results.css">
+<link rel="stylesheet" href="assets/css/models.css">
 </head>
 <body>
 
@@ -26,11 +28,11 @@
   </div>
 </nav>
 
-<main>
+<main class="rp">
   <header class="page-head">
     <div class="wrap">
       <h1>Models</h1>
-      <p class="lead">The neural networks used, why each was chosen, how they work, and what they are asked to predict.</p>
+      <p class="lead">The two neural networks we compare, why each was chosen, how they work, and how they were trained.</p>
       <aside class="toc" aria-label="On this page">
         <p>On this page</p>
         <ol>
@@ -49,50 +51,122 @@
     <div class="wrap">
       <h2 id="task-h">What the models predict</h2>
       <div class="body">
-        <p class="todo">State the prediction in one or two sentences: given a short window of EEG, is a seizure happening? Explain the input shape and the output.</p>
+        <p>Given four seconds of EEG, is a seizure happening? Both models answer the same question in the same way. The input is one window of 18 channels × 512 samples (four seconds at 128 samples a second). The output is one score between 0 and 1.</p>
+        <table class="rt">
+          <tbody>
+            <tr><td>Input</td><td class="l">18 channels × 512 samples, filtered 0.5–40 Hz, each recording scaled by its own typical spread</td></tr>
+            <tr><td>Output</td><td class="l">one score from 0 to 1 (sigmoid)</td></tr>
+            <tr><td>Flag</td><td class="l">a window is flagged when its score passes a threshold chosen on validation children, never on the test child</td></tr>
+            <tr><td>Alarm</td><td class="l">two of the last three windows flagged, so a single odd window does not wake anyone</td></tr>
+          </tbody>
+        </table>
+        <p class="note">The score is not a true probability. Training shows the models one seizure window for every four ordinary ones, while real recordings have one in 236, so the threshold, not the raw score, decides what counts as a warning.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="baseline" aria-labelledby="baseline-h">
     <div class="wrap">
       <h2 id="baseline-h">The baseline network</h2>
       <div class="body">
-        <p class="todo">What this network is, how it works, why it is a fair reference point, and its size.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Diagram: baseline architecture"><span>Diagram: baseline architecture</span></div>
+        <p><b>What it is.</b> A one-dimensional convolutional network (CNN) with 328,385 weights. It slides short filters along time, each looking at all 18 channels at once, and stacks four blocks of them. After each of the first three blocks the signal is shortened four-fold (512, then 128, 32 and 8 steps), so deeper filters see longer stretches of time. At the end, the network averages each pattern over the whole window, asking "did this pattern appear anywhere?", and turns that into one score.</p>
+        <p><b>Why we chose it.</b> It is the plain, reasonably sized network a practitioner would try first: strong on raw signals, easy to explain, and with no tricks specific to EEG. That makes it a fair yardstick for the question this project asks: how much does a much smaller network give up?</p>
+        </div>
+        <figure class="arch"><svg viewBox="0 0 1200 380" class="wide" role="img" aria-label="Baseline CNN: an 18 channel by 512 sample window passes through four convolution blocks of 32, 64, 128 and 128 filters; time shrinks from 512 to 128, 32 and 8 steps; global average pooling and one output score."><rect x="0" y="80" width="70" height="180" class="bx in"/><text x="35" y="286" class="sv-t" text-anchor="middle">Input</text><text x="35" y="304" class="sv-c" text-anchor="middle">18 × 512</text><text x="35" y="68" class="sv-c" text-anchor="middle">4 s, 18 ch</text><path d="M76 170 H98" class="ln"/><path d="M98 166 L104 170 L98 174" class="ln"/><rect x="110" y="80.0" width="52.8" height="180" class="bx"/><rect x="118" y="88.0" width="36.8" height="164" class="bx in2"/><text x="136.4" y="68.0" class="sv-c" text-anchor="middle">32 filters</text><text x="136.4" y="286" class="sv-t" text-anchor="middle">Block 1</text><text x="136.4" y="304" class="sv-c" text-anchor="middle">512 → 128 steps</text><text x="136.4" y="322" class="sv-c" text-anchor="middle">8.0k weights</text><path d="M168.8 170 H196.8" class="ln"/><path d="M196.8 166 L202.8 170 L196.8 174" class="ln"/><rect x="208.8" y="115.0" width="81.6" height="110" class="bx"/><rect x="216.8" y="123.0" width="65.6" height="94" class="bx in2"/><text x="249.60000000000002" y="103.0" class="sv-c" text-anchor="middle">64 filters</text><text x="249.60000000000002" y="286" class="sv-t" text-anchor="middle">Block 2</text><text x="249.60000000000002" y="304" class="sv-c" text-anchor="middle">128 → 32 steps</text><text x="249.60000000000002" y="322" class="sv-c" text-anchor="middle">30.7k weights</text><path d="M296.4 170 H324.4" class="ln"/><path d="M324.4 166 L330.4 170 L324.4 174" class="ln"/><rect x="336.4" y="140.0" width="139.2" height="60" class="bx"/><rect x="344.4" y="148.0" width="123.19999999999999" height="44" class="bx in2"/><text x="406.0" y="128.0" class="sv-c" text-anchor="middle">128 filters</text><text x="406.0" y="286" class="sv-t" text-anchor="middle">Block 3</text><text x="406.0" y="304" class="sv-c" text-anchor="middle">32 → 8 steps</text><text x="406.0" y="322" class="sv-c" text-anchor="middle">122.9k weights</text><path d="M481.59999999999997 170 H509.5999999999999" class="ln"/><path d="M509.5999999999999 166 L515.5999999999999 170 L509.5999999999999 174" class="ln"/><rect x="521.5999999999999" y="155.0" width="139.2" height="30" class="bx"/><rect x="529.5999999999999" y="163.0" width="123.19999999999999" height="14" class="bx in2"/><text x="591.1999999999999" y="143.0" class="sv-c" text-anchor="middle">128 filters</text><text x="591.1999999999999" y="286" class="sv-t" text-anchor="middle">Block 4</text><text x="591.1999999999999" y="304" class="sv-c" text-anchor="middle">8 steps</text><text x="591.1999999999999" y="322" class="sv-c" text-anchor="middle">163.8k weights</text><path d="M666.8 170 H694.8" class="ln"/><path d="M694.8 166 L700.8 170 L694.8 174" class="ln"/><rect x="706.8" y="110" width="22" height="120" class="bx"/><text x="717.8" y="286" class="sv-t" text-anchor="middle">Average</text><text x="717.8" y="304" class="sv-c" text-anchor="middle">128 features</text><path d="M734.8 170 H776.8" class="ln"/><path d="M776.8 166 L782.8 170 L776.8 174" class="ln"/><circle cx="808.8" cy="170" r="20" class="bx out"/><text x="808.8" y="286" class="sv-t" text-anchor="middle">Score</text><text x="808.8" y="304" class="sv-c" text-anchor="middle">0 to 1</text><text x="0" y="374" class="sv-s" text-anchor="start">Each block: two convolutions of width 5 (batch norm, ReLU after each), then max pooling by 4 (none after block 4). Boxes are drawn taller for more time steps and wider for more filters.</text></svg></figure>
+        <div class="body cont">
+        <p><b>How we built it.</b> Keras, in <code>code/seizure/models.py</code>. Every convolution has width 5 and is followed by batch normalisation and ReLU; dropout of 0.5 comes before the output. The first version memorised its nine training children (training loss near zero while the validation score jumped around), so the version in our results adds weight decay (L2, 0.0001) and spatial dropout (0.2, switching off whole feature maps), and is trained with augmented windows: random gain, a little noise, and sometimes one channel set to zero like a loose electrode. These change how it learns, not its size.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="light" aria-labelledby="light-h">
     <div class="wrap">
       <h2 id="light-h">The lightweight network</h2>
       <div class="body">
-        <p class="todo">The small network built for wearable devices: how it works, what makes it small, and what it gives up.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Diagram: lightweight architecture"><span>Diagram: lightweight architecture</span></div>
+        <p><b>What it is.</b> EEGNet-8,2, a network designed for brain signals by Lawhern and colleagues (2018). Ours has 1,729 weights, about 190 times fewer than the baseline. It treats the window as a small picture, 18 rows of channels by 512 columns of time, and reads it in three steps:</p>
+        <ol class="steps">
+          <li><b>Rhythms.</b> Eight filters, each half a second long, learn which frequency bands matter.</li>
+          <li><b>Where on the head.</b> For each rhythm, two filters learn how to combine the 18 channels into one signal. This is done one rhythm at a time (a depthwise convolution), which needs very few weights.</li>
+          <li><b>Over time.</b> A separable convolution summarises how each of the 16 signals changes over time, then mixes them. A final layer turns the 256 numbers left into one score.</li>
+        </ol>
+        </div>
+        <figure class="arch"><svg viewBox="0 0 1200 380" class="wide" role="img" aria-label="EEGNet: 8 temporal filters of half a second find rhythms; depthwise spatial filters combine the 18 channels into 16 maps; pooling and a separable convolution summarise time; 256 features feed one output score."><rect x="0" y="88" width="120" height="144" class="bx in"/><line x1="0" x2="120" y1="96" y2="96" class="gr"/><line x1="0" x2="120" y1="104" y2="104" class="gr"/><line x1="0" x2="120" y1="112" y2="112" class="gr"/><line x1="0" x2="120" y1="120" y2="120" class="gr"/><line x1="0" x2="120" y1="128" y2="128" class="gr"/><line x1="0" x2="120" y1="136" y2="136" class="gr"/><line x1="0" x2="120" y1="144" y2="144" class="gr"/><line x1="0" x2="120" y1="152" y2="152" class="gr"/><line x1="0" x2="120" y1="160" y2="160" class="gr"/><line x1="0" x2="120" y1="168" y2="168" class="gr"/><line x1="0" x2="120" y1="176" y2="176" class="gr"/><line x1="0" x2="120" y1="184" y2="184" class="gr"/><line x1="0" x2="120" y1="192" y2="192" class="gr"/><line x1="0" x2="120" y1="200" y2="200" class="gr"/><line x1="0" x2="120" y1="208" y2="208" class="gr"/><line x1="0" x2="120" y1="216" y2="216" class="gr"/><line x1="0" x2="120" y1="224" y2="224" class="gr"/><text x="60" y="276" class="sv-t" text-anchor="middle">Input</text><text x="60" y="294" class="sv-c" text-anchor="middle">18 channels × 512</text><path d="M126 160 H200" class="ln"/><path d="M200 156 L206 160 L200 164" class="ln"/><rect x="212" y="88" width="110" height="144" class="bx"/><rect x="219" y="92" width="110" height="144" class="bx"/><rect x="226" y="96" width="110" height="144" class="bx"/><rect x="233" y="100" width="110" height="144" class="bx"/><rect x="240" y="104" width="110" height="144" class="bx"/><rect x="247" y="108" width="110" height="144" class="bx"/><rect x="254" y="112" width="110" height="144" class="bx"/><rect x="261" y="116" width="110" height="144" class="bx in2"/><text x="292" y="70" class="sv-c" text-anchor="middle">8 rhythm filters</text><text x="292" y="276" class="sv-t" text-anchor="middle">1 · Rhythms</text><text x="292" y="294" class="sv-c" text-anchor="middle">0.5 s filters in time</text><text x="292" y="312" class="sv-c" text-anchor="middle">512 weights</text><path d="M384 160 H440" class="ln"/><path d="M440 156 L446 160 L440 164" class="ln"/><rect x="452" y="96" width="110" height="5" class="bx in2"/><rect x="452" y="104" width="110" height="5" class="bx in2"/><rect x="452" y="112" width="110" height="5" class="bx in2"/><rect x="452" y="120" width="110" height="5" class="bx in2"/><rect x="452" y="128" width="110" height="5" class="bx in2"/><rect x="452" y="136" width="110" height="5" class="bx in2"/><rect x="452" y="144" width="110" height="5" class="bx in2"/><rect x="452" y="152" width="110" height="5" class="bx in2"/><rect x="452" y="160" width="110" height="5" class="bx in2"/><rect x="452" y="168" width="110" height="5" class="bx in2"/><rect x="452" y="176" width="110" height="5" class="bx in2"/><rect x="452" y="184" width="110" height="5" class="bx in2"/><rect x="452" y="192" width="110" height="5" class="bx in2"/><rect x="452" y="200" width="110" height="5" class="bx in2"/><rect x="452" y="208" width="110" height="5" class="bx in2"/><rect x="452" y="216" width="110" height="5" class="bx in2"/><text x="507" y="80" class="sv-c" text-anchor="middle">16 head-wide signals</text><text x="507" y="276" class="sv-t" text-anchor="middle">2 · Where on the head</text><text x="507" y="294" class="sv-c" text-anchor="middle">2 channel mixes per rhythm</text><text x="507" y="312" class="sv-c" text-anchor="middle">288 weights</text><path d="M568 160 H636" class="ln"/><path d="M636 156 L642 160 L636 164" class="ln"/><text x="605.0" y="150" class="sv-c" text-anchor="middle">÷4</text><rect x="648" y="96" width="40" height="5" class="bx in2"/><rect x="648" y="104" width="40" height="5" class="bx in2"/><rect x="648" y="112" width="40" height="5" class="bx in2"/><rect x="648" y="120" width="40" height="5" class="bx in2"/><rect x="648" y="128" width="40" height="5" class="bx in2"/><rect x="648" y="136" width="40" height="5" class="bx in2"/><rect x="648" y="144" width="40" height="5" class="bx in2"/><rect x="648" y="152" width="40" height="5" class="bx in2"/><rect x="648" y="160" width="40" height="5" class="bx in2"/><rect x="648" y="168" width="40" height="5" class="bx in2"/><rect x="648" y="176" width="40" height="5" class="bx in2"/><rect x="648" y="184" width="40" height="5" class="bx in2"/><rect x="648" y="192" width="40" height="5" class="bx in2"/><rect x="648" y="200" width="40" height="5" class="bx in2"/><rect x="648" y="208" width="40" height="5" class="bx in2"/><rect x="648" y="216" width="40" height="5" class="bx in2"/><text x="668" y="80" class="sv-c" text-anchor="middle">128 steps</text><text x="668" y="276" class="sv-t" text-anchor="middle">3 · Over time</text><text x="668" y="294" class="sv-c" text-anchor="middle">separable filters</text><text x="668" y="312" class="sv-c" text-anchor="middle">512 weights</text><path d="M694 160 H772" class="ln"/><path d="M772 156 L778 160 L772 164" class="ln"/><text x="736.0" y="150" class="sv-c" text-anchor="middle">÷8</text><rect x="784" y="96" width="10" height="5" class="bx in2"/><rect x="784" y="104" width="10" height="5" class="bx in2"/><rect x="784" y="112" width="10" height="5" class="bx in2"/><rect x="784" y="120" width="10" height="5" class="bx in2"/><rect x="784" y="128" width="10" height="5" class="bx in2"/><rect x="784" y="136" width="10" height="5" class="bx in2"/><rect x="784" y="144" width="10" height="5" class="bx in2"/><rect x="784" y="152" width="10" height="5" class="bx in2"/><rect x="784" y="160" width="10" height="5" class="bx in2"/><rect x="784" y="168" width="10" height="5" class="bx in2"/><rect x="784" y="176" width="10" height="5" class="bx in2"/><rect x="784" y="184" width="10" height="5" class="bx in2"/><rect x="784" y="192" width="10" height="5" class="bx in2"/><rect x="784" y="200" width="10" height="5" class="bx in2"/><rect x="784" y="208" width="10" height="5" class="bx in2"/><rect x="784" y="216" width="10" height="5" class="bx in2"/><text x="789" y="80" class="sv-c" text-anchor="middle">16 steps</text><path d="M800 160 H868" class="ln"/><path d="M868 156 L874 160 L868 164" class="ln"/><rect x="874" y="100" width="22" height="120" class="bx"/><text x="885" y="276" class="sv-t" text-anchor="middle">Flatten</text><text x="885" y="294" class="sv-c" text-anchor="middle">256 features</text><text x="885" y="312" class="sv-c" text-anchor="middle">257 weights</text><path d="M902 160 H944" class="ln"/><path d="M944 156 L950 160 L944 164" class="ln"/><circle cx="976" cy="160" r="20" class="bx out"/><text x="976" y="276" class="sv-t" text-anchor="middle">Score</text><text x="976" y="294" class="sv-c" text-anchor="middle">0 to 1</text><text x="0" y="374" class="sv-s" text-anchor="start">Batch norm after each step; ELU, average pooling and dropout 0.25 after steps 2 and 3. The remaining 160 values are batch-norm statistics. Total 1,729.</text></svg></figure>
+        <div class="body cont">
+        <p><b>Why we chose it.</b> It is widely used and cited for EEG, it is built from the start to be tiny, and its steps match how a neurologist reads a recording: rhythm, location, change over time. If a network this small can keep up with the baseline, a detector could fit on a cheap chip in a wearable.</p>
+        <p><b>How we built it.</b> Also in <code>code/seizure/models.py</code>, following the published design: batch normalisation after each step, ELU activations, average pooling by 4 and then 8, and dropout of 0.25, the rate the authors suggest when testing on people the model has not seen. Augmentation made EEGNet worse in our tests, so it is trained on plain windows; with so few weights it has little room to memorise in the first place.</p>
+        <table class="rt tl">
+          <thead><tr><th></th><th>Baseline CNN</th><th>EEGNet-8,2</th></tr></thead>
+          <tbody>
+            <tr><td>Weights</td><td>328,385</td><td>1,729</td></tr>
+            <tr><td>Main idea</td><td class="l">stacked filters over time, all channels at once</td><td class="l">rhythms, then location, then change over time</td></tr>
+            <tr><td>Regularisation</td><td class="l">weight decay, spatial dropout, dropout, augmentation</td><td class="l">dropout, weight limits</td></tr>
+            <tr><td>Role in the study</td><td class="l">yardstick</td><td class="l">wearable candidate</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
+
   <section class="doc" id="smaller" aria-labelledby="smaller-h">
     <div class="wrap">
       <h2 id="smaller-h">Making it smaller</h2>
       <div class="body">
-        <p class="todo">Any compression applied after training, and what each step is expected to save.</p>
+        <p>After training, we tried three ways to make the detector cheaper to carry. Each was tested on the same unseen children as the original models.</p>
+        <table class="rt tl">
+          <thead><tr><th>Step</th><th>What it does</th><th>Expected saving</th><th>What we measured</th></tr></thead>
+          <tbody>
+            <tr><td>Fewer channels</td><td class="l">Retrain on 4 or 2 channels near the ears instead of 18</td><td class="l">electrodes, data and battery</td><td class="l">80–88 of 128 seizures caught at every count; the model itself barely shrinks</td></tr>
+            <tr><td>8-bit numbers</td><td class="l">Store weights and calculations as 8-bit integers instead of 32-bit floats, without retraining</td><td class="l">about 4× smaller weights</td><td class="l">CNN file 3.7× smaller; 2-channel EEGNet 9.7 KB; every version within 3 seizures of the original</td></tr>
+            <tr><td>Pruning</td><td class="l">Set the 50–80% smallest weights to zero and fine-tune</td><td class="l">smaller compressed file</td><td class="l">Running now; results on the <a href="research.html#pruning">Research page</a></td></tr>
+          </tbody>
+        </table>
+        <p>Full numbers are on the <a href="results.html#efficiency">Results page</a> and the <a href="research.html">Research page</a>.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="training" aria-labelledby="training-h">
     <div class="wrap">
       <h2 id="training-h">Training setup</h2>
       <div class="body">
-        <p class="todo">Loss, optimiser, epochs, how class imbalance was handled, and the hardware used. A small table works well here.</p>
+        <table class="rt">
+          <tbody>
+            <tr><td>Framework</td><td class="l">TensorFlow with Keras 3</td></tr>
+            <tr><td>Loss</td><td class="l">binary cross-entropy, seizure windows weighted 2×</td></tr>
+            <tr><td>Optimiser</td><td class="l">Adam, learning rate 0.001</td></tr>
+            <tr><td>Batches</td><td class="l">256 windows; every seizure window plus 4 ordinary windows for each, ordinary ones redrawn every epoch</td></tr>
+            <tr><td>Epochs</td><td class="l">up to 50; stop after 10 without improvement</td></tr>
+            <tr><td>Best epoch</td><td class="l">the one catching the most seizure windows on validation children at no more than 1 false alarm per hour</td></tr>
+            <tr><td>Evaluation</td><td class="l">leave one child out: 14 rounds, each with 10 training, 3 validation and 1 test child</td></tr>
+            <tr><td>Hardware</td><td class="l">MacBook Air, CPU only, one random seed</td></tr>
+            <tr><td>Time, all 14 rounds</td><td class="l">about 4.6 h for EEGNet and 3.4 h for the CNN</td></tr>
+          </tbody>
+        </table>
+        <p><b>Class imbalance.</b> Only one window in 236 is a seizure. A model trained on that mix could say "no seizure" every time and be 99.6% accurate while catching nothing. Balanced batches and the extra weight on seizure windows make sure each step has enough seizures to learn from. Validation and test data are never rebalanced.</p>
+        <p><b>What we changed along the way.</b> Every change was chosen by looking at validation children only, never the test children.</p>
+        <table class="rt tl">
+          <thead><tr><th>Step</th><th>Why</th><th>Test seizures caught, fixed split</th></tr></thead>
+          <tbody>
+            <tr><td>First runs</td><td class="l">Ranked windows well, but one alarm level did not suit every child</td><td>CNN 4 / 22, EEGNet 5 / 22</td></tr>
+            <tr><td>Scale each recording by itself</td><td class="l">Children differ a lot in signal strength</td><td>CNN 13 / 22, EEGNet 17 / 22</td></tr>
+            <tr><td>Weight decay, spatial dropout, augmentation (CNN)</td><td class="l">The CNN was memorising its training children</td><td>CNN 13 / 22, false alarms 0.28 → 0.03 / h</td></tr>
+          </tbody>
+        </table>
+        <p class="note">The fixed split tested 3 children with 22 seizures and was used while developing. Final results come from leaving each child out in turn (Results page).</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="code" aria-labelledby="code-h">
     <div class="wrap">
       <h2 id="code-h">Model code</h2>
       <div class="body">
         <ul class="links">
-          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code">Model notebooks and scripts</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/seizure/models.py">Both models</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/05_train_chbmit.py">Training script</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/seizure/data.py">Batches, scaling and augmentation</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/09_quantize_chbmit.py">8-bit conversion</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/10_prune_chbmit.py">Pruning</a></li>
         </ul>
       </div>
     </div>
@@ -104,6 +178,13 @@
   <div class="foot">
     <div class="wrap">
       <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+      <div class="b">
+        <ol>
+          <li>Lawhern, V. J. et al. (2018). EEGNet: a compact convolutional neural network for EEG-based brain–computer interfaces. Journal of Neural Engineering 15, 056013. <a href="https://doi.org/10.1088/1741-2552/aace8c">doi</a>.</li>
+          <li>Ioffe, S. and Szegedy, C. (2015). Batch normalization: accelerating deep network training by reducing internal covariate shift. ICML, PMLR 37. <a href="https://proceedings.mlr.press/v37/ioffe15.html">link</a>.</li>
+          <li>Kingma, D. P. and Ba, J. (2015). Adam: a method for stochastic optimization. ICLR. <a href="https://arxiv.org/abs/1412.6980">arXiv</a>.</li>
+        </ol>
+      </div>
     </div>
   </div>
 </footer>

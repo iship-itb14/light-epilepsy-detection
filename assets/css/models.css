@@ -1,0 +1,19 @@
+/* Models page only (linked after site.css and results.css, which supplies the tables).
+   Architecture drawings: plain line boxes, no new colours. */
+.rt td.l{text-align:left}
+.steps{padding-left:var(--s3);max-width:68ch}
+.steps li{padding:var(--s1) 0;color:var(--moss)}
+.steps b{color:var(--bone)}
+.arch{margin:var(--s6) 0 var(--s4)}
+.arch svg{width:100%;height:auto;overflow:visible}
+.bx{fill:var(--forest);stroke:rgba(231,227,214,.75);stroke-width:1}
+.bx.in{fill:var(--canopy);stroke:var(--moss)}
+.bx.in2{fill:rgba(231,227,214,.06);stroke:rgba(142,155,138,.6)}
+.bx.out{fill:var(--forest);stroke:var(--bone)}
+.ln{stroke:var(--moss);fill:none;stroke-width:1}
+.gr{stroke:rgba(142,155,138,.25)}
+@media (max-width:900px){.arch{overflow-x:auto}.arch svg.wide{min-width:900px}}
+.doc .arch{grid-column:1/13;margin:var(--s6) 0 var(--s4)}
+.doc .body.cont{grid-column:5/12}
+.rt.tl th,.rt.tl td{text-align:left}
+@media (max-width:900px){.doc .body.cont{grid-column:1/13}}

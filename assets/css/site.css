@@ -123,6 +123,16 @@ img,video,canvas,svg{display:block;max-width:100%}
 .question .prose{grid-column:6/12;margin-top:var(--s4)}
 .question .wrist{grid-column:1/5;grid-row:1/3;align-self:start;margin-top:var(--s2)}
 
+/* Photographs (Introduction) */
+.photo{margin-top:var(--s8)}
+.photo img{display:block;width:100%;height:auto;border-radius:2px}
+.photo figcaption{margin-top:var(--s1);font-size:13px;color:var(--moss)}
+.eeg .photo{grid-column:4/12}
+.life .photo{grid-column:1/9}
+.question .side{grid-column:1/5;grid-row:1/3;align-self:start}
+.question .side .photo{max-width:320px}
+@media (max-width:900px){.eeg .photo,.life .photo,.question .side{grid-column:1/13}.question .side{grid-row:3;margin-top:var(--s6)}}
+
 /* Site map */
 .next{padding:var(--s12) 0 var(--s8)}
 .next h2{grid-column:1/5;font-family:var(--display);font-weight:300;font-size:32px}

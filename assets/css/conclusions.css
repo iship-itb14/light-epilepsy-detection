@@ -1,0 +1,30 @@
+/* Conclusions page only (linked after site.css). The written conclusions:
+   five paragraphs set off-centre, with three line drawings between them.
+   Ember marks only the seizures caught. */
+.story{padding:var(--s16) 0 var(--s12)}
+.story .prose{max-width:62ch;font-size:19px;line-height:1.7}
+.story .p1{grid-column:2/9}
+.story .p2{grid-column:5/12;margin-top:var(--s10)}
+.story .p4{grid-column:2/9;margin-top:var(--s12)}
+.story .pair.two .p5{grid-column:2/8}
+.story .fig{margin-top:var(--s10)}
+.story .fig svg{width:100%;height:auto}
+.story .fig figcaption{margin-top:var(--s2);font-size:14px;color:var(--moss);max-width:52ch}
+.story .f1{grid-column:3/11}
+.story .pair{grid-column:1/13;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s3);margin-top:var(--s12);align-items:center}
+.story .f2{grid-column:1/5;margin-top:0;max-width:340px}
+.story .p3{grid-column:6/12}
+.story .pair.two .f3{grid-column:9/13;margin-top:0;max-width:360px}
+.d{fill:none;stroke:rgba(142,155,138,.6);stroke-width:1}
+.d.e{fill:var(--ember);stroke:var(--ember)}
+.h{fill:none;stroke:var(--moss);stroke-width:1}
+.cap{fill:none;stroke:rgba(142,155,138,.7)}
+.keep{fill:var(--bone);stroke:var(--bone)}
+.sq{fill:none;stroke:var(--bone)} .sq.f{fill:var(--bone)}
+.sv-s{fill:var(--moss);font:13px var(--body)}
+@media (max-width:900px){
+  .story .p1,.story .p2,.story .p3,.story .p4,.story .p5,.story .f1,.story .f2,.story .f3{grid-column:1/13}
+  .story .pair{grid-template-columns:1fr}
+  .story .p3{margin-top:var(--s5)}
+  .story .prose{font-size:17px}
+}

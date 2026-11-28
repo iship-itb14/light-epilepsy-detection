@@ -277,26 +277,25 @@
 <!-- ============ 06 PLAN FOR MODELS ============ -->
 <section class="dp-sec" id="models" aria-labelledby="m-h">
   <div class="wrap">
-    <p class="kick"><b>06</b> What we will ask the models</p>
+    <p class="kick"><b>06</b> What we asked the models</p>
     <h2 id="m-h">One question, every four seconds: is this a seizure?</h2>
     <div class="story">
       <p>Each model reads one slice, all eighteen channels at once, and gives a number between 0 and 1. Above a threshold, the slice counts as a warning. To keep false alarms down, an alarm sounds only when two of three slices in a row agree.</p>
-      <p>We compare two networks. The first is a conventional one, large enough to be a fair yardstick. The second was designed for brain signals and is about a hundred times smaller. Then we shrink it further, and measure how much detection survives.</p>
+      <p>We compare two networks. The first is a conventional one, large enough to be a fair yardstick. The second was designed for brain signals and is about 190 times smaller. Then we shrank it further and measured how much detection survived. The <a href="models.html">Models page</a> shows both networks, and the <a href="results.html">Results page</a> what they found.</p>
     </div>
     <aside class="hood">
       <details class="work">
-        <summary><span class="ic">06</span><span class="t">Planned training setup<span>TensorFlow/Keras · Adam 1e-3 · weighted BCE · batch 256</span></span><span class="pm">+</span></summary>
+        <summary><span class="ic">06</span><span class="t">Training setup<span>TensorFlow/Keras · Adam 1e-3 · weighted BCE · batch 256</span></span><span class="pm">+</span></summary>
         <div class="in">
-          <span class="plan-note">Plan from the decision log. Code not written yet.</span>
           <dl>
             <dt>input</dt><dd>18 × 512 (channels × samples)</dd>
             <dt>output</dt><dd>sigmoid, P(seizure)</dd>
             <dt>batches</dt><dd>all seizure + non-seizure ≈ 1:4, redrawn each epoch</dd>
             <dt>loss</dt><dd>weighted binary cross-entropy</dd>
-            <dt>stop</dt><dd>val sensitivity at fixed false-alarm rate, ≤ 50 epochs</dd>
+            <dt>stop</dt><dd>best val sensitivity at ≤ 1 false alarm / h; ≤ 50 epochs, patience 10</dd>
             <dt>alarm</dt><dd>2 of 3 consecutive windows</dd>
-            <dt>compress</dt><dd>int8 PTQ (TFLite), then 50–80% pruning</dd>
-            <dt>evaluate</dt><dd>14-fold LOPO per model</dd>
+            <dt>compress</dt><dd>int8 PTQ (TFLite) done; 50–80% pruning running</dd>
+            <dt>evaluate</dt><dd>14-fold LOPO per model, done</dd>
           </dl>
         </div>
       </details>
@@ -306,13 +305,13 @@
     </figure>
     <div class="models">
       <article class="mcard">
-        <div class="top"><span class="kick">Yardstick</span><span class="kick">~200–400k parameters</span></div>
+        <div class="top"><span class="kick">Yardstick</span><span class="kick">328,385 parameters</span></div>
         <h3>1D convolutional network</h3>
         <p>Four stacked layers each look for short patterns in time, then patterns of patterns. Simple, strong on raw signal, and easy to explain.</p>
         <svg viewBox="0 0 560 150" id="arch-cnn" role="img" aria-label="Four convolution blocks then pooling then output"></svg>
       </article>
       <article class="mcard">
-        <div class="top"><span class="kick">Wearable</span><span class="kick">~2–5k parameters</span></div>
+        <div class="top"><span class="kick">Wearable</span><span class="kick">1,729 parameters</span></div>
         <h3>EEGNet</h3>
         <p>Built for brain signals. It first learns rhythms in time, then which electrodes matter, then combines the two with very few weights.</p>
         <svg viewBox="0 0 560 150" id="arch-eeg" role="img" aria-label="Temporal filters, spatial filters, separable convolution, output"></svg>

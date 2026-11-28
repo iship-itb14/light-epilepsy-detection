@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/results.css">
 </head>
 <body>
 
@@ -26,18 +27,18 @@
   </div>
 </nav>
 
-<main>
+<main class="rp">
   <header class="page-head">
     <div class="wrap">
       <h1>Results</h1>
-      <p class="lead">How well each model finds seizures, how small and fast it is, and what that trade-off looks like.</p>
+      <p class="lead">How well each model finds seizures in children it never saw, how small and fast it is, and what that trade-off looks like.</p>
       <aside class="toc" aria-label="On this page">
         <p>On this page</p>
         <ol>
           <li><a href="#detection">Detection performance</a></li>
           <li><a href="#confusion">Confusion matrices</a></li>
           <li><a href="#efficiency">Size and speed</a></li>
-          <li><a href="#tradeoff">Accuracy against size</a></li>
+          <li><a href="#tradeoff">Detection against size</a></li>
           <li><a href="#errors">Where it went wrong</a></li>
           <li><a href="#code">Code and outputs</a></li>
         </ol>
@@ -49,51 +50,122 @@
     <div class="wrap">
       <h2 id="detection-h">Detection performance</h2>
       <div class="body">
-        <p class="todo">Sensitivity, specificity, F1 and false alarms per hour for each model, in one table, with a sentence on what each number means.</p>
+        <p>Both networks were tested on all 14 children one at a time, each time by a model that had never seen that child (leave-one-patient-out). The table compares the baseline network with the lightweight one on the full 18 channels. Per-child numbers are the median across the 14 children, so one unusual child cannot move them much.</p>
+        <table class="rt">
+          <thead><tr><th></th><th>EEGNet (lightweight)</th><th>Baseline CNN</th></tr></thead>
+          <tbody>
+            <tr><td>Weights</td><td><b>1,729</b></td><td>328,385</td></tr>
+            <tr><td>Seizures caught, all children</td><td>80 of 128 (63%)</td><td>83 of 128 (65%)</td></tr>
+            <tr><td>Seizures caught per child, median</td><td><b>94%</b></td><td>89%</td></tr>
+            <tr><td>Seizure windows flagged per child, median</td><td><b>0.58</b></td><td>0.54</td></tr>
+            <tr><td>Calm windows left alone per child, median</td><td>0.995</td><td>0.996</td></tr>
+            <tr><td>F1 per child, median</td><td>0.26</td><td>0.24</td></tr>
+            <tr><td>False alarms per hour, median</td><td><b>1.19</b></td><td>1.54</td></tr>
+            <tr><td>False alarms per hour, mean</td><td>3.80</td><td>3.80</td></tr>
+            <tr><td>Accuracy, all windows</td><td>98.3%</td><td>98.6%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Bold marks the better of the two where they differ by more than a rounding step.</p>
+        <dl class="defs">
+          <dt>Seizures caught</dt><dd>A seizure counts as caught if the alarm goes off at any point during it. This is what a carer would notice.</dd>
+          <dt>Sensitivity</dt><dd>The share of four-second seizure windows the model flags. It is lower than seizures caught, because one flagged stretch is enough to catch a seizure.</dd>
+          <dt>Specificity</dt><dd>The share of ordinary windows left alone. Both models leave over 99% alone.</dd>
+          <dt>F1</dt><dd>One number balancing caught seizure windows against false ones. It is low because seizures are so rare that even a few false windows outnumber the true ones.</dd>
+          <dt>False alarms per hour</dt><dd>How often the alarm goes off with no seizure. The mean is pulled up by two children with about 15–20 an hour, so the median is the fairer typical figure.</dd>
+          <dt>Accuracy</dt><dd>The share of all windows labelled correctly. It looks excellent, but a model that never raises an alarm would score 99.6%, higher than either network, because only 1 window in 236 is a seizure. That is why we do not judge the models by accuracy.</dd>
+        </dl>
+        <p><b>The result.</b> The lightweight network, about 190 times smaller, catches almost as many seizures (80 against 83), catches a larger share of each typical child's seizures, and raises fewer false alarms for the typical child.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="confusion" aria-labelledby="confusion-h">
     <div class="wrap">
       <h2 id="confusion-h">Confusion matrices</h2>
       <div class="body">
-        <p class="todo">At least one confusion matrix (required by the rubric), with a plain explanation of what the four cells show.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Figure: confusion matrix"><span>Figure: confusion matrix</span></div>
+        <p>Each matrix counts every four-second window from the 14 test children, 435,067 in all, after the alarm rule (two of three windows in a row). Rows are what the hospital marked; columns are what the model said.</p>
+        <div class="cms">
+          <figure><figcaption>EEGNet · 1,729 weights</figcaption><svg viewBox="0 0 420 300" role="img" aria-label="Confusion matrix for EEGNet: 911 seizure windows caught, 927 missed, 6,542 false alarms, 426,687 calm windows left alone"><text class="sv-k" x="120" y="20">PREDICTED</text><text class="sv-s" x="190.0" y="44" text-anchor="middle">Seizure</text><text class="sv-s" x="330.0" y="44" text-anchor="middle">No seizure</text><text class="sv-k" x="0" y="160" transform="rotate(-90 12 156)" >ACTUAL</text><text class="sv-s" x="108" y="111.0" text-anchor="end">Seizure</text><text class="sv-s" x="108" y="211.0" text-anchor="end">No seizure</text><rect x="120" y="56" width="140" height="100" class="cm hot"/><text x="136" y="98" class="cm-n hot">911</text><text x="136" y="124" class="sv-s">caught · 49.6%</text><rect x="260" y="56" width="140" height="100" class="cm"/><text x="276" y="98" class="cm-n">927</text><text x="276" y="124" class="sv-s">missed · 50.4%</text><rect x="120" y="156" width="140" height="100" class="cm"/><text x="136" y="198" class="cm-n">6,542</text><text x="136" y="224" class="sv-s">false alarm · 1.5%</text><rect x="260" y="156" width="140" height="100" class="cm"/><text x="276" y="198" class="cm-n">426,687</text><text x="276" y="224" class="sv-s">left alone · 98.5%</text></svg></figure>
+          <figure><figcaption>Baseline CNN · 328,385 weights</figcaption><svg viewBox="0 0 420 300" role="img" aria-label="Confusion matrix for Baseline CNN: 962 seizure windows caught, 876 missed, 5,385 false alarms, 427,844 calm windows left alone"><text class="sv-k" x="120" y="20">PREDICTED</text><text class="sv-s" x="190.0" y="44" text-anchor="middle">Seizure</text><text class="sv-s" x="330.0" y="44" text-anchor="middle">No seizure</text><text class="sv-k" x="0" y="160" transform="rotate(-90 12 156)" >ACTUAL</text><text class="sv-s" x="108" y="111.0" text-anchor="end">Seizure</text><text class="sv-s" x="108" y="211.0" text-anchor="end">No seizure</text><rect x="120" y="56" width="140" height="100" class="cm hot"/><text x="136" y="98" class="cm-n hot">962</text><text x="136" y="124" class="sv-s">caught · 52.3%</text><rect x="260" y="56" width="140" height="100" class="cm"/><text x="276" y="98" class="cm-n">876</text><text x="276" y="124" class="sv-s">missed · 47.7%</text><rect x="120" y="156" width="140" height="100" class="cm"/><text x="136" y="198" class="cm-n">5,385</text><text x="136" y="224" class="sv-s">false alarm · 1.2%</text><rect x="260" y="156" width="140" height="100" class="cm"/><text x="276" y="198" class="cm-n">427,844</text><text x="276" y="224" class="sv-s">left alone · 98.8%</text></svg></figure>
+        </div>
+        <ul class="cells">
+          <li><b>Top left, caught.</b> Seizure windows the model flagged. Highlighted because this is the cell that matters most.</li>
+          <li><b>Top right, missed.</b> Seizure windows it let pass. About half are missed. A seizure still counts as caught if any of its windows is flagged, which is why about 63% of seizures are caught although only half of seizure windows are.</li>
+          <li><b>Bottom left, false alarms.</b> Ordinary windows flagged by mistake: about 1 in 66 for EEGNet and 1 in 80 for the CNN. Nearby ones join into a single alarm, so this is far fewer than one alarm per window.</li>
+          <li><b>Bottom right, left alone.</b> Ordinary windows correctly ignored, the vast majority.</li>
+        </ul>
+        <p class="note">Pooled over all children, so children with more recording weigh more. The per-child medians in the table above weigh each child equally, which is why the two can differ slightly. Counts from <code>results/chbmit/summary.csv</code>.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="efficiency" aria-labelledby="efficiency-h">
     <div class="wrap">
       <h2 id="efficiency-h">Size and speed</h2>
       <div class="body">
-        <p class="todo">Parameters, model size in KB and time per prediction on a CPU, before and after compression.</p>
+        <p>Size decides whether a model fits on a small chip; speed decides whether it keeps up with the signal. We report both with all 18 channels and with 2 (one on each side, near the ears), before and after converting the weights to 8-bit numbers.</p>
+        <table class="rt">
+          <thead><tr><th></th><th>EEGNet 18 ch</th><th>EEGNet 2 ch</th><th>CNN 18 ch</th><th>CNN 2 ch</th></tr></thead>
+          <tbody>
+            <tr><td>Weights</td><td>1,729</td><td>1,473</td><td>328,385</td><td>325,825</td></tr>
+            <tr><td>Saved Keras model</td><td>92 KB</td><td>89 KB</td><td>3,983 KB</td><td>3,953 KB</td></tr>
+            <tr><td>TensorFlow Lite, float32</td><td>12.0 KB</td><td>11.0 KB</td><td>1,289 KB</td><td>1,279 KB</td></tr>
+            <tr><td>TensorFlow Lite, 8-bit</td><td>10.0 KB</td><td><b>9.7 KB</b></td><td>353 KB</td><td>350 KB</td></tr>
+            <tr><td>ms per window, float32</td><td>0.32</td><td>0.05</td><td>0.38</td><td>0.35</td></tr>
+            <tr><td>ms per window, 8-bit</td><td>0.58</td><td>0.09</td><td>0.11</td><td>0.09</td></tr>
+            <tr><td>Seizures caught, 8-bit</td><td>77</td><td>82</td><td>86</td><td>85</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Times are one window at a time on one core of a MacBook Air, median of 200 runs. Each window covers 4 seconds of EEG, so every model is thousands of times faster than it needs to be. On a laptop the 8-bit EEGNet is slower than float, because converting such a tiny model to and from 8-bit costs more than it saves; a chip without float hardware should show the opposite, which we have not measured.</p>
+        <p><b>The result.</b> 8-bit storage makes the CNN 3.7 times smaller with no loss in detection, but it still needs about 350 KB. The 2-channel EEGNet is a complete detector in 9.7 KB, 36 times smaller again.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="tradeoff" aria-labelledby="tradeoff-h">
     <div class="wrap">
-      <h2 id="tradeoff-h">Accuracy against size</h2>
+      <h2 id="tradeoff-h">Detection against size</h2>
       <div class="body">
-        <p class="todo">The headline chart: every model plotted by size and accuracy, showing how much detection is kept as the model shrinks.</p>
-        <div class="slot" role="img" aria-label="Placeholder: Figure: accuracy vs. model size"><span>Figure: accuracy vs. model size</span></div>
+        <p>All twelve versions we built: two networks, three channel counts, stored as float or as 8-bit. Across a 400-fold range in file size, seizures caught stay between 77 and 88 of 128.</p>
+        <figure class="fig chart">
+          <svg viewBox="0 0 760 400" class="wide" role="img" aria-label="Seizures caught against file size for all twelve models. Every model catches between 77 and 88 of 128 seizures, from 9.7 KB to 3,983 KB."><line x1="64" x2="720" y1="330.0" y2="330.0" class="gl"/><text x="52" y="334.0" class="sv-c" text-anchor="end">0</text><line x1="64" x2="720" y1="253.5" y2="253.5" class="gl"/><text x="52" y="257.5" class="sv-c" text-anchor="end">32</text><line x1="64" x2="720" y1="177.0" y2="177.0" class="gl"/><text x="52" y="181.0" class="sv-c" text-anchor="end">64</text><line x1="64" x2="720" y1="100.5" y2="100.5" class="gl"/><text x="52" y="104.5" class="sv-c" text-anchor="end">96</text><line x1="64" x2="720" y1="24.0" y2="24.0" class="gl"/><text x="52" y="28.0" class="sv-c" text-anchor="end">128</text><line x1="125.6" x2="125.6" y1="24" y2="330" class="gl"/><text x="125.6" y="352" class="sv-c" text-anchor="middle">10 KB</text><line x1="330.4" x2="330.4" y1="24" y2="330" class="gl"/><text x="330.4" y="352" class="sv-c" text-anchor="middle">100 KB</text><line x1="535.1" x2="535.1" y1="24" y2="330" class="gl"/><text x="535.1" y="352" class="sv-c" text-anchor="middle">1 MB</text><text x="392.0" y="382" class="sv-s" text-anchor="middle">File size, log scale</text><text x="64" y="16" class="sv-s">Seizures caught of 128</text><circle cx="322.7" cy="138.8" r="5" class="pt-m o"/><circle cx="320.0" cy="131.6" r="5" class="pt-m o"/><circle cx="319.6" cy="138.8" r="5" class="pt-m o"/><text x="320.8" y="97.6" class="sv-t" font-size="14" text-anchor="middle">EEGNet, float</text><text x="320.8" y="115.6" class="sv-c" text-anchor="middle">80–83 caught</text><rect x="120.6" y="140.9" width="10" height="10" class="pt-m"/><rect x="118.8" y="129.0" width="10" height="10" class="pt-m"/><rect x="117.9" y="129.0" width="10" height="10" class="pt-m"/><text x="124.1" y="100.0" class="sv-t" font-size="14" text-anchor="middle">EEGNet, 8-bit</text><text x="124.1" y="118.0" class="sv-c" text-anchor="middle">77–82 caught</text><circle cx="658.0" cy="131.6" r="5" class="pt-b o"/><circle cx="657.4" cy="119.6" r="5" class="pt-b o"/><circle cx="657.3" cy="126.8" r="5" class="pt-b o"/><text x="657.6" y="85.6" class="sv-t" font-size="14" text-anchor="middle">CNN, float</text><text x="657.6" y="103.6" class="sv-c" text-anchor="middle">83–88 caught</text><rect x="437.5" y="119.4" width="10" height="10" class="pt-b"/><rect x="436.9" y="117.0" width="10" height="10" class="pt-b"/><rect x="436.9" y="121.8" width="10" height="10" class="pt-b"/><text x="442.1" y="88.0" class="sv-t" font-size="14" text-anchor="middle">CNN, 8-bit</text><text x="442.1" y="106.0" class="sv-c" text-anchor="middle">85–87 caught</text></svg>
+          <figcaption class="leg"><span><i class="k o b"></i>CNN, float</span><span><i class="k s b"></i>CNN, 8-bit</span><span><i class="k o m"></i>EEGNet, float</span><span><i class="k s m"></i>EEGNet, 8-bit</span><span class="r">Each group holds 18, 4 and 2 channels. The vertical scale starts at zero.</span></figcaption>
+        </figure>
+        <p>With one training run per version, differences of a few seizures are within chance. The honest reading is that detection does not fall as the model shrinks, so the smallest version gives up nothing we could measure. Pruning results, which remove weights as well, will be added on the <a href="research.html#pruning">Research page</a>.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="errors" aria-labelledby="errors-h">
     <div class="wrap">
       <h2 id="errors-h">Where it went wrong</h2>
       <div class="body">
-        <p class="todo">Which seizures were missed or falsely flagged, and why that might be.</p>
+        <p>Most children did well: for six of the 14, both networks caught every seizure, or all but one. The failures are concentrated in a few children, and they are the same for both networks.</p>
+        <table class="rt">
+          <thead><tr><th>Child</th><th>Problem</th><th>EEGNet</th><th>CNN</th><th>Likely reason</th></tr></thead>
+          <tbody>
+            <tr><td>chb16</td><td>No seizures caught, many false alarms</td><td>0 / 10<br><span class="fa">16.8 false alarms / h</span></td><td>0 / 10<br><span class="fa">14.6 false alarms / h</span></td><td>Seizures last a median of 8 seconds, too short for 4-second windows and a two-of-three rule</td></tr>
+            <tr><td>chb06</td><td>No seizures caught</td><td>0 / 10</td><td>0 / 10</td><td>Seizures score no higher than normal EEG to these models</td></tr>
+            <tr><td>chb14</td><td>No seizures caught</td><td>0 / 8</td><td>0 / 8</td><td>Not yet known</td></tr>
+            <tr><td>chb08</td><td>All caught, but about 20 false alarms an hour</td><td>5 / 5<br><span class="fa">20.4 false alarms / h</span></td><td>5 / 5<br><span class="fa">20.6 false alarms / h</span></td><td>Alarm level set too loosely: a very quiet child was one of the three used to set it</td></tr>
+            <tr><td>chb13</td><td>Most seizures missed</td><td>2 / 12</td><td>4 / 12</td><td>Not yet known; seizures may start away from the channels the models rely on</td></tr>
+          </tbody>
+        </table>
+        <p>The alarm level is chosen on three other children in each round. When one of them is unusually noisy or unusually quiet, the level for the test child ends up too strict or too loose. A short calibration on each wearer, or more children to choose from, would help. The <a href="research.html#limits">Research page</a> lists every known limit of these results.</p>
       </div>
     </div>
   </section>
+
   <section class="doc" id="code" aria-labelledby="code-h">
     <div class="wrap">
       <h2 id="code-h">Code and outputs</h2>
       <div class="body">
         <ul class="links">
-          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code">Model code</a></li>
-          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/results">Saved results and figures</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/05_train_chbmit.py">Training script</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code/seizure">Models, data loading and scoring</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/09_quantize_chbmit.py">8-bit conversion and timing</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/results/chbmit/summary.csv">Every result, per child and per model</a></li>
+          <li><a href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/results">Saved results and logs</a></li>
         </ul>
       </div>
     </div>
@@ -105,6 +177,12 @@
   <div class="foot">
     <div class="wrap">
       <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+      <div class="b">
+        <ol>
+          <li>Goldberger, A. et al. (2000). PhysioBank, PhysioToolkit, and PhysioNet. Circulation 101(23). <a href="https://physionet.org/content/chbmit/1.0.0/">CHB-MIT Scalp EEG Database</a>.</li>
+          <li>Lawhern, V. J. et al. (2018). EEGNet: a compact convolutional neural network for EEG-based brain–computer interfaces. Journal of Neural Engineering 15, 056013. <a href="https://doi.org/10.1088/1741-2552/aace8c">doi</a>.</li>
+        </ol>
+      </div>
     </div>
   </div>
 </footer>

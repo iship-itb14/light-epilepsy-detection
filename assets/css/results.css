@@ -1,0 +1,64 @@
+/* Results page only (linked from results.html after site.css).
+   Tables, the two confusion matrices and the size-against-detection chart.
+   Uses the site's tokens; ember marks only caught seizures. */
+.rp{--line:rgba(142,155,138,.28);--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.rp .body{max-width:none}
+.rp .body p,.rp .defs,.rp .cells{max-width:68ch}
+.rp b{font-weight:500}
+.note{font-size:14px;color:var(--moss)}
+.rp code{font:13px var(--mono);color:var(--moss)}
+
+/* tables */
+table.rt{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+.rt th{font-weight:500;color:var(--moss);font-size:13px;text-align:right;padding:var(--s1) 0 var(--s1) var(--s2);border-bottom:1px solid var(--line);vertical-align:bottom}
+.rt td{text-align:right;padding:10px 0 10px var(--s2);border-bottom:1px solid rgba(142,155,138,.14);vertical-align:top}
+.rt th:first-child,.rt td:first-child{text-align:left;padding-left:0;color:var(--moss)}
+#errors .rt td,#errors .rt th{text-align:left}
+#errors .rt td:first-child{font-family:var(--mono);font-size:13px;color:var(--bone)}
+#errors .rt td:last-child{color:var(--moss);font-size:14px}
+
+/* definitions */
+.defs{display:grid;grid-template-columns:200px 1fr;border-top:1px solid var(--line)}
+.defs dt,.defs dd{padding:var(--s2) 0;border-bottom:1px solid rgba(142,155,138,.14)}
+.defs dt{font-weight:500;padding-right:var(--s3)}
+.defs dd{color:var(--moss);font-size:15px}
+
+/* confusion matrices */
+.cms{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.cms figcaption{font-size:14px;color:var(--moss);margin-bottom:var(--s1)}
+.cms svg{width:100%;height:auto}
+.cm{fill:none;stroke:var(--line)}
+.cm.hot{fill:rgba(227,163,59,.12);stroke:var(--ember)}
+.cm-n{fill:var(--bone);font:300 30px var(--display);letter-spacing:-.02em}
+.cm-n.hot{fill:var(--ember)}
+.cells{list-style:none;border-top:1px solid var(--line)}
+.cells li{padding:var(--s2) 0;border-bottom:1px solid rgba(142,155,138,.14);color:var(--moss);font-size:15px}
+.cells b{color:var(--bone)}
+
+/* chart */
+.rp .fig{margin:0}
+.rp .fig svg{width:100%;height:auto;overflow:visible}
+.gl{stroke:rgba(142,155,138,.2)}
+.pt-b{fill:var(--bone);stroke:var(--bone)} .pt-m{fill:var(--moss);stroke:var(--moss)}
+.pt-b.o,.pt-m.o{fill:var(--forest);stroke-width:1.5}
+.leg{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s3);margin-top:var(--s2);font-size:13px;color:var(--moss)}
+.leg .r{margin-left:auto}
+.k{display:inline-block;width:10px;height:10px;margin-right:var(--s1);vertical-align:middle}
+.k.o{border-radius:50%;border:1.5px solid}
+.k.s.b{background:var(--bone)} .k.s.m{background:var(--moss)}
+.k.o.b{border-color:var(--bone)} .k.o.m{border-color:var(--moss)}
+.sv-t{fill:var(--bone);font:15px var(--body)}
+.sv-s{fill:var(--moss);font:13px var(--body)}
+.sv-k{fill:var(--moss);font:500 11px var(--body);letter-spacing:.22em}
+.sv-c{fill:var(--moss);font:11px var(--mono)}
+
+@media (max-width:900px){
+  .cms{grid-template-columns:1fr}
+  .defs{grid-template-columns:1fr} .defs dt{border-bottom:0;padding-bottom:0}
+  .rp .table-scroll,.rp .fig{overflow-x:auto}
+  .rp .fig svg.wide{min-width:640px}
+  table.rt{font-size:13px}
+  #errors .rt td:last-child{display:none} #errors .rt th:last-child{display:none}
+}
+.rp .fig.chart{margin-top:var(--s5)}
+.rt .fa{font-size:13px;color:var(--moss)}
