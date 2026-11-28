@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research | Listening for Seizures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/data-page.css">
+<link rel="stylesheet" href="assets/css/research.css">
+</head>
+<body>
+
+<nav class="nav solid" id="nav" aria-label="Project sections">
+  <div class="wrap">
+    <a class="brand" href="index.html">Listening for Seizures</a>
+    <ul class="tabs">
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="data.html">Data &amp; prep</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="results.html">Results</a></li>
+      <li><a href="conclusions.html">Conclusions</a></li>
+      <li><a href="research.html" aria-current="page">Research</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="dp rs">
+<header class="dp-head">
+  <div class="wrap">
+    <p class="kick">Research · The full study</p>
+    <h1>What we found, and how far to trust it</h1>
+    <p class="lead">Four questions, each tested on children the model had never seen: can a tiny network find seizures, how much does a careless split flatter a result, can a wearable get by with two electrodes, and can the model shrink to fit one.</p>
+    <div class="lens">
+      <p>Each section is written for anyone. The settings, files and exact numbers behind it sit in a panel beside it.</p>
+      <label class="switch"><input type="checkbox" id="lens"><span class="track"></span><span>Show the working everywhere</span></label>
+    </div>
+    <div class="facts">
+      <div><p class="num">80 <span class="of">of 128</span></p><p>seizures caught by a network with 1,729 weights, in 14 children it never trained on</p></div>
+      <div><p class="num">1.2</p><p>false alarms per hour for the typical child (median across the 14)</p></div>
+      <div><p class="num">2 <span class="of">of 18</span></p><p>channels kept, with the same 80 seizures caught</p></div>
+      <div><p class="num">9.7 KB</p><p>the whole two-channel detector, stored as 8-bit numbers</p></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 01 LOPO ============ -->
+<section class="dp-sec" id="lopo" aria-labelledby="r1-h">
+  <div class="wrap">
+    <p class="kick"><b>01</b> The honest test · leave one child out</p>
+    <h2 id="r1-h">Every child is tested by a model that never met them</h2>
+    <div class="story">
+      <p>We trained each model 14 times. Each time, one child was set aside completely, the model learned from ten others, three more were used to set its alarm level, and only then was it tested on the child it had never seen. Every number on this page comes from those 14 unseen children.</p>
+      <p>The small network, EEGNet, has 1,729 weights. The baseline network has 328,385, about 190 times more. The small one caught 80 of the 128 seizures, the large one 83. For the typical child, the small one also raised fewer false alarms: a little more than one an hour.</p>
+      <p>The average hides a wide spread. Six children had every seizure, or all but one, caught by both models. Three children had none caught by either. Their seizures are either very short (a median of 8 seconds for chb16) or look no different from their normal EEG to these models (chb06).</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">01</span><span class="t">Leave-one-patient-out setup<span>14 folds · 10 train · 3 validation · 1 test</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <dl>
+            <dt>split</dt><dd>one test child per fold, never seen in training</dd>
+            <dt>validation</dt><dd>next 3 children in the list, median false-alarm rule</dd>
+            <dt>threshold</dt><dd>best window sensitivity at ≤ 1 false alarm / h on validation</dd>
+            <dt>alarm</dt><dd>2 of the last 3 four-second windows</dd>
+            <dt>caught</dt><dd>any alarm window inside the seizure</dd>
+            <dt>runs</dt><dd>eegnet-recnorm-val3-median, cnn-reg-recnorm-aug-val3-median</dd>
+            <dt>seed</dt><dd>one, MacBook Air CPU, 26 Nov 2026</dd>
+          </dl>
+          <table class="nums">
+            <thead><tr><th></th><th>EEGNet</th><th>CNN</th></tr></thead>
+            <tbody>
+              <tr><td>weights</td><td>1,729</td><td>328,385</td></tr>
+              <tr><td>seizures caught</td><td>80 / 128</td><td>83 / 128</td></tr>
+              <tr><td>event sensitivity, median</td><td>0.94</td><td>0.89</td></tr>
+              <tr><td>window sensitivity, median</td><td>0.58</td><td>0.54</td></tr>
+              <tr><td>specificity, median</td><td>0.995</td><td>0.996</td></tr>
+              <tr><td>false alarms / h, median</td><td>1.19</td><td>1.54</td></tr>
+              <tr><td>false alarms / h, mean</td><td>3.80</td><td>3.80</td></tr>
+            </tbody>
+          </table>
+          <div class="file"><span>results/chbmit/summary.csv</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/results/chbmit/summary.csv">View on GitHub ↗</a></div>
+          <div class="file"><span>code/seizure/scoring.py</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/seizure/scoring.py">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig" aria-label="Seizures caught per child: one dot per seizure, filled if caught, for EEGNet and the baseline CNN">
+      <div class="sz" id="sz"></div>
+      <figcaption class="cap"><span class="l"><span><i class="dot e"></i>Seizure caught</span><span><i class="dot"></i>Seizure missed</span></span><span>One dot per seizure, 128 in all. Dots show how many were caught, not which ones.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 02 LEAKAGE ============ -->
+<section class="dp-sec" id="leakage" aria-labelledby="r2-h">
+  <div class="wrap">
+    <p class="kick"><b>02</b> The shuffle trap · why the split matters</p>
+    <h2 id="r2-h">A shuffled split adds about seven points</h2>
+    <div class="story">
+      <p>Many tutorials use a popular seizure table in which every recording has already been cut into one-second pieces. If those pieces are shuffled before the data is split, a test piece almost always has neighbours from the same recording in training. The model can then recognise the recording rather than the seizure.</p>
+      <p>We trained the same small network twice on the original recordings behind that table, changing only the split. With shuffled pieces it caught 95.8% of seizure pieces. With whole recordings kept apart it caught 88.7%. Accuracy barely moved, from 98.8% to 97.4%, because most pieces are not seizures. That is why we never report accuracy on its own.</p>
+      <p>The split is not the whole story. Even kept apart, these short, clean, hand-picked clips score far higher than long hospital recordings do. The near-perfect numbers seen online come mostly from the data, with the shuffle adding on top.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">02</span><span class="t">Leakage demo<span>Bonn EEG · 11,500 one-second chunks · 5 folds</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <dl>
+            <dt>data</dt><dd>Bonn sets Z, O, N, F, S, cut 23 × 178 like the UCI table</dd>
+            <dt>model</dt><dd>small 1D CNN, about 15k weights, 30 epochs</dd>
+            <dt>shuffled</dt><dd>chunks mixed; 100% of test recordings also in training</dd>
+            <dt>grouped</dt><dd>whole recordings per fold; 0% shared</dd>
+            <dt>seed</dt><dd>one, 27 Nov 2026</dd>
+          </dl>
+          <table class="nums">
+            <thead><tr><th>seizure vs rest</th><th>shuffled</th><th>grouped</th></tr></thead>
+            <tbody>
+              <tr><td>accuracy</td><td>0.988</td><td>0.974</td></tr>
+              <tr><td>sensitivity</td><td>0.958</td><td>0.887</td></tr>
+              <tr><td>specificity</td><td>0.995</td><td>0.995</td></tr>
+              <tr><td>F1</td><td>0.970</td><td>0.930</td></tr>
+              <tr><td>sensitivity std, 5 folds</td><td>0.019</td><td>0.057</td></tr>
+            </tbody>
+          </table>
+          <div class="file"><span>code/08_leakage_demo.py</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/08_leakage_demo.py">View on GitHub ↗</a></div>
+          <div class="file"><span>results/leakage/summary.csv</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/results/leakage/summary.csv">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig left" aria-label="Accuracy, sensitivity, specificity and F1 with a shuffled split and with whole recordings kept apart">
+      <svg viewBox="0 0 760 300" id="leak" class="wide" role="img"></svg>
+      <figcaption class="cap"><span class="l"><span><i class="dot o"></i>Shuffled pieces</span><span><i class="dot b"></i>Whole recordings kept apart</span></span><span>Mean of 5 folds. The scale starts at 80%.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 03 CHANNELS ============ -->
+<section class="dp-sec" id="channels" aria-labelledby="r3-h">
+  <div class="wrap">
+    <p class="kick"><b>03</b> Fewer electrodes · fit for a wearable</p>
+    <h2 id="r3-h">Two channels do about as well as eighteen</h2>
+    <div class="story">
+      <p>A hospital cap has 18 channels. Nobody will wear that at home. Before seeing any results, we picked two smaller sets near the ears, where a headband or ear-worn device could sit: four channels, and just two, one on each side.</p>
+      <p>Both models were retrained from scratch on each set, with everything else unchanged. Seizures caught stayed between 80 and 88 of 128 in every case. With one training run each, differences of a few seizures are within chance, so we read this as "about the same", not "better".</p>
+      <p>Some children did lose out. One child's seizures were almost all missed with two channels, likely because they start away from the ears. Fewer channels save electrodes, data and battery, but barely shrink the model itself.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">03</span><span class="t">Channel sets<span>--channels all | temporal4 | temporal2</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <dl>
+            <dt>18</dt><dd>all shared bipolar channels</dd>
+            <dt>4</dt><dd>F7-T7, T7-P7, F8-T8, T8-P8</dd>
+            <dt>2</dt><dd>T7-P7, T8-P8</dd>
+            <dt>chosen</dt><dd>in advance, not tuned on results</dd>
+            <dt>runs</dt><dd>56 LOPO runs, about 13 h, 27–28 Nov 2026</dd>
+          </dl>
+          <table class="nums">
+            <thead><tr><th></th><th>18</th><th>4</th><th>2</th></tr></thead>
+            <tbody>
+              <tr><td>EEGNet caught</td><td>80</td><td>83</td><td>80</td></tr>
+              <tr><td>EEGNet FA / h, median</td><td>1.19</td><td>1.42</td><td>1.43</td></tr>
+              <tr><td>EEGNet weights</td><td>1,729</td><td>1,505</td><td>1,473</td></tr>
+              <tr><td>CNN caught</td><td>83</td><td>88</td><td>85</td></tr>
+              <tr><td>CNN FA / h, median</td><td>1.54</td><td>1.29</td><td>1.54</td></tr>
+            </tbody>
+          </table>
+          <div class="file"><span>code/seizure/data.py · channel sets</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/seizure/data.py">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig left" aria-label="Seizures caught of 128 at 18, 4 and 2 channels for EEGNet and the CNN">
+      <svg viewBox="0 0 760 340" id="chan" class="wide" role="img"></svg>
+      <figcaption class="cap"><span class="l"><span><b></b>Baseline CNN</span><span><b class="m"></b>EEGNet</span></span><span>Seizures caught of 128. The scale starts at zero.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 04 INT8 ============ -->
+<section class="dp-sec" id="int8" aria-labelledby="r4-h">
+  <div class="wrap">
+    <p class="kick"><b>04</b> Smaller numbers · 8-bit compression</p>
+    <h2 id="r4-h">Eight-bit numbers, the same seizures caught</h2>
+    <div class="story">
+      <p>Models normally store each weight as a 32-bit number. Small chips prefer 8-bit numbers, which take a quarter of the space. We converted all 84 trained models to 8-bit without retraining them, and tested them on the same unseen children.</p>
+      <p>Detection held. Every version stayed within three seizures of its original, which is less than the variation we expect from training alone. The baseline network became 3.7 times smaller, from about 1.3 MB to 350 KB. The two-channel EEGNet became a complete detector in 9.7 KB, about 36 times smaller than the compressed baseline, catching 82 seizures against its 85.</p>
+      <p>Each square below is drawn to scale by file size.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">04</span><span class="t">Full int8 TensorFlow Lite<span>post-training · 1,000 calibration windows per fold</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <dl>
+            <dt>format</dt><dd>weights, activations, input and output int8</dd>
+            <dt>calibration</dt><dd>1,000 windows from the fold's training children</dd>
+            <dt>threshold</dt><dd>picked again on validation, same rule</dd>
+            <dt>timing</dt><dd>1 thread, 1 window, median of 200, MacBook Air</dd>
+          </dl>
+          <table class="nums">
+            <thead><tr><th>2 channels</th><th>EEGNet</th><th>CNN</th></tr></thead>
+            <tbody>
+              <tr><td>caught, float → int8</td><td>80 → 82</td><td>85 → 85</td></tr>
+              <tr><td>file, float → int8</td><td>11.0 → 9.7 KB</td><td>1,279 → 350 KB</td></tr>
+              <tr><td>ms / window, int8</td><td>0.09</td><td>0.09</td></tr>
+              <tr><td>FA / h median, int8</td><td>1.55</td><td>1.45</td></tr>
+            </tbody>
+          </table>
+          <p class="moss small">On a laptop, int8 EEGNet runs slower than float (fast float hardware, tiny model). Every version needs under 1.1 ms per 4-second window.</p>
+          <div class="file"><span>code/09_quantize_chbmit.py</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/09_quantize_chbmit.py">View on GitHub ↗</a></div>
+          <div class="file"><span>results/chbmit/int8_timing.csv</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/results/chbmit/int8_timing.csv">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <figure class="fig left" aria-label="File size drawn as squares to scale: baseline CNN 1,279 KB float and 350 KB int8; EEGNet 11 KB float and 9.7 KB int8, all at two channels">
+      <svg viewBox="0 0 760 360" id="size" class="wide" role="img"></svg>
+      <figcaption class="cap"><span>Two-channel models. Square area is proportional to file size.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 05 PRUNING (PENDING) ============ -->
+<section class="dp-sec pending-res" id="pruning" aria-labelledby="r5-h">
+  <div class="wrap">
+    <p class="kick"><b>05</b> Fewer weights · pruning <span class="plan-note">Results due 29 Nov 2026</span></p>
+    <h2 id="r5-h">Pruning: running now</h2>
+    <div class="story">
+      <p>Pruning switches off the weights that matter least, then lets the model relearn for a while with them gone. We are pruning the two-channel models to 50, 70 and 80% zeros and testing each on the same unseen children.</p>
+      <p class="moss">This section will show how many seizures each pruned model catches, how many weights are left, and how small it gets when stored compressed.</p>
+    </div>
+    <aside class="hood">
+      <details class="work">
+        <summary><span class="ic">05</span><span class="t">Magnitude pruning, fine-tuned<span>2 channels · 50 / 70 / 80% · 84 fine-tunes</span></span><span class="pm">+</span></summary>
+        <div class="in">
+          <dl>
+            <dt>start</dt><dd>each saved leave-one-out model</dd>
+            <dt>pruned</dt><dd>convolution and dense kernels only</dd>
+            <dt>fine-tune</dt><dd>learning rate 1e-4, up to 15 epochs, same validation rule</dd>
+            <dt>reported</dt><dd>seizures caught, non-zero weights, gzipped size</dd>
+          </dl>
+          <div class="file"><span>code/10_prune_chbmit.py</span><a class="gh" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/code/10_prune_chbmit.py">View on GitHub ↗</a></div>
+        </div>
+      </details>
+    </aside>
+    <div class="fig left slot" role="img" aria-label="Placeholder for pruning results"><span>Pruning results: seizures caught and size at 50, 70 and 80% pruned. Filled in once the runs finish.</span></div>
+  </div>
+</section>
+
+<!-- ============ 06 LIMITS ============ -->
+<section class="dp-sec" id="limits" aria-labelledby="r6-h">
+  <div class="wrap">
+    <p class="kick"><b>06</b> Limits · what this does not show</p>
+    <h2 id="r6-h">What these results do not show</h2>
+    <div class="story">
+      <p>We wrote our list of weak spots before the results came in, so we could not explain them away afterwards. These are the ones that matter most for reading this page.</p>
+    </div>
+    <ol class="limits">
+      <li><b>Children from one hospital.</b><span>All recordings come from one children's hospital in Boston. We have not yet tested adults or other equipment. A test on adult recordings from a hospital in Siena, Italy, without retraining, is planned next.</span></li>
+      <li><b>One training run per setting.</b><span>Each result comes from a single random seed. Differences of a few seizures may be chance.</span></li>
+      <li><b>Three children are never caught.</b><span>chb06, chb14 and chb16 have no seizures caught by any model, at any channel count.</span></li>
+      <li><b>Scaling looks ahead.</b><span>Each recording is scaled using its whole hour, including the future. A wearable would need a running estimate.</span></li>
+      <li><b>False alarms are counted strictly.</b><span>We give no grace period around seizures, so our rate is not directly comparable with work that does.</span></li>
+      <li><b>Hospital signal, not a headband.</b><span>Two channels from a hospital cap are cleaner than a device worn while moving.</span></li>
+      <li><b>Speed measured on a laptop.</b><span>Times compare formats with each other. We did not run the models on a real wearable chip.</span></li>
+      <li><b>Not a medical device.</b><span>Nothing here has been clinically tested.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 07 REPEAT ============ -->
+<section class="dp-sec" id="repeat" aria-labelledby="r7-h">
+  <div class="wrap">
+    <p class="kick"><b>07</b> Check our work</p>
+    <h2 id="r7-h">Everything needed to repeat this study</h2>
+    <div class="story">
+      <p>The data is public. Our scripts download it, clean it, split it by child, train both models and score them exactly as shown here. The research notes explain every choice and every bug we found along the way.</p>
+    </div>
+    <div class="dp-links">
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/RESEARCH_NOTES.md"><span>Research notes<small>reasoning, literature, full results per child</small></span><span class="arr">↗</span></a>
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/REPLICATE.md"><span>Replication guide<small>step by step, from download to tables</small></span><span class="arr">↗</span></a>
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/blob/main/decision.md"><span>Decision log<small>what we chose, and why, in order</small></span><span class="arr">↗</span></a>
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/code"><span>Code<small>scripts 00 to 10</small></span><span class="arr">↗</span></a>
+      <a class="row" href="https://github.com/iship-itb14/light-epilepsy-detection/tree/main/results"><span>Results<small>every run's per-child scores</small></span><span class="arr">↗</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <canvas id="ridges" aria-hidden="true"></canvas>
+  <div class="foot">
+    <div class="wrap">
+      <div class="a">Listening for Seizures. A Neural Networks course project, University of Colorado Boulder. Code and data on <a href="https://github.com/iship-itb14/light-epilepsy-detection">GitHub</a>.</div>
+      <div class="b">
+        <ol>
+          <li>Shoeb, A. (2009). Application of machine learning to epileptic seizure onset detection and treatment. PhD thesis, MIT.</li>
+          <li>Goldberger, A. et al. (2000). PhysioBank, PhysioToolkit, and PhysioNet. Circulation 101(23). <a href="https://physionet.org/content/chbmit/1.0.0/">CHB-MIT Scalp EEG Database</a>.</li>
+          <li>Andrzejak, R. G. et al. (2001). Indications of nonlinear deterministic and finite-dimensional structures in time series of brain electrical activity: dependence on recording region and brain state. Physical Review E 64, 061907. <a href="https://doi.org/10.1103/PhysRevE.64.061907">doi</a>.</li>
+          <li>Lawhern, V. J. et al. (2018). EEGNet: a compact convolutional neural network for EEG-based brain–computer interfaces. Journal of Neural Engineering 15, 056013. <a href="https://doi.org/10.1088/1741-2552/aace8c">doi</a>.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/research.js"></script>
+<script src="assets/js/footer.js"></script>
+</body>
+</html>
