@@ -4,7 +4,8 @@ Input:  data/cache/chbmit/ (script 04) and data/splits/ (script 03)
 Output: results/chbmit/<run>/fixed/           for the development split
         results/chbmit/<run>/lopo/<patient>/  for one leave-one-patient-out fold
         <run> is the model name, plus "-recnorm" with --norm recording,
-        "-aug" with --augment, and "-val<n>-<rule>" when LOPO uses
+        "-aug" with --augment, "-<set>" with --channels other than all,
+        and "-val<n>-<rule>" when LOPO uses
         --val-patients or --fa-rule other than the defaults
         Each folder holds:
           model.keras           the best model (normalisation built in)
@@ -27,6 +28,10 @@ window by its own recording's channel median and robust spread (see
 seizure/data.py), so patients with different amplitudes look alike; the
 model's own layer is then left as identity.
 
+Channels (--channels): "all" uses the 18 bipolar channels. "temporal4" and
+"temporal2" keep only 4 or 2 temporal channels, for the wearable case
+(decision 3.27); the model is built for that many channels and sees no others.
+
 Run from the project root, for example:
   python code/05_train_chbmit.py --model cnn --split fixed
   python code/05_train_chbmit.py --model eegnet --split lopo --fold 0
@@ -41,7 +46,8 @@ from pathlib import Path
 import keras
 import numpy as np
 
-from seizure.data import BalancedBatches, get_split, normalisation_stats, predict_patients
+from seizure.data import (CHANNEL_SETS, BalancedBatches, get_split, normalisation_stats,
+                          predict_patients)
 from seizure.models import MODELS
 from seizure.scoring import pick_threshold, score
 
@@ -51,15 +57,16 @@ RESULTS = Path("results/chbmit")
 class ValidationScore(keras.callbacks.Callback):
     """Score all validation windows after each epoch; keep the best weights; stop early."""
 
-    def __init__(self, val_patients, max_fa, patience, weights_path, norm, fa_rule):
+    def __init__(self, val_patients, max_fa, patience, weights_path, norm, fa_rule, channels):
         super().__init__()
-        self.norm, self.fa_rule = norm, fa_rule
+        self.norm, self.fa_rule, self.channels = norm, fa_rule, channels
         self.val_patients, self.max_fa, self.patience = val_patients, max_fa, patience
         self.weights_path = weights_path
         self.best, self.best_epoch, self.wait = None, -1, 0
 
     def on_epoch_end(self, epoch, logs=None):
-        r = pick_threshold(predict_patients(self.model, self.val_patients, norm=self.norm),
+        r = pick_threshold(predict_patients(self.model, self.val_patients, norm=self.norm,
+                                            channels=self.channels),
                            self.max_fa, self.fa_rule)
         logs["val_sensitivity"], logs["val_fa_per_hour"] = r["sensitivity"], r["fa_per_hour"]
         logs["val_threshold"] = r["threshold"]
@@ -91,6 +98,8 @@ def main():
     ap.add_argument("--max-fa", type=float, default=1.0, help="false alarms per hour allowed when picking the threshold")
     ap.add_argument("--norm", choices=["train", "recording"], default="train")
     ap.add_argument("--augment", action="store_true", help="random amplitude, noise and channel dropout in training")
+    ap.add_argument("--channels", choices=list(CHANNEL_SETS), default="all",
+                    help="which channels the model sees (decision 3.27)")
     ap.add_argument("--val-patients", type=int, default=2, help="LOPO only: validation patients per fold")
     ap.add_argument("--fa-rule", choices=["pooled", "median"], default="pooled",
                     help="combine validation patients' false-alarm rates by pooling or by the median")
@@ -103,6 +112,8 @@ def main():
     keras.utils.set_random_seed(args.seed)
     train, val, test = get_split(args.split, args.fold, args.val_patients)
     run = args.model + ("-recnorm" if args.norm == "recording" else "") + ("-aug" if args.augment else "")
+    if args.channels != "all":
+        run += f"-{args.channels}"
     if args.split == "lopo" and (args.val_patients != 2 or args.fa_rule != "pooled"):
         run += f"-val{args.val_patients}-{args.fa_rule}"
     out = RESULTS / run / args.split
@@ -112,24 +123,26 @@ def main():
         print(f"{out} already has results; skipping")
         return 0
     out.mkdir(parents=True, exist_ok=True)
+    channels = CHANNEL_SETS[args.channels]
     print(f"{run} | train {train} | val {val} | test {test}")
+    print(f"{len(channels)} channels: {' '.join(channels)}")
 
     if args.norm == "train":
-        mean, std = normalisation_stats(train)
+        mean, std = normalisation_stats(train, args.channels)
     else:                                                   # windows arrive already scaled
-        mean, std = np.zeros(18, np.float32), np.ones(18, np.float32)
-    model = MODELS[args.model](mean, std)
+        mean, std = np.zeros(len(channels), np.float32), np.ones(len(channels), np.float32)
+    model = MODELS[args.model](mean, std, n_ch=len(channels))
     model.compile(optimizer=keras.optimizers.Adam(1e-3), loss="binary_crossentropy",
                   weighted_metrics=[])
     n_params = model.count_params() - 2 * len(mean) - 1     # minus the fixed normalisation values
     print(f"{n_params:,} trainable and batch-norm weights")
 
     batches = BalancedBatches(train, args.batch_size, int(args.neg_per_pos), args.pos_weight, args.seed,
-                              args.norm, args.augment)
+                              args.norm, args.augment, args.channels)
     print(f"each epoch: {len(batches.pos)} seizure + {batches.n_neg} non-seizure windows")
     weights_path = out / "best.weights.h5"
     val_cb = ValidationScore(val, args.max_fa, args.patience, weights_path, args.norm,
-                             args.fa_rule)
+                             args.fa_rule, args.channels)
     t0 = time.time()
     hist = model.fit(batches, epochs=args.epochs, callbacks=[val_cb], verbose=2)
     train_minutes = (time.time() - t0) / 60
@@ -137,8 +150,9 @@ def main():
     model.load_weights(weights_path)
     model.save(out / "model.keras")
     weights_path.unlink()
-    val_r = pick_threshold(predict_patients(model, val, norm=args.norm), args.max_fa, args.fa_rule)
-    test_p = predict_patients(model, test, norm=args.norm)
+    val_r = pick_threshold(predict_patients(model, val, norm=args.norm, channels=args.channels),
+                           args.max_fa, args.fa_rule)
+    test_p = predict_patients(model, test, norm=args.norm, channels=args.channels)
     test_r = score(test_p, val_r["threshold"])
     np.savez_compressed(out / "test_predictions.npz", **test_p)
 
@@ -149,13 +163,13 @@ def main():
         for i in range(len(hist.history[keys[0]])):
             w.writerow([i + 1] + [hist.history[k][i] for k in keys])
     metrics = {"model": run, "split": args.split, "test_patients": test,
-               "best_epoch": val_cb.best_epoch + 1, "epochs_run": len(hist.history["loss"]),
+               "channels": channels, "best_epoch": val_cb.best_epoch + 1, "epochs_run": len(hist.history["loss"]),
                "train_minutes": round(train_minutes, 1), "params": int(n_params),
                "model_kb": round((out / "model.keras").stat().st_size / 1024, 1),
                "threshold": val_r["threshold"], "val": val_r, "test": test_r}
     (out / "metrics.json").write_text(json.dumps(metrics, indent=2))
-    (out / "config.json").write_text(json.dumps({**vars(args), "train": train, "val": val,
-                                                 "test": test}, indent=2))
+    (out / "config.json").write_text(json.dumps({**vars(args), "channel_names": channels,
+                                                 "train": train, "val": val, "test": test}, indent=2))
 
     print(f"\nbest epoch {metrics['best_epoch']}, threshold {val_r['threshold']:.3f}")
     for name, r in (("val", val_r), ("test", test_r)):

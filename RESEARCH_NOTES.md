@@ -2,10 +2,10 @@
 
 **What this file is.** A study companion to our project. It explains *what* we built, *how* it works, and *why* we made each choice, including the problems and bugs we ran into along the way. It is written for students who know some programming and some machine learning, not for EEG experts.
 
-**What this file is not.** It is not a paper and it does not claim a new state of the art. The CHB-MIT results for both models are in section 13 (26 November 2026), and the split-leakage demo is in section 13.5 (27 November 2026). Compression, channel reduction and the Siena test have not been run yet, and are marked *pending*. We would rather leave a gap than guess.
+**What this file is not.** It is not a paper and it does not claim a new state of the art. The CHB-MIT results for both models are in section 13 (26 November 2026), the split-leakage demo is in section 13.5 (27 November 2026), channel reduction is in section 13.6 (28 November 2026), and int8 compression is in section 13.4 (28 November 2026). Pruning and the Siena test have not been run yet, and are marked *pending*. We would rather leave a gap than guess.
 
 **Related files.**
-- `decision.md` is the short, official log of every decision (numbered 3.1–3.26). This file explains those decisions at more length; when the two disagree, `decision.md` wins.
+- `decision.md` is the short, official log of every decision (numbered 3.1–3.28). This file explains those decisions at more length; when the two disagree, `decision.md` wins.
 - `REPLICATE.md` is the step-by-step guide for rerunning everything.
 - `code/` holds the scripts, numbered in the order they run.
 
@@ -67,7 +67,7 @@ Broken into parts:
 1. **Main question (CHB-MIT).** On children's EEG, with patients kept strictly separate between training and testing, how do a larger baseline CNN (328k weights) and the tiny EEGNet (1.7k weights) compare?
 2. **Compression.** If we shrink EEGNet further (int8 quantization, then pruning), how much detection is kept?
 3. **Honest evaluation (Bonn/UCI demo, done, section 13.5).** How much does a careless "shuffled" split inflate the scores compared with a split that keeps recordings apart?
-4. **Wearable fit (planned).** How much does detection drop with fewer channels (18 → 4 → 2)?
+4. **Wearable fit (done, section 13.6).** How much does detection drop with fewer channels (18 → 4 → 2)?
 5. **Outside test (Siena, planned).** Does a model trained on children still work on adults from another hospital?
 
 We expect (but have not shown) that the tiny model loses some sensitivity, and that results vary a lot between patients. These are expectations, not findings.
@@ -120,7 +120,7 @@ These two differ in data and model too, so we **cannot** blame the whole gap on 
 
 ### 3.5 Making models smaller
 
-- **Quantization.** Jacob et al. [2018] showed how to run networks with integer-only arithmetic. Google's post-training quantization guide lists full integer quantization as about "4x smaller, 3x+ speedup" and says it needs "a representative dataset to calibrate" [Google AI Edge]. This is our first compression step (planned).
+- **Quantization.** Jacob et al. [2018] showed how to run networks with integer-only arithmetic. Google's post-training quantization guide lists full integer quantization as about "4x smaller, 3x+ speedup" and says it needs "a representative dataset to calibrate" [Google AI Edge]. This is our first compression step (done, section 13.4).
 - **Pruning.** Han, Mao & Dally [2016] combined pruning, quantization and coding to shrink networks a lot. We plan a simpler version: prune 50–80% of weights, then fine-tune.
 
 ### 3.6 Where our project fits
@@ -129,7 +129,7 @@ We are not proposing a new architecture. Our contribution is modest and practica
 
 1. a fully scripted, rerunnable pipeline from raw download to results, with saved patient splits;
 2. a careful, patient-wise comparison of a baseline CNN and a tiny EEGNet on the same data, scored by window and by event, including false alarms per hour;
-3. a controlled demo of how much a shuffled split inflates scores (section 13.5), and planned side studies on channel count and an outside dataset.
+3. a controlled demo of how much a shuffled split inflates scores (section 13.5), a channel-reduction study for the wearable case (section 13.6), and a planned outside test on another dataset.
 
 ---
 
@@ -464,6 +464,8 @@ We listed these before we had results, so we could not be accused of explaining 
 10. **Download script is macOS-only.** `01_get_chbmit_edf.sh` checks free space with `df -g`, which only exists on macOS, so it fails on Linux. `REPLICATE.md` gives the workaround. The script itself has not been changed yet.
 11. **Not a medical device.** Nothing here has been clinically validated.
 12. **The leakage demo keeps recordings apart, not people.** *(After results.)* The Bonn files have no person ids, and each set comes from only five people, so even our "grouped" split shares people between training and test. Its scores are therefore still optimistic. The demo is also one seed on very clean, hand-picked clips, so its exact gaps are rough.
+13. **Only one choice of reduced channels.** *(After results.)* We tested one 4-channel and one 2-channel set, chosen in advance, not the best possible sets, and not the electrodes a real ear-worn device would use (those are not standard 10-20 positions). The CNN's augmentation also zeroes one of the two channels in 30% of training windows at 2 channels, a much bigger loss than with 18. A wearable would also record more noise from movement than a hospital cap.
+14. **int8 timing comes from a laptop.** *(After results.)* CPU times in section 13.4 were measured on a MacBook Air, not a microcontroller, so they only compare the formats with each other. The int8 scales were calibrated on 1,000 training windows with one seed. A few single windows shift a lot (up to 0.89 in probability), even though the average change is about 0.01. Per-recording scaling (5a) still runs outside the model, in float.
 
 ---
 
@@ -530,7 +532,7 @@ Final CHB-MIT results, **leave-one-patient-out**: each of the 14 patients is tes
 
 "Seizures caught" counts every seizure across all patients. The other rows average over patients, so each patient counts once however many seizures they had. The false-alarm means are pulled up by chb08 (about 20 per hour for both models) and chb16 (15–17), so the median is the fairer "typical patient" figure.
 
-**What this says.** The tiny EEGNet does about as well as a CNN 190 times its size: three fewer seizures in total, but more of each typical patient's seizure windows and fewer false alarms for the typical patient. That is the project's main claim, and it holds on our data. The typical patient gets a little more than 1 false alarm per hour, slightly above our target. CPU time per prediction is *pending* (measured with compression).
+**What this says.** The tiny EEGNet does about as well as a CNN 190 times its size: three fewer seizures in total, but more of each typical patient's seizure windows and fewer false alarms for the typical patient. That is the project's main claim, and it holds on our data. The typical patient gets a little more than 1 false alarm per hour, slightly above our target. CPU time per prediction is in section 13.4.
 
 ### 13.2 How much the validation rule matters
 
@@ -569,13 +571,44 @@ Seizures caught (window sensitivity, false alarms per hour):
 
 **The honest reading.** Results depend heavily on the patient. For chb01, 03, 05, 10, 18, 24 both models caught every seizure, or all but one. For chb06, 14 and 16 both missed every seizure under either rule: chb16's seizures last a median of 8 seconds (9 of 10 at most 12 s), too short for 4-second windows with a 2-of-3 alarm rule, and chb06's seizures (median 15 s) score no higher than normal EEG (window AUROC 0.46 for EEGNet, 0.64 for the CNN). chb08 and chb16 also give far too many false alarms. This spread is normal for models tested on people they have never seen, and it is why we show every patient instead of only an average.
 
-### 13.4 Still pending
+### 13.4 Compression: int8 (pruning pending)
 
-| Model | Split | Result |
+We converted every saved leave-one-patient-out model from sections 13.1 and 13.6 (6 settings × 14 folds = 84 models) to **full int8** TensorFlow Lite without retraining (decision 3.28, `code/09_quantize_chbmit.py`). Weights, activations, input and output are all 8-bit integers, which is what a microcontroller runs. Each model's int8 scales were calibrated on 1,000 windows from its own training patients. The threshold was picked again on the same validation patients with the same rule, and the test patient was scored exactly as before. Run on 28 November 2026 on a MacBook Air, about 76 minutes for all 84. Numbers from `results/chbmit/<run>-int8/` and `results/chbmit/int8_timing.csv`.
+
+**Detection, float → int8** (seizures caught of 128; median window sensitivity; median false alarms per hour):
+
+| | EEGNet 18 | EEGNet 4 | EEGNet 2 | CNN 18 | CNN 4 | CNN 2 |
+|---|---|---|---|---|---|---|
+| Seizures caught, float | 80 | 83 | 80 | 83 | 88 | 85 |
+| Seizures caught, int8 | 77 | 82 | 82 | 86 | 87 | 85 |
+| int8 at the float threshold | 78 | 82 | 78 | 86 | 88 | 85 |
+| Window sensitivity, median | 0.58 → 0.59 | 0.50 → 0.52 | 0.52 → 0.51 | 0.54 → 0.54 | 0.62 → 0.60 | 0.67 → 0.66 |
+| False alarms / h, median | 1.19 → 1.18 | 1.42 → 1.10 | 1.43 → 1.55 | 1.54 → 1.96 | 1.29 → 1.25 | 1.54 → 1.45 |
+| False alarms / h, mean | 3.79 → 3.79 | 3.39 → 3.30 | 2.69 → 2.77 | 3.80 → 3.73 | 2.29 → 2.27 | 2.37 → 2.52 |
+| Mean change in probability | 0.015 | 0.011 | 0.013 | 0.008 | 0.005 | 0.008 |
+
+**Size and speed** (file sizes are TensorFlow Lite float32 → int8; "weights" counts 4 bytes per weight in float32 and 1 in int8; CPU time is one window at a time, one thread, median of 200, on the MacBook Air):
+
+| | EEGNet 18 | EEGNet 4 | EEGNet 2 | CNN 18 | CNN 4 | CNN 2 |
+|---|---|---|---|---|---|---|
+| File size | 12.0 → 10.0 KB | 11.1 → 9.8 KB | 11.0 → 9.7 KB | 1,289 → 353 KB | 1,280 → 351 KB | 1,279 → 350 KB |
+| Weights alone | 6.8 → 1.7 KB | 5.9 → 1.5 KB | 5.8 → 1.4 KB | 1,283 → 321 KB | 1,274 → 319 KB | 1,273 → 318 KB |
+| CPU ms per window: Keras | 1.02 | 0.38 | 0.30 | 0.72 | 0.75 | 0.68 |
+| CPU ms per window: TFLite float32 | 0.32 | 0.08 | 0.05 | 0.38 | 0.35 | 0.35 |
+| CPU ms per window: TFLite int8 | 0.58 | 0.15 | 0.09 | 0.11 | 0.09 | 0.09 |
+
+**What this says.**
+- **int8 keeps the detection.** Every setting stays within 3 seizures of its float version (out of 128), and median window sensitivity moves by 0.02 at most. That is smaller than the seed-to-seed noise we expect (limitation 9). Per patient, only chb15, chb20, chb13, chb10 and chb01 change, by one or two seizures each. The probabilities move by about 0.01 on average, so most windows land on the same side of the threshold.
+- **One setting gets more false alarms**: the 18-channel CNN's median rises from 1.54 to 1.96 per hour. It is the same at the float threshold, so it comes from the int8 outputs themselves, not from the new threshold. Its mean barely changes (3.80 → 3.73).
+- **The CNN gets 3.7 times smaller and 3.5 times faster** than float TFLite (about 1.3 MB → 350 KB, 0.38 → 0.11 ms). Even at int8 it needs about 350 KB, more than many small microcontrollers have for a model.
+- **EEGNet's weights shrink 4 times (6.8 → 1.7 KB), but its file only goes from 12 to 10 KB.** With so few weights, most of the file is the description of the layers, not the numbers. The 2-channel int8 EEGNet is the whole detector in under 10 KB, about 36 times smaller than the int8 CNN, with about the same detection.
+- **On the laptop, int8 EEGNet is slower than float** (0.58 vs 0.32 ms at 18 channels). A laptop processor has fast float hardware, and for a model this small the extra work of converting to and from int8 costs more than it saves. On a microcontroller without float hardware we would expect the opposite, but we have not measured that. Every setting needs under 1.1 ms per 4-second window, so speed is not a problem for any of them.
+- **Keras times include Python overhead**, so they compare the deployment formats, not the models.
+
+| Still pending | Split | Result |
 |---|---|---|
-| EEGNet int8 | LOPO | *pending* |
-| EEGNet pruned | LOPO | *pending* |
-| CPU time per window, both models | | *pending* |
+| Pruned models (50–80% of weights, fine-tuned) | LOPO | *pending* |
+| Timing on a real microcontroller | | *not planned* |
 
 ### 13.5 Leakage demo: shuffled chunks against whole recordings
 
@@ -600,6 +633,51 @@ The same small 1D CNN (about 15k weights), trained and tested on the same 11,500
 
 This is one seed, so treat the exact gaps as rough; the direction is the same for every metric except specificity.
 
+### 13.6 Channel reduction: 18, 4 and 2 channels
+
+A wearable cannot carry an 18-channel cap, so we retrained both models on fewer channels picked in advance (decision 3.27): **4 temporal** channels (F7-T7, T7-P7, F8-T8, T8-P8) and **2**, one on each side nearest the ears (T7-P7, T8-P8). Everything else is the same as the final runs above (leave-one-patient-out, 3 validation patients, median rule), so only the channels change. The 18-channel column is the result from section 13.1. Run on 27–28 November 2026 on a MacBook Air, one seed. Numbers from `results/chbmit/summary.csv` (runs named `...-temporal4-val3-median` and `...-temporal2-val3-median`).
+
+| | EEGNet 18 | EEGNet 4 | EEGNet 2 | CNN 18 | CNN 4 | CNN 2 |
+|---|---|---|---|---|---|---|
+| Weights | 1,729 | 1,505 | 1,473 | 328,385 | 326,145 | 325,825 |
+| Saved model size | 92 KB | 89 KB | 89 KB | 3,983 KB | 3,957 KB | 3,953 KB |
+| Seizures caught (of 128) | 80 | 83 | 80 | 83 | **88** | 85 |
+| Event sensitivity, mean / median | 0.68 / 0.94 | 0.67 / 0.90 | 0.66 / 0.97 | 0.66 / 0.89 | 0.71 / 1.00 | 0.69 / 1.00 |
+| Window sensitivity, mean / median | 0.48 / 0.58 | 0.45 / 0.50 | 0.46 / 0.52 | 0.44 / 0.54 | 0.50 / 0.62 | 0.52 / 0.67 |
+| Specificity, mean / median | 0.979 / 0.995 | 0.983 / 0.995 | 0.987 / 0.993 | 0.982 / 0.996 | 0.990 / 0.995 | 0.988 / 0.993 |
+| F1, mean / median | 0.30 / 0.26 | 0.28 / 0.25 | 0.26 / 0.19 | 0.30 / 0.24 | 0.39 / 0.42 | 0.34 / 0.32 |
+| False alarms / h, mean / median | 3.80 / 1.19 | 3.39 / 1.42 | 2.69 / 1.43 | 3.80 / 1.54 | 2.29 / 1.29 | 2.37 / 1.54 |
+
+Per patient, seizures caught (window sensitivity, false alarms per hour):
+
+| Test patient | Seizures | EEGNet 18 | EEGNet 4 | EEGNet 2 | CNN 18 | CNN 4 | CNN 2 |
+|---|---|---|---|---|---|---|---|
+| chb01 | 7 | 7 (0.90, 0.52) | 7 (0.88, 2.49) | 7 (0.73, 1.95) | 7 (0.77, 0.27) | 7 (0.87, 0.20) | 7 (0.80, 0.42) |
+| chb03 | 7 | 7 (0.83, 0.45) | 7 (0.93, 8.84) | 7 (0.93, 6.53) | 7 (0.76, 0.13) | 7 (0.85, 1.26) | 7 (0.84, 1.58) |
+| chb05 | 5 | 5 (0.77, 0.51) | 5 (0.82, 1.49) | 5 (0.76, 0.77) | 5 (0.89, 4.79) | 5 (0.75, 1.31) | 5 (0.84, 2.38) |
+| chb06 | 10 | 0 (0.00, 2.43) | 0 (0.00, 0.84) | 0 (0.00, 1.29) | 0 (0.00, 0.40) | 0 (0.00, 1.20) | 0 (0.00, 1.50) |
+| chb08 | 5 | 5 (0.75, 20.39) | 5 (0.58, 11.25) | 5 (0.46, 9.50) | 5 (0.70, 20.59) | 5 (0.59, 6.05) | 5 (0.48, 7.70) |
+| chb10 | 7 | 7 (0.75, 3.32) | 6 (0.43, 0.02) | 7 (0.89, 0.68) | 7 (0.61, 1.24) | 7 (0.66, 0.06) | 7 (0.92, 0.46) |
+| chb13 | 12 | 2 (0.17, 0.76) | 2 (0.12, 1.58) | 0 (0.00, 0.00) | 4 (0.20, 2.09) | 2 (0.14, 1.88) | 1 (0.12, 0.55) |
+| chb14 | 8 | 0 (0.00, 0.00) | 0 (0.00, 0.62) | 0 (0.00, 0.08) | 0 (0.00, 0.46) | 0 (0.00, 1.23) | 0 (0.00, 0.77) |
+| chb15 | 20 | 12 (0.21, 2.30) | 19 (0.37, 1.35) | 17 (0.24, 1.50) | 19 (0.47, 2.20) | 20 (0.75, 1.62) | 20 (0.85, 1.97) |
+| chb16 | 10 | 0 (0.00, 16.79) | 0 (0.00, 13.89) | 0 (0.00, 7.21) | 0 (0.00, 14.63) | 0 (0.00, 12.79) | 0 (0.00, 9.53) |
+| chb18 | 6 | 6 (0.78, 1.63) | 6 (0.84, 3.34) | 6 (0.81, 4.57) | 5 (0.74, 0.56) | 6 (0.79, 1.57) | 6 (0.78, 0.98) |
+| chb20 | 8 | 7 (0.38, 0.40) | 4 (0.18, 0.36) | 4 (0.16, 0.25) | 3 (0.08, 0.04) | 7 (0.39, 0.62) | 5 (0.29, 0.62) |
+| chb23 | 7 | 6 (0.47, 0.68) | 6 (0.56, 0.79) | 7 (0.81, 1.96) | 5 (0.31, 3.99) | 6 (0.53, 0.83) | 7 (0.75, 3.13) |
+| chb24 | 16 | 16 (0.69, 2.96) | 16 (0.62, 0.66) | 15 (0.58, 1.36) | 16 (0.63, 1.83) | 16 (0.64, 1.41) | 15 (0.58, 1.60) |
+| **Total** | **128** | **80** | **83** | **80** | **83** | **88** | **85** |
+
+**What this says.**
+- **Two channels keep almost all of the detection.** Seizures caught stay at 80–88 of 128 for every setting. With one seed and 14 patients, differences of a few seizures are within run-to-run noise, so we read this as "about the same", not "better".
+- **The CNN does not get worse with fewer channels, and may get a little better.** Its median window sensitivity goes from 0.54 to 0.67 and its mean false alarms fall from 3.8 to 2.4 per hour. One possible reason is that with fewer inputs it has less to memorise about the training patients; we have not tested this.
+- **EEGNet loses a little window sensitivity** (median 0.58 → 0.52) and its typical patient gets slightly more false alarms (median 1.19 → 1.43 per hour), but it catches the same 80 seizures.
+- **The mean false-alarm rate falls for both models**, mostly because chb08 drops from about 20 to 6–11 false alarms per hour and chb16 from about 15 to 7–10.
+- **Some patients do worse.** chb13 falls to 0 (EEGNet) and 1 (CNN) of 12 seizures with 2 channels, chb20 falls from 7 to 4 for EEGNet, and EEGNet's false alarms on chb03 rise from 0.45 to 6.5–8.8 per hour. Their seizures may be clearer away from the temporal channels; we have not checked where each patient's seizures start.
+- **Some patients do better.** chb15 goes from 12 to 17–19 seizures for EEGNet and 19 to 20 for the CNN.
+- **chb06, chb14 and chb16 are still missed at every channel count**, so their problem is not the number of channels (section 13.3).
+- **The model barely shrinks.** Only the first spatial layer depends on the channel count, so EEGNet goes from 1,729 to 1,473 weights. The saving is in electrodes, data and power, not in model size; compression (section 14) is what makes the model itself smaller.
+
 ---
 
 ## 14. What comes next
@@ -608,9 +686,9 @@ In order (decision 3.10):
 
 1. ~~**Finish CHB-MIT training.**~~ Done on 26 November 2026 (section 13). Open question: overlapping windows for short seizures (chb16, chb06).
 2. ~~**Leakage demo on UCI/Kaggle.**~~ Done on 27 November 2026 with the Bonn data cut as in the UCI table (section 13.5).
-3. **Channel reduction.** Retrain on CHB-MIT with 18, 4 and 2 channels to see how detection changes with a wearable-sized montage.
+3. ~~**Channel reduction.**~~ Done on 28 November 2026 (section 13.6). Two temporal channels keep almost all of the detection.
 4. **Siena outside test.** Run the CHB-MIT model, without retraining, on adult recordings (needs 512 → 128 Hz resampling and matching Siena's electrodes to CHB-MIT's bipolar pairs).
-5. **Compression.** int8 post-training quantization, then 50–80% pruning with fine-tuning.
+5. **Compression.** ~~int8 post-training quantization~~ done on 28 November 2026 (section 13.4): no loss in detection, CNN 3.7× smaller. Next: 50–80% pruning with fine-tuning.
 6. **Research page** on the website, describing the scripts, splits and scoring for others.
 
 ---

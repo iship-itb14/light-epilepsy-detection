@@ -23,7 +23,7 @@ def main():
         m = json.loads(f.read_text())
         t = m["test"]
         rows.append({"model": m["model"], "split": m["split"], "test": "+".join(m["test_patients"]),
-                     "params": m["params"], "model_kb": m["model_kb"], "threshold": round(m["threshold"], 4),
+                     "n_channels": len(m.get("channels", range(18))), "params": m["params"], "model_kb": m["model_kb"], "threshold": round(m["threshold"], 4),
                      **{c: round(t[c], 4) for c in COLS},
                      "seizures": f"{t['seizures_detected']}/{t['seizures']}",
                      "tp": t["tp"], "fn": t["fn"], "fp": t["fp"], "tn": t["tn"]})

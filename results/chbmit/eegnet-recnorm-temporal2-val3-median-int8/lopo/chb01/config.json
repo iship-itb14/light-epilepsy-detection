@@ -1,0 +1,38 @@
+{
+  "runs": [
+    "eegnet-recnorm-temporal2-val3-median"
+  ],
+  "folds": [
+    "chb01"
+  ],
+  "calib": 1000,
+  "timing_repeats": 200,
+  "no_timing": false,
+  "skip_existing": false,
+  "seed": 0,
+  "source": "results/chbmit/eegnet-recnorm-temporal2-val3-median/lopo/chb01",
+  "norm": "recording",
+  "channels": "temporal2",
+  "max_fa": 1.0,
+  "fa_rule": "median",
+  "train": [
+    "chb08",
+    "chb10",
+    "chb13",
+    "chb14",
+    "chb15",
+    "chb16",
+    "chb18",
+    "chb20",
+    "chb23",
+    "chb24"
+  ],
+  "val": [
+    "chb03",
+    "chb05",
+    "chb06"
+  ],
+  "test": [
+    "chb01"
+  ]
+}
