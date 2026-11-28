@@ -1,0 +1,7 @@
+run,n_channels,params,keras_ms,tflite_float32_ms,tflite_int8_ms
+eegnet-recnorm-val3-median,18,1729,1.0193,0.3189,0.5808
+eegnet-recnorm-temporal4-val3-median,4,1505,0.3807,0.0808,0.1538
+eegnet-recnorm-temporal2-val3-median,2,1473,0.2961,0.0486,0.0935
+cnn-reg-recnorm-aug-val3-median,18,328385,0.72,0.3832,0.1088
+cnn-reg-recnorm-aug-temporal4-val3-median,4,326145,0.7526,0.3518,0.0928
+cnn-reg-recnorm-aug-temporal2-val3-median,2,325825,0.6806,0.3492,0.0914

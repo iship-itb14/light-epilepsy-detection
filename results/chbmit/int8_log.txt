@@ -1,0 +1,697 @@
+/opt/anaconda3/lib/python3.13/site-packages/google/api_core/_python_package_support.py:206: FutureWarning: Package google.api_core depends on grpcio, currently installed at version 1.75.1. grpcio < 1.83.0 does not support Post-Quantum Cryptography (PQC). Support for non-PQC environments is deprecated. In April 2027, Google Cloud Python packages will raise their minimum requirements (including google-api-core, grpcio, and grpcio-status) to enforce grpcio >= 1.83.0. For more details on Google Cloud's post-quantum security migration, visit: https://cloud.google.com/security/resources/post-quantum-cryptography
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/pandas/core/computation/expressions.py:22: UserWarning: Pandas requires version '2.10.2' or newer of 'numexpr' (version '2.10.1' currently installed).
+  from pandas.core.computation.check import NUMEXPR_INSTALLED
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1795833703.184276 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795833703.184656 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+I0000 00:00:1795833703.191055 2418659 mlir_graph_optimization_pass.cc:437] MLIR V1 optimization pass is not enabled
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795833704.640478 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795833704.640485 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+W0000 00:00:1795833823.623647 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795833823.624372 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795833825.179679 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795833825.179686 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795833933.016532 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795833933.016963 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795833934.391541 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795833934.391550 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834055.767894 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834055.768319 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834057.112197 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834057.112204 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834179.796871 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834179.797294 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834181.163912 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834181.163920 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+WARNING:tensorflow:5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x1469bafc0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x1469bafc0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+W0000 00:00:1795834276.339809 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834276.339822 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834277.500052 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834277.500059 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+WARNING:tensorflow:6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x146972520> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x146972520> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+W0000 00:00:1795834388.981576 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834388.981587 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834390.157078 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834390.157087 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834483.312175 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834483.312597 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834484.527198 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834484.527205 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834583.174497 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834583.175006 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834584.424492 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834584.424503 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834688.545236 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834688.545247 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834689.610090 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834689.610098 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834786.069343 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834786.069354 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834787.166544 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834787.166551 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834886.959372 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834886.959829 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834888.115773 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834888.115781 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795834982.552360 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834982.552701 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795834983.725792 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795834983.725799 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835078.458199 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835078.458659 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835079.692177 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835079.692185 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835172.693361 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835172.693377 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835173.951780 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835173.951790 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835215.944650 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835215.944667 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835217.270504 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835217.270511 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835258.119705 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835258.119716 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835259.352135 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835259.352143 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835307.634710 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835307.634723 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835308.866212 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835308.866219 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835359.721187 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835359.721798 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835361.104826 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835361.104834 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835403.388394 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835403.388407 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835404.525430 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835404.525437 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835454.703677 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835454.703689 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835455.867535 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835455.867546 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835498.680813 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835498.680826 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835499.812564 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835499.812573 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835543.521898 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835543.521911 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835544.772177 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835544.772189 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835594.426528 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835594.427071 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835595.615453 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835595.615460 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835645.696295 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835645.696950 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835646.949019 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835646.949030 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835698.753522 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835698.753539 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835699.756082 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835699.756090 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835744.697272 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835744.697696 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835745.919910 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835745.919917 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835786.780766 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835786.780777 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835787.902881 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835787.902892 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835823.076780 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835823.076791 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835824.333622 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835824.333633 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835854.843492 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835854.843504 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835856.133328 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835856.133336 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835893.596488 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835893.596501 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835894.859304 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835894.859313 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835936.833693 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835936.834007 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835938.151591 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835938.151598 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795835971.827525 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835971.827541 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795835972.964659 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795835972.964666 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836015.360220 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836015.360855 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836016.858313 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836016.858322 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836052.341291 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836052.341309 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836053.487783 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836053.487791 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836093.610819 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836093.610832 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836094.633421 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836094.633430 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836138.918960 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836138.918972 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836139.918602 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836139.918610 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836184.990174 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836184.990185 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836185.957161 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836185.957168 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836228.188993 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836228.189004 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836229.160236 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836229.160243 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836264.279942 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836264.279956 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836265.302864 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836265.302872 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836294.503330 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836294.503342 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836295.610604 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836295.610611 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836322.959400 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836322.959411 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836324.630115 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836324.630122 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836365.529615 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836365.529629 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836367.270911 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836367.270918 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836406.696175 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836406.696191 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836408.344955 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836408.344961 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836454.341948 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836454.341960 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836455.949973 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836455.949980 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836506.935687 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836506.935700 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836508.613666 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836508.613676 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836550.374796 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836550.374810 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836551.955558 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836551.955566 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836602.228771 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836602.228780 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836603.785822 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836603.785829 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836647.995610 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836647.996138 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836649.706197 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836649.706204 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836696.256021 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836696.256035 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836697.715841 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836697.715848 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836748.641784 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836748.641795 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836750.049289 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836750.049297 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836800.233344 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836800.233353 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836801.714360 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836801.714366 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836854.882807 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836854.882819 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836856.290169 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836856.290175 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836904.018939 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836904.018949 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836905.443382 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836905.443388 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836947.125514 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836947.125523 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836948.686344 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836948.686352 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795836983.425835 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836983.425848 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795836985.040453 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795836985.040463 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837019.821337 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837019.821352 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837021.752351 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837021.752359 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837056.379142 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837056.379157 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837058.055711 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837058.055721 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837098.760639 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837098.760648 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837100.384608 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837100.384614 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837142.843857 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837142.843870 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837144.647540 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837144.647547 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837182.635383 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837182.635394 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837184.210049 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837184.210057 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837230.158672 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837230.158981 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837231.785352 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837231.785359 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837272.064353 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837272.064370 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837273.950697 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837273.950705 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837320.718981 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837320.719299 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837322.492426 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837322.492432 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837371.589872 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837371.590516 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837373.270394 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837373.270402 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837422.902520 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837422.903137 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837424.600281 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837424.600288 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837476.491385 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837476.492031 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837477.997768 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837477.997779 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837522.058201 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837522.058863 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837523.680752 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837523.680759 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837561.660798 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837561.660820 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837563.244698 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837563.244705 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837594.662870 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837594.662882 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837596.361426 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837596.361433 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837631.266556 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837631.266569 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837633.062635 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837633.062644 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837667.227436 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837667.227448 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837669.150361 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837669.150368 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837710.620139 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837710.620151 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837712.312971 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837712.312979 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837757.666886 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837757.666903 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837759.516322 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837759.516330 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837796.997911 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837796.997924 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837798.842615 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837798.842622 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837843.640230 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837843.640242 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837845.210733 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837845.210740 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837885.161422 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837885.162138 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837886.905565 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837886.905573 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837929.880344 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837929.880361 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837931.988531 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837931.988541 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795837981.926245 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837981.926256 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795837983.385770 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795837983.385778 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795838030.108573 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838030.108582 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795838031.664430 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838031.664438 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795838083.056239 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838083.056253 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795838084.732975 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838084.732983 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795838128.390890 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838128.390902 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795838129.861878 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838129.861884 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1795838166.816743 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838166.816757 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/opt/anaconda3/lib/python3.13/site-packages/tensorflow/lite/python/convert.py:863: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1795838168.494804 2418659 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1795838168.494811 2418659 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+eegnet-recnorm-val3-median: 14 folds
+  chb01: 12 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.902 -> 0.893, FA/h 0.52 -> 0.42, mean |p diff| 0.0298, float TFLite gap 8.9e-08  (2.0 min)
+  CPU time per window, 1 thread: Keras 1.019 ms, float32 TFLite 0.319 ms, int8 TFLite 0.581 ms
+  chb03: 12 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.825 -> 0.835, FA/h 0.45 -> 0.45, mean |p diff| 0.0134, float TFLite gap 1.2e-07  (1.8 min)
+  chb05: 12 KB -> 10 KB, seizures 5/5 -> 5/5, sens 0.771 -> 0.771, FA/h 0.51 -> 0.51, mean |p diff| 0.0130, float TFLite gap 8.9e-08  (2.0 min)
+  chb06: 12 KB -> 10 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 2.43 -> 2.41, mean |p diff| 0.0140, float TFLite gap 1.2e-07  (2.1 min)
+  chb08: 12 KB -> 10 KB, seizures 5/5 -> 5/5, sens 0.749 -> 0.727, FA/h 20.39 -> 20.04, mean |p diff| 0.0171, float TFLite gap 7.5e-08  (1.6 min)
+  chb10: 12 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.746 -> 0.675, FA/h 3.32 -> 3.72, mean |p diff| 0.0202, float TFLite gap 7.5e-08  (1.9 min)
+  chb13: 12 KB -> 10 KB, seizures 2/12 -> 2/12, sens 0.167 -> 0.188, FA/h 0.76 -> 0.76, mean |p diff| 0.0062, float TFLite gap 2.1e-07  (1.6 min)
+  chb14: 12 KB -> 10 KB, seizures 0/8 -> 0/8, sens 0.000 -> 0.000, FA/h 0.00 -> 0.00, mean |p diff| 0.0226, float TFLite gap 1.2e-07  (1.7 min)
+  chb15: 12 KB -> 10 KB, seizures 12/20 -> 10/20, sens 0.212 -> 0.144, FA/h 2.30 -> 2.17, mean |p diff| 0.0246, float TFLite gap 1.5e-07  (1.8 min)
+  chb16: 12 KB -> 10 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 16.79 -> 17.16, mean |p diff| 0.0075, float TFLite gap 1.2e-07  (1.6 min)
+  chb18: 12 KB -> 10 KB, seizures 6/6 -> 6/6, sens 0.775 -> 0.762, FA/h 1.63 -> 1.60, mean |p diff| 0.0081, float TFLite gap 6.7e-08  (1.7 min)
+  chb20: 12 KB -> 10 KB, seizures 7/8 -> 6/8, sens 0.382 -> 0.329, FA/h 0.40 -> 0.29, mean |p diff| 0.0050, float TFLite gap 7.5e-08  (1.6 min)
+  chb23: 12 KB -> 10 KB, seizures 6/7 -> 6/7, sens 0.472 -> 0.500, FA/h 0.68 -> 0.64, mean |p diff| 0.0088, float TFLite gap 1.2e-07  (1.6 min)
+  chb24: 12 KB -> 10 KB, seizures 16/16 -> 16/16, sens 0.693 -> 0.693, FA/h 2.96 -> 2.91, mean |p diff| 0.0220, float TFLite gap 8.9e-08  (1.6 min)
+eegnet-recnorm-temporal4-val3-median: 14 folds
+  chb01: 11 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.884 -> 0.884, FA/h 2.49 -> 2.64, mean |p diff| 0.0092, float TFLite gap 1.2e-07  (0.7 min)
+  CPU time per window, 1 thread: Keras 0.381 ms, float32 TFLite 0.081 ms, int8 TFLite 0.154 ms
+  chb03: 11 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.932 -> 0.932, FA/h 8.84 -> 8.55, mean |p diff| 0.0162, float TFLite gap 1.5e-07  (0.7 min)
+  chb05: 11 KB -> 10 KB, seizures 5/5 -> 5/5, sens 0.821 -> 0.814, FA/h 1.49 -> 1.08, mean |p diff| 0.0135, float TFLite gap 1.2e-07  (0.8 min)
+  chb06: 11 KB -> 10 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 0.84 -> 0.88, mean |p diff| 0.0048, float TFLite gap 6.0e-08  (0.9 min)
+  chb08: 11 KB -> 10 KB, seizures 5/5 -> 5/5, sens 0.576 -> 0.576, FA/h 11.25 -> 10.65, mean |p diff| 0.0213, float TFLite gap 1.0e-07  (0.7 min)
+  chb10: 11 KB -> 10 KB, seizures 6/7 -> 6/7, sens 0.430 -> 0.456, FA/h 0.02 -> 0.02, mean |p diff| 0.0134, float TFLite gap 1.2e-07  (0.9 min)
+  chb13: 11 KB -> 10 KB, seizures 2/12 -> 2/12, sens 0.123 -> 0.123, FA/h 1.58 -> 1.58, mean |p diff| 0.0118, float TFLite gap 1.5e-07  (0.7 min)
+  chb14: 11 KB -> 10 KB, seizures 0/8 -> 0/8, sens 0.000 -> 0.000, FA/h 0.62 -> 0.73, mean |p diff| 0.0060, float TFLite gap 8.9e-08  (0.7 min)
+  chb15: 11 KB -> 10 KB, seizures 19/20 -> 18/20, sens 0.369 -> 0.331, FA/h 1.35 -> 1.12, mean |p diff| 0.0098, float TFLite gap 1.5e-07  (0.8 min)
+  chb16: 11 KB -> 10 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 13.89 -> 13.53, mean |p diff| 0.0078, float TFLite gap 1.2e-07  (0.9 min)
+  chb18: 11 KB -> 10 KB, seizures 6/6 -> 6/6, sens 0.838 -> 0.838, FA/h 3.34 -> 3.56, mean |p diff| 0.0092, float TFLite gap 1.2e-07  (0.9 min)
+  chb20: 11 KB -> 10 KB, seizures 4/8 -> 4/8, sens 0.184 -> 0.158, FA/h 0.36 -> 0.33, mean |p diff| 0.0034, float TFLite gap 1.2e-07  (0.8 min)
+  chb23: 11 KB -> 10 KB, seizures 6/7 -> 6/7, sens 0.565 -> 0.574, FA/h 0.79 -> 0.98, mean |p diff| 0.0087, float TFLite gap 1.8e-07  (0.7 min)
+  chb24: 11 KB -> 10 KB, seizures 16/16 -> 16/16, sens 0.622 -> 0.630, FA/h 0.66 -> 0.61, mean |p diff| 0.0173, float TFLite gap 6.0e-08  (0.6 min)
+eegnet-recnorm-temporal2-val3-median: 14 folds
+results/chbmit/eegnet-recnorm-temporal2-val3-median-int8/lopo/chb01 already has results; skipping
+  chb03: 11 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.932 -> 0.932, FA/h 6.53 -> 6.89, mean |p diff| 0.0162, float TFLite gap 1.2e-07  (0.5 min)
+  CPU time per window, 1 thread: Keras 0.296 ms, float32 TFLite 0.049 ms, int8 TFLite 0.093 ms
+  chb05: 11 KB -> 10 KB, seizures 5/5 -> 5/5, sens 0.757 -> 0.750, FA/h 0.77 -> 0.69, mean |p diff| 0.0127, float TFLite gap 1.2e-07  (0.6 min)
+  chb06: 11 KB -> 10 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 1.29 -> 1.35, mean |p diff| 0.0181, float TFLite gap 6.0e-08  (0.7 min)
+  chb08: 11 KB -> 10 KB, seizures 5/5 -> 5/5, sens 0.463 -> 0.437, FA/h 9.50 -> 9.50, mean |p diff| 0.0223, float TFLite gap 8.9e-08  (0.6 min)
+  chb10: 11 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.895 -> 0.895, FA/h 0.68 -> 0.62, mean |p diff| 0.0041, float TFLite gap 6.0e-08  (0.7 min)
+  chb13: 11 KB -> 10 KB, seizures 0/12 -> 0/12, sens 0.000 -> 0.000, FA/h 0.00 -> 0.00, mean |p diff| 0.0068, float TFLite gap 1.8e-07  (0.6 min)
+  chb14: 11 KB -> 10 KB, seizures 0/8 -> 0/8, sens 0.000 -> 0.000, FA/h 0.08 -> 0.08, mean |p diff| 0.0187, float TFLite gap 1.2e-07  (0.7 min)
+  chb15: 11 KB -> 10 KB, seizures 17/20 -> 19/20, sens 0.236 -> 0.255, FA/h 1.50 -> 1.70, mean |p diff| 0.0173, float TFLite gap 1.2e-07  (0.8 min)
+  chb16: 11 KB -> 10 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 7.21 -> 7.16, mean |p diff| 0.0206, float TFLite gap 1.2e-07  (0.8 min)
+  chb18: 11 KB -> 10 KB, seizures 6/6 -> 6/6, sens 0.812 -> 0.838, FA/h 4.57 -> 5.02, mean |p diff| 0.0103, float TFLite gap 8.9e-08  (0.7 min)
+  chb20: 11 KB -> 10 KB, seizures 4/8 -> 4/8, sens 0.158 -> 0.145, FA/h 0.25 -> 0.25, mean |p diff| 0.0072, float TFLite gap 8.9e-08  (0.6 min)
+  chb23: 11 KB -> 10 KB, seizures 7/7 -> 7/7, sens 0.815 -> 0.824, FA/h 1.96 -> 2.03, mean |p diff| 0.0043, float TFLite gap 7.5e-08  (0.5 min)
+  chb24: 11 KB -> 10 KB, seizures 15/16 -> 15/16, sens 0.583 -> 0.583, FA/h 1.36 -> 1.41, mean |p diff| 0.0148, float TFLite gap 6.0e-08  (0.5 min)
+cnn-reg-recnorm-aug-val3-median: 14 folds
+  chb01: 1289 KB -> 353 KB, seizures 7/7 -> 7/7, sens 0.768 -> 0.777, FA/h 0.27 -> 0.27, mean |p diff| 0.0013, float TFLite gap 2.2e-08  (0.7 min)
+  CPU time per window, 1 thread: Keras 0.720 ms, float32 TFLite 0.383 ms, int8 TFLite 0.109 ms
+  chb03: 1289 KB -> 353 KB, seizures 7/7 -> 7/7, sens 0.757 -> 0.738, FA/h 0.13 -> 0.16, mean |p diff| 0.0022, float TFLite gap 2.4e-07  (0.7 min)
+  chb05: 1289 KB -> 353 KB, seizures 5/5 -> 5/5, sens 0.893 -> 0.879, FA/h 4.79 -> 4.67, mean |p diff| 0.0186, float TFLite gap 2.4e-07  (0.8 min)
+  chb06: 1289 KB -> 353 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 0.40 -> 0.45, mean |p diff| 0.0310, float TFLite gap 3.0e-07  (0.9 min)
+  chb08: 1289 KB -> 353 KB, seizures 5/5 -> 5/5, sens 0.701 -> 0.693, FA/h 20.59 -> 18.54, mean |p diff| 0.0069, float TFLite gap 1.3e-07  (0.7 min)
+  chb10: 1289 KB -> 353 KB, seizures 7/7 -> 7/7, sens 0.605 -> 0.623, FA/h 1.24 -> 2.08, mean |p diff| 0.0184, float TFLite gap 2.1e-07  (0.9 min)
+  chb13: 1289 KB -> 353 KB, seizures 4/12 -> 5/12, sens 0.203 -> 0.210, FA/h 2.09 -> 2.27, mean |p diff| 0.0049, float TFLite gap 3.9e-07  (0.8 min)
+  chb14: 1289 KB -> 353 KB, seizures 0/8 -> 0/8, sens 0.000 -> 0.000, FA/h 0.46 -> 0.50, mean |p diff| 0.0013, float TFLite gap 2.7e-07  (0.8 min)
+  chb15: 1289 KB -> 353 KB, seizures 19/20 -> 20/20, sens 0.471 -> 0.465, FA/h 2.20 -> 2.15, mean |p diff| 0.0027, float TFLite gap 6.6e-07  (0.9 min)
+  chb16: 1289 KB -> 353 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 14.63 -> 14.26, mean |p diff| 0.0045, float TFLite gap 1.8e-07  (0.9 min)
+  chb18: 1289 KB -> 353 KB, seizures 5/6 -> 5/6, sens 0.738 -> 0.738, FA/h 0.56 -> 0.62, mean |p diff| 0.0044, float TFLite gap 1.8e-07  (0.9 min)
+  chb20: 1289 KB -> 353 KB, seizures 3/8 -> 4/8, sens 0.079 -> 0.092, FA/h 0.04 -> 0.14, mean |p diff| 0.0067, float TFLite gap 2.1e-07  (0.8 min)
+  chb23: 1289 KB -> 353 KB, seizures 5/7 -> 5/7, sens 0.306 -> 0.306, FA/h 3.99 -> 4.26, mean |p diff| 0.0017, float TFLite gap 1.9e-08  (0.7 min)
+  chb24: 1289 KB -> 353 KB, seizures 16/16 -> 16/16, sens 0.630 -> 0.630, FA/h 1.83 -> 1.83, mean |p diff| 0.0046, float TFLite gap 1.2e-07  (0.6 min)
+cnn-reg-recnorm-aug-temporal4-val3-median: 14 folds
+  chb01: 1280 KB -> 351 KB, seizures 7/7 -> 7/7, sens 0.866 -> 0.866, FA/h 0.20 -> 0.15, mean |p diff| 0.0032, float TFLite gap 8.9e-08  (0.6 min)
+  CPU time per window, 1 thread: Keras 0.753 ms, float32 TFLite 0.352 ms, int8 TFLite 0.093 ms
+  chb03: 1280 KB -> 351 KB, seizures 7/7 -> 7/7, sens 0.854 -> 0.845, FA/h 1.26 -> 1.11, mean |p diff| 0.0036, float TFLite gap 1.8e-07  (0.6 min)
+  chb05: 1280 KB -> 351 KB, seizures 5/5 -> 5/5, sens 0.750 -> 0.750, FA/h 1.31 -> 1.41, mean |p diff| 0.0043, float TFLite gap 1.8e-07  (0.7 min)
+  chb06: 1280 KB -> 351 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 1.20 -> 1.17, mean |p diff| 0.0083, float TFLite gap 2.4e-07  (0.7 min)
+  chb08: 1280 KB -> 351 KB, seizures 5/5 -> 5/5, sens 0.593 -> 0.580, FA/h 6.05 -> 5.90, mean |p diff| 0.0090, float TFLite gap 1.8e-07  (0.7 min)
+  chb10: 1280 KB -> 351 KB, seizures 7/7 -> 6/7, sens 0.658 -> 0.614, FA/h 0.06 -> 0.02, mean |p diff| 0.0088, float TFLite gap 2.1e-07  (0.8 min)
+  chb13: 1280 KB -> 351 KB, seizures 2/12 -> 2/12, sens 0.145 -> 0.145, FA/h 1.88 -> 1.97, mean |p diff| 0.0028, float TFLite gap 1.5e-07  (0.7 min)
+  chb14: 1280 KB -> 351 KB, seizures 0/8 -> 0/8, sens 0.000 -> 0.000, FA/h 1.23 -> 1.31, mean |p diff| 0.0048, float TFLite gap 2.1e-07  (0.8 min)
+  chb15: 1280 KB -> 351 KB, seizures 20/20 -> 20/20, sens 0.752 -> 0.729, FA/h 1.62 -> 1.20, mean |p diff| 0.0084, float TFLite gap 4.2e-07  (0.8 min)
+  chb16: 1280 KB -> 351 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 12.79 -> 13.00, mean |p diff| 0.0029, float TFLite gap 4.2e-07  (0.9 min)
+  chb18: 1280 KB -> 351 KB, seizures 6/6 -> 6/6, sens 0.787 -> 0.775, FA/h 1.57 -> 1.35, mean |p diff| 0.0018, float TFLite gap 6.0e-08  (0.9 min)
+  chb20: 1280 KB -> 351 KB, seizures 7/8 -> 7/8, sens 0.395 -> 0.395, FA/h 0.62 -> 0.58, mean |p diff| 0.0039, float TFLite gap 1.2e-07  (0.8 min)
+  chb23: 1280 KB -> 351 KB, seizures 6/7 -> 6/7, sens 0.528 -> 0.537, FA/h 0.83 -> 1.05, mean |p diff| 0.0076, float TFLite gap 2.1e-07  (0.7 min)
+  chb24: 1280 KB -> 351 KB, seizures 16/16 -> 16/16, sens 0.638 -> 0.646, FA/h 1.41 -> 1.55, mean |p diff| 0.0051, float TFLite gap 8.9e-08  (0.5 min)
+cnn-reg-recnorm-aug-temporal2-val3-median: 14 folds
+  chb01: 1279 KB -> 350 KB, seizures 7/7 -> 7/7, sens 0.804 -> 0.830, FA/h 0.42 -> 0.47, mean |p diff| 0.0039, float TFLite gap 9.7e-08  (0.6 min)
+  CPU time per window, 1 thread: Keras 0.681 ms, float32 TFLite 0.349 ms, int8 TFLite 0.091 ms
+  chb03: 1279 KB -> 350 KB, seizures 7/7 -> 7/7, sens 0.845 -> 0.835, FA/h 1.58 -> 1.45, mean |p diff| 0.0066, float TFLite gap 1.8e-07  (0.6 min)
+  chb05: 1279 KB -> 350 KB, seizures 5/5 -> 5/5, sens 0.843 -> 0.843, FA/h 2.38 -> 2.38, mean |p diff| 0.0083, float TFLite gap 2.4e-07  (0.7 min)
+  chb06: 1279 KB -> 350 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 1.50 -> 1.72, mean |p diff| 0.0062, float TFLite gap 1.2e-07  (0.8 min)
+  chb08: 1279 KB -> 350 KB, seizures 5/5 -> 5/5, sens 0.476 -> 0.502, FA/h 7.70 -> 8.95, mean |p diff| 0.0111, float TFLite gap 1.2e-07  (0.7 min)
+  chb10: 1279 KB -> 350 KB, seizures 7/7 -> 7/7, sens 0.921 -> 0.921, FA/h 0.46 -> 0.48, mean |p diff| 0.0064, float TFLite gap 1.2e-07  (0.8 min)
+  chb13: 1279 KB -> 350 KB, seizures 1/12 -> 1/12, sens 0.116 -> 0.116, FA/h 0.55 -> 0.61, mean |p diff| 0.0051, float TFLite gap 7.5e-08  (0.7 min)
+  chb14: 1279 KB -> 350 KB, seizures 0/8 -> 0/8, sens 0.000 -> 0.000, FA/h 0.77 -> 0.81, mean |p diff| 0.0094, float TFLite gap 1.2e-07  (0.7 min)
+  chb15: 1279 KB -> 350 KB, seizures 20/20 -> 20/20, sens 0.850 -> 0.854, FA/h 1.97 -> 2.10, mean |p diff| 0.0074, float TFLite gap 1.8e-07  (0.9 min)
+  chb16: 1279 KB -> 350 KB, seizures 0/10 -> 0/10, sens 0.000 -> 0.000, FA/h 9.53 -> 9.95, mean |p diff| 0.0094, float TFLite gap 1.8e-07  (0.8 min)
+  chb18: 1279 KB -> 350 KB, seizures 6/6 -> 6/6, sens 0.775 -> 0.787, FA/h 0.98 -> 0.98, mean |p diff| 0.0068, float TFLite gap 1.5e-07  (0.9 min)
+  chb20: 1279 KB -> 350 KB, seizures 5/8 -> 5/8, sens 0.289 -> 0.303, FA/h 0.62 -> 0.62, mean |p diff| 0.0044, float TFLite gap 1.2e-07  (0.8 min)
+  chb23: 1279 KB -> 350 KB, seizures 7/7 -> 7/7, sens 0.750 -> 0.741, FA/h 3.13 -> 3.31, mean |p diff| 0.0113, float TFLite gap 1.5e-07  (0.6 min)
+  chb24: 1279 KB -> 350 KB, seizures 15/16 -> 15/16, sens 0.583 -> 0.583, FA/h 1.60 -> 1.46, mean |p diff| 0.0081, float TFLite gap 1.2e-07  (0.5 min)
+saved results/chbmit/int8_timing.csv
+
+float -> int8 (int8 threshold re-picked on validation)
+eegnet-recnorm-val3-median                   14 folds | seizures 80 -> 77 of 128 (at float threshold 78) | median sens 0.58 -> 0.59 | median FA/h 1.19 -> 1.18 | 12 KB -> 10 KB
+eegnet-recnorm-temporal4-val3-median         14 folds | seizures 83 -> 82 of 128 (at float threshold 82) | median sens 0.50 -> 0.52 | median FA/h 1.42 -> 1.10 | 11 KB -> 10 KB
+eegnet-recnorm-temporal2-val3-median         14 folds | seizures 80 -> 82 of 128 (at float threshold 78) | median sens 0.52 -> 0.51 | median FA/h 1.43 -> 1.55 | 11 KB -> 10 KB
+cnn-reg-recnorm-aug-val3-median              14 folds | seizures 83 -> 86 of 128 (at float threshold 86) | median sens 0.54 -> 0.54 | median FA/h 1.54 -> 1.96 | 1288 KB -> 353 KB
+cnn-reg-recnorm-aug-temporal4-val3-median    14 folds | seizures 88 -> 87 of 128 (at float threshold 88) | median sens 0.62 -> 0.60 | median FA/h 1.29 -> 1.25 | 1280 KB -> 351 KB
+cnn-reg-recnorm-aug-temporal2-val3-median    14 folds | seizures 85 -> 85 of 128 (at float threshold 85) | median sens 0.67 -> 0.66 | median FA/h 1.54 -> 1.45 | 1278 KB -> 350 KB

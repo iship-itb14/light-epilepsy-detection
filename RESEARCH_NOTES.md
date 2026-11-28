@@ -2,10 +2,10 @@
 
 **What this file is.** A study companion to our project. It explains *what* we built, *how* it works, and *why* we made each choice, including the problems and bugs we ran into along the way. It is written for students who know some programming and some machine learning, not for EEG experts.
 
-**What this file is not.** It is not a paper and it does not claim a new state of the art. The CHB-MIT results for both models are in section 13 (26 November 2026), the split-leakage demo is in section 13.5 (27 November 2026), and channel reduction is in section 13.6 (28 November 2026). Compression and the Siena test have not been run yet, and are marked *pending*. We would rather leave a gap than guess.
+**What this file is not.** It is not a paper and it does not claim a new state of the art. The CHB-MIT results for both models are in section 13 (26 November 2026), the split-leakage demo is in section 13.5 (27 November 2026), channel reduction is in section 13.6 (28 November 2026), and int8 compression is in section 13.4 (28 November 2026). Pruning and the Siena test have not been run yet, and are marked *pending*. We would rather leave a gap than guess.
 
 **Related files.**
-- `decision.md` is the short, official log of every decision (numbered 3.1–3.27). This file explains those decisions at more length; when the two disagree, `decision.md` wins.
+- `decision.md` is the short, official log of every decision (numbered 3.1–3.28). This file explains those decisions at more length; when the two disagree, `decision.md` wins.
 - `REPLICATE.md` is the step-by-step guide for rerunning everything.
 - `code/` holds the scripts, numbered in the order they run.
 
@@ -120,7 +120,7 @@ These two differ in data and model too, so we **cannot** blame the whole gap on 
 
 ### 3.5 Making models smaller
 
-- **Quantization.** Jacob et al. [2018] showed how to run networks with integer-only arithmetic. Google's post-training quantization guide lists full integer quantization as about "4x smaller, 3x+ speedup" and says it needs "a representative dataset to calibrate" [Google AI Edge]. This is our first compression step (planned).
+- **Quantization.** Jacob et al. [2018] showed how to run networks with integer-only arithmetic. Google's post-training quantization guide lists full integer quantization as about "4x smaller, 3x+ speedup" and says it needs "a representative dataset to calibrate" [Google AI Edge]. This is our first compression step (done, section 13.4).
 - **Pruning.** Han, Mao & Dally [2016] combined pruning, quantization and coding to shrink networks a lot. We plan a simpler version: prune 50–80% of weights, then fine-tune.
 
 ### 3.6 Where our project fits
@@ -465,6 +465,7 @@ We listed these before we had results, so we could not be accused of explaining 
 11. **Not a medical device.** Nothing here has been clinically validated.
 12. **The leakage demo keeps recordings apart, not people.** *(After results.)* The Bonn files have no person ids, and each set comes from only five people, so even our "grouped" split shares people between training and test. Its scores are therefore still optimistic. The demo is also one seed on very clean, hand-picked clips, so its exact gaps are rough.
 13. **Only one choice of reduced channels.** *(After results.)* We tested one 4-channel and one 2-channel set, chosen in advance, not the best possible sets, and not the electrodes a real ear-worn device would use (those are not standard 10-20 positions). The CNN's augmentation also zeroes one of the two channels in 30% of training windows at 2 channels, a much bigger loss than with 18. A wearable would also record more noise from movement than a hospital cap.
+14. **int8 timing comes from a laptop.** *(After results.)* CPU times in section 13.4 were measured on a MacBook Air, not a microcontroller, so they only compare the formats with each other. The int8 scales were calibrated on 1,000 training windows with one seed. A few single windows shift a lot (up to 0.89 in probability), even though the average change is about 0.01. Per-recording scaling (5a) still runs outside the model, in float.
 
 ---
 
@@ -531,7 +532,7 @@ Final CHB-MIT results, **leave-one-patient-out**: each of the 14 patients is tes
 
 "Seizures caught" counts every seizure across all patients. The other rows average over patients, so each patient counts once however many seizures they had. The false-alarm means are pulled up by chb08 (about 20 per hour for both models) and chb16 (15–17), so the median is the fairer "typical patient" figure.
 
-**What this says.** The tiny EEGNet does about as well as a CNN 190 times its size: three fewer seizures in total, but more of each typical patient's seizure windows and fewer false alarms for the typical patient. That is the project's main claim, and it holds on our data. The typical patient gets a little more than 1 false alarm per hour, slightly above our target. CPU time per prediction is *pending* (measured with compression).
+**What this says.** The tiny EEGNet does about as well as a CNN 190 times its size: three fewer seizures in total, but more of each typical patient's seizure windows and fewer false alarms for the typical patient. That is the project's main claim, and it holds on our data. The typical patient gets a little more than 1 false alarm per hour, slightly above our target. CPU time per prediction is in section 13.4.
 
 ### 13.2 How much the validation rule matters
 
@@ -570,13 +571,44 @@ Seizures caught (window sensitivity, false alarms per hour):
 
 **The honest reading.** Results depend heavily on the patient. For chb01, 03, 05, 10, 18, 24 both models caught every seizure, or all but one. For chb06, 14 and 16 both missed every seizure under either rule: chb16's seizures last a median of 8 seconds (9 of 10 at most 12 s), too short for 4-second windows with a 2-of-3 alarm rule, and chb06's seizures (median 15 s) score no higher than normal EEG (window AUROC 0.46 for EEGNet, 0.64 for the CNN). chb08 and chb16 also give far too many false alarms. This spread is normal for models tested on people they have never seen, and it is why we show every patient instead of only an average.
 
-### 13.4 Still pending
+### 13.4 Compression: int8 (pruning pending)
 
-| Model | Split | Result |
+We converted every saved leave-one-patient-out model from sections 13.1 and 13.6 (6 settings × 14 folds = 84 models) to **full int8** TensorFlow Lite without retraining (decision 3.28, `code/09_quantize_chbmit.py`). Weights, activations, input and output are all 8-bit integers, which is what a microcontroller runs. Each model's int8 scales were calibrated on 1,000 windows from its own training patients. The threshold was picked again on the same validation patients with the same rule, and the test patient was scored exactly as before. Run on 28 November 2026 on a MacBook Air, about 76 minutes for all 84. Numbers from `results/chbmit/<run>-int8/` and `results/chbmit/int8_timing.csv`.
+
+**Detection, float → int8** (seizures caught of 128; median window sensitivity; median false alarms per hour):
+
+| | EEGNet 18 | EEGNet 4 | EEGNet 2 | CNN 18 | CNN 4 | CNN 2 |
+|---|---|---|---|---|---|---|
+| Seizures caught, float | 80 | 83 | 80 | 83 | 88 | 85 |
+| Seizures caught, int8 | 77 | 82 | 82 | 86 | 87 | 85 |
+| int8 at the float threshold | 78 | 82 | 78 | 86 | 88 | 85 |
+| Window sensitivity, median | 0.58 → 0.59 | 0.50 → 0.52 | 0.52 → 0.51 | 0.54 → 0.54 | 0.62 → 0.60 | 0.67 → 0.66 |
+| False alarms / h, median | 1.19 → 1.18 | 1.42 → 1.10 | 1.43 → 1.55 | 1.54 → 1.96 | 1.29 → 1.25 | 1.54 → 1.45 |
+| False alarms / h, mean | 3.79 → 3.79 | 3.39 → 3.30 | 2.69 → 2.77 | 3.80 → 3.73 | 2.29 → 2.27 | 2.37 → 2.52 |
+| Mean change in probability | 0.015 | 0.011 | 0.013 | 0.008 | 0.005 | 0.008 |
+
+**Size and speed** (file sizes are TensorFlow Lite float32 → int8; "weights" counts 4 bytes per weight in float32 and 1 in int8; CPU time is one window at a time, one thread, median of 200, on the MacBook Air):
+
+| | EEGNet 18 | EEGNet 4 | EEGNet 2 | CNN 18 | CNN 4 | CNN 2 |
+|---|---|---|---|---|---|---|
+| File size | 12.0 → 10.0 KB | 11.1 → 9.8 KB | 11.0 → 9.7 KB | 1,289 → 353 KB | 1,280 → 351 KB | 1,279 → 350 KB |
+| Weights alone | 6.8 → 1.7 KB | 5.9 → 1.5 KB | 5.8 → 1.4 KB | 1,283 → 321 KB | 1,274 → 319 KB | 1,273 → 318 KB |
+| CPU ms per window: Keras | 1.02 | 0.38 | 0.30 | 0.72 | 0.75 | 0.68 |
+| CPU ms per window: TFLite float32 | 0.32 | 0.08 | 0.05 | 0.38 | 0.35 | 0.35 |
+| CPU ms per window: TFLite int8 | 0.58 | 0.15 | 0.09 | 0.11 | 0.09 | 0.09 |
+
+**What this says.**
+- **int8 keeps the detection.** Every setting stays within 3 seizures of its float version (out of 128), and median window sensitivity moves by 0.02 at most. That is smaller than the seed-to-seed noise we expect (limitation 9). Per patient, only chb15, chb20, chb13, chb10 and chb01 change, by one or two seizures each. The probabilities move by about 0.01 on average, so most windows land on the same side of the threshold.
+- **One setting gets more false alarms**: the 18-channel CNN's median rises from 1.54 to 1.96 per hour. It is the same at the float threshold, so it comes from the int8 outputs themselves, not from the new threshold. Its mean barely changes (3.80 → 3.73).
+- **The CNN gets 3.7 times smaller and 3.5 times faster** than float TFLite (about 1.3 MB → 350 KB, 0.38 → 0.11 ms). Even at int8 it needs about 350 KB, more than many small microcontrollers have for a model.
+- **EEGNet's weights shrink 4 times (6.8 → 1.7 KB), but its file only goes from 12 to 10 KB.** With so few weights, most of the file is the description of the layers, not the numbers. The 2-channel int8 EEGNet is the whole detector in under 10 KB, about 36 times smaller than the int8 CNN, with about the same detection.
+- **On the laptop, int8 EEGNet is slower than float** (0.58 vs 0.32 ms at 18 channels). A laptop processor has fast float hardware, and for a model this small the extra work of converting to and from int8 costs more than it saves. On a microcontroller without float hardware we would expect the opposite, but we have not measured that. Every setting needs under 1.1 ms per 4-second window, so speed is not a problem for any of them.
+- **Keras times include Python overhead**, so they compare the deployment formats, not the models.
+
+| Still pending | Split | Result |
 |---|---|---|
-| EEGNet int8 | LOPO | *pending* |
-| EEGNet pruned | LOPO | *pending* |
-| CPU time per window, both models | | *pending* |
+| Pruned models (50–80% of weights, fine-tuned) | LOPO | *pending* |
+| Timing on a real microcontroller | | *not planned* |
 
 ### 13.5 Leakage demo: shuffled chunks against whole recordings
 
@@ -656,7 +688,7 @@ In order (decision 3.10):
 2. ~~**Leakage demo on UCI/Kaggle.**~~ Done on 27 November 2026 with the Bonn data cut as in the UCI table (section 13.5).
 3. ~~**Channel reduction.**~~ Done on 28 November 2026 (section 13.6). Two temporal channels keep almost all of the detection.
 4. **Siena outside test.** Run the CHB-MIT model, without retraining, on adult recordings (needs 512 → 128 Hz resampling and matching Siena's electrodes to CHB-MIT's bipolar pairs).
-5. **Compression.** int8 post-training quantization, then 50–80% pruning with fine-tuning.
+5. **Compression.** ~~int8 post-training quantization~~ done on 28 November 2026 (section 13.4): no loss in detection, CNN 3.7× smaller. Next: 50–80% pruning with fine-tuning.
 6. **Research page** on the website, describing the scripts, splits and scoring for others.
 
 ---

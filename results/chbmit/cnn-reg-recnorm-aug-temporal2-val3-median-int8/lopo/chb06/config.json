@@ -1,0 +1,41 @@
+{
+  "runs": [
+    "eegnet-recnorm-val3-median",
+    "eegnet-recnorm-temporal4-val3-median",
+    "eegnet-recnorm-temporal2-val3-median",
+    "cnn-reg-recnorm-aug-val3-median",
+    "cnn-reg-recnorm-aug-temporal4-val3-median",
+    "cnn-reg-recnorm-aug-temporal2-val3-median"
+  ],
+  "folds": null,
+  "calib": 1000,
+  "timing_repeats": 200,
+  "no_timing": false,
+  "skip_existing": true,
+  "seed": 0,
+  "source": "results/chbmit/cnn-reg-recnorm-aug-temporal2-val3-median/lopo/chb06",
+  "norm": "recording",
+  "channels": "temporal2",
+  "max_fa": 1.0,
+  "fa_rule": "median",
+  "train": [
+    "chb01",
+    "chb03",
+    "chb05",
+    "chb14",
+    "chb15",
+    "chb16",
+    "chb18",
+    "chb20",
+    "chb23",
+    "chb24"
+  ],
+  "val": [
+    "chb08",
+    "chb10",
+    "chb13"
+  ],
+  "test": [
+    "chb06"
+  ]
+}
